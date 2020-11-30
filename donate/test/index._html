@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en-US" class=" ">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<meta name="description" content="喵喵喵！回归现实的小超人~">
+		<meta name="keywords" content="Code, Economics, ACG">
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/manifest.json">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+		<meta name="theme-color" content="#404040">
+		<meta http-equiv="x-dns-prefetch-control" content="on">
+		<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+		<link rel="dns-prefetch" href="//static.2heng.xin">
+		<link rel="dns-prefetch" href="//static.mashiro.top">
+		<link rel="dns-prefetch" href="//cdn.2heng.xin">
+		<link rel="dns-prefetch" href="//view.moezx.cc">
+		<link media="all" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ceaa143491a29f248c1ca9a9fa9d6316.css"
+		 rel="stylesheet">
+		<title>谢谢饲主了喵~ | 樱花庄的白猫</title>
+		<meta name="description" content="喵喵喵！回归现实的小超人~">
+		<meta name="robots" content="index, follow">
+		<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+		<meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+		<link rel="canonical" href="https://2heng.xin/">
+		<link rel="next" href="https://2heng.xin/page/2/">
+		<meta property="og:locale" content="en_US">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="樱花庄的白猫 | ねこ・しろ・ましろ">
+		<meta property="og:description" content="喵喵喵！回归现实的小超人~">
+		<meta property="og:url" content="https://2heng.xin/">
+		<meta property="og:site_name" content="樱花庄的白猫">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@2hengxin">
+		<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+		<script async="" src="//www.google-analytics.com/analytics.js"></script>
+		<script type="application/ld+json" class="yoast-schema-graph">
+			{
+				"@context": "https://schema.org",
+				"@graph": [{
+					"@type": "Organization",
+					"@id": "https://2heng.xin/#organization",
+					"name": "Mashiro",
+					"url": "https://2heng.xin/",
+					"sameAs": ["https://instagram.com/mashiro.zx", "https://twitter.com/2hengxin"],
+					"logo": {
+						"@type": "ImageObject",
+						"@id": "https://2heng.xin/#logo",
+						"inLanguage": "en-US",
+						"url": "https://2heng.xin/wp-content/uploads//2020/08/android-icon-192x192-1.png",
+						"width": 192,
+						"height": 192,
+						"caption": "Mashiro"
+					},
+					"image": {
+						"@id": "https://2heng.xin/#logo"
+					}
+				}, {
+					"@type": "WebSite",
+					"@id": "https://2heng.xin/#website",
+					"url": "https://2heng.xin/",
+					"name": "\u6a31\u82b1\u5e84\u7684\u767d\u732b",
+					"description": "\u306d\u3053\u30fb\u3057\u308d\u30fb\u307e\u3057\u308d",
+					"publisher": {
+						"@id": "https://2heng.xin/#organization"
+					},
+					"potentialAction": [{
+						"@type": "SearchAction",
+						"target": "https://2heng.xin/?s={search_term_string}",
+						"query-input": "required name=search_term_string"
+					}],
+					"inLanguage": "en-US"
+				}, {
+					"@type": "CollectionPage",
+					"@id": "https://2heng.xin/#webpage",
+					"url": "https://2heng.xin/",
+					"name": "\u6a31\u82b1\u5e84\u7684\u767d\u732b | \u306d\u3053\u30fb\u3057\u308d\u30fb\u307e\u3057\u308d",
+					"isPartOf": {
+						"@id": "https://2heng.xin/#website"
+					},
+					"about": {
+						"@id": "https://2heng.xin/#organization"
+					},
+					"description": "\u55b5\u55b5\u55b5\uff01\u56de\u5f52\u73b0\u5b9e\u7684\u5c0f\u8d85\u4eba~",
+					"inLanguage": "en-US"
+				}]
+			}
+		</script>
+		<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+		<link rel="dns-prefetch" href="//s.w.org">
+		<script type="text/javascript" data-cfasync="false">
+			var em_version = '6.2.2';
+			var em_track_user = true;
+			var em_no_track_reason = '';
+
+			var disableStr = 'ga-disable-UA-100439904-2';
+
+			/* Function to detect opted out users */
+			function __gaTrackerIsOptedOut() {
+				return document.cookie.indexOf(disableStr + '=true') > -1;
+			}
+
+			/* Disable tracking if the opt-out cookie exists. */
+			if (__gaTrackerIsOptedOut()) {
+				window[disableStr] = true;
+			}
+
+			/* Opt-out function */
+			function __gaTrackerOptout() {
+				document.cookie = disableStr + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+				window[disableStr] = true;
+			}
+
+			if ('undefined' === typeof gaOptout) {
+				function gaOptout() {
+					__gaTrackerOptout();
+				}
+			}
+
+			if (em_track_user) {
+				(function(i, s, o, g, r, a, m) {
+					i['GoogleAnalyticsObject'] = r;
+					i[r] = i[r] || function() {
+						(i[r].q = i[r].q || []).push(arguments)
+					}, i[r].l = 1 * new Date();
+					a = s.createElement(o),
+						m = s.getElementsByTagName(o)[0];
+					a.async = 1;
+					a.src = g;
+					m.parentNode.insertBefore(a, m)
+				})(window, document, 'script', '//www.google-analytics.com/analytics.js', '__gaTracker');
+
+				window.ga = __gaTracker;
+				__gaTracker('create', 'UA-100439904-2', 'auto');
+				__gaTracker('set', 'forceSSL', true);
+				__gaTracker('send', 'pageview');
+				__gaTracker(function() {
+					window.ga = __gaTracker;
+				});
+			} else {
+				console.log("");
+				(function() {
+					/* https://developers.google.com/analytics/devguides/collection/analyticsjs/ */
+					var noopfn = function() {
+						return null;
+					};
+					var noopnullfn = function() {
+						return null;
+					};
+					var Tracker = function() {
+						return null;
+					};
+					var p = Tracker.prototype;
+					p.get = noopfn;
+					p.set = noopfn;
+					p.send = noopfn;
+					var __gaTracker = function() {
+						var len = arguments.length;
+						if (len === 0) {
+							return;
+						}
+						var f = arguments[len - 1];
+						if (typeof f !== 'object' || f === null || typeof f.hitCallback !== 'function') {
+							console.log('Not running function __gaTracker(' + arguments[0] + " ....) because you are not being tracked. " +
+								em_no_track_reason);
+							return;
+						}
+						try {
+							f.hitCallback();
+						} catch (ex) {
+
+						}
+					};
+					__gaTracker.create = function() {
+						return new Tracker();
+					};
+					__gaTracker.getByName = noopnullfn;
+					__gaTracker.getAll = function() {
+						return [];
+					};
+					__gaTracker.remove = noopfn;
+					window['__gaTracker'] = __gaTracker;
+					window.ga = __gaTracker;
+				})();
+			}
+		</script>
+		<link rel="stylesheet" id="APlayer.min-css" href="https://cdn.jsdelivr.net/gh/moeplayer/hermit-x@2.9.7/assets/css/APlayer.min.css?ver=2.9.7"
+		 type="text/css" media="all">
+		<script type="text/javascript">
+			var exactmetrics_frontend = {
+				"js_events_tracking": "true",
+				"download_extensions": "zip,mp3,mpeg,pdf,docx,pptx,xlsx,rar",
+				"inbound_paths": "[{\"path\":\"\\\/go\\\/\",\"label\":\"affiliate\"},{\"path\":\"\\\/recommend\\\/\",\"label\":\"affiliate\"}]",
+				"home_url": "https:\/\/2heng.xin",
+				"hash_tracking": "false"
+			};
+		</script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/moeplayer/hermit-x@2.9.7/assets/js/APlayer.min.js?ver=2.9.7"></script>
+		<script type="text/javascript">
+			var wps_statistics_object = {
+				"rest_url": "https:\/\/2heng.xin\/wp-json\/",
+				"wpnonce": "8762b785be"
+			};
+		</script>
+		<link rel="https://api.w.org/" href="https://2heng.xin/wp-json/">
+		<style type="text/css">
+			.site-top .lower nav {
+				display: block !important;
+			}
+
+			.author-profile i,
+			.post-like a,
+			.post-share .show-share,
+			.sub-text,
+			.we-info a,
+			span.sitename,
+			.post-more i:hover,
+			#pagination a:hover,
+			.post-content a:hover,
+			.float-content i:hover {
+				color: #FE9600
+			}
+
+			.feature i,
+			/*.feature-title span ,*/
+			.download,
+			.navigator i:hover,
+			.links ul li:before,
+			.ar-time i,
+			span.ar-circle,
+			.object,
+			.comment .comment-reply-link,
+			.siren-checkbox-radio:checked+.siren-checkbox-radioInput:after {
+				background: #FE9600
+			}
+
+			::-webkit-scrollbar-thumb {
+				background: #FE9600
+			}
+
+			.download,
+			.navigator i:hover,
+			.link-title,
+			.links ul li:hover,
+			#pagination a:hover,
+			.comment-respond input[type='submit']:hover {
+				border-color: #FE9600
+			}
+
+			.entry-content a:hover,
+			.site-info a:hover,
+			.comment h4 a,
+			#comments-navi a.prev,
+			#comments-navi a.next,
+			.comment h4 a:hover,
+			.site-top ul li a:hover,
+			.entry-title a:hover,
+			#archives-temp h3,
+			span.page-numbers.current,
+			.sorry li a:hover,
+			.site-title a:hover,
+			i.iconfont.js-toggle-search.iconsearch:hover,
+			.comment-respond input[type='submit']:hover {
+				color: #FE9600
+			}
+
+			.comments .comments-main {
+				display: block !important;
+			}
+
+			.comments .comments-hidden {
+				display: none !important;
+			}
+
+			.centerbg {
+				background-image: url("https://api.2heng.xin/cover/");
+				background-position: center center;
+				background-attachment: inherit;
+			}
+		</style>
+		<script>
+			/*Initial Variables*/
+			var mashiro_global = new Object();
+			var mashiro_option = new function() {
+				this.NProgressON = true;
+				this.email_domain = "moezx.cc";
+				this.email_name = "me";
+				this.cookie_version_control = "---2018/9/17";
+				this.qzone_autocomplete = false;
+				this.site_name = "樱花庄的白猫";
+				this.author_name = "Mashiro";
+				this.template_url = "https://2heng.xin/wp-content/themes/Sakura";
+				this.site_url = "https://2heng.xin";
+				this.qq_api_url = "https://api.2heng.xin/qqinfo/";
+				this.qq_avatar_api_url = "https://api.2heng.xin/qqinfo/";
+				this.is_app = function(app_version) {
+					window.is_app = true;
+					window.checked = false;
+					window.app_version = app_version;
+					window.latest_version = 7;
+				}
+				this.app_update = function(isAutoCheck) {
+					if (window.app_version < window.latest_version) {
+						if (isAutoCheck) {
+							if (!window.checked) {
+								window.checked = true;
+								if (window.app_version <= 5) {
+									if (window.confirm("检测到新版本，是否更新？")) {
+										window.open("https://u.2heng.xin/app");
+									}
+								} else {
+									window.open("?mashiroHasUpdate");
+								}
+							}
+						} else {
+							if (window.app_version <= 5) {
+								setTimeout(function() {
+									window.open("https://u.2heng.xin/app");
+								}, 1000);
+							} else {
+								window.open("?mashiroHasUpdate");
+							}
+						}
+					} else {
+						if (window.app_version <= 5) {
+							isAutoCheck ? console.info("Auto Check：已经是最新版本") : addComment.createButterbar("已经是最新版本");
+						} else {
+							isAutoCheck ? console.info("Auto Check：已经是最新版本") : window.open("?mashiroNoUpdate");
+						}
+					}
+				}
+			}
+			mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.7.5/css/lib.min.css";
+			mashiro_option.head_notice = "off";
+			/*End of Initial Variables*/
+			console.log = function() {};
+			console.info("%c Mashiro %c", "background:#24272A; color:#ffffff", "", "https://2heng.xin/");
+			console.info("%c Github %c", "background:#24272A; color:#ffffff", "", "https://github.com/mashirozx");
+			console.info('为什么控制台一直在报错呢？QAQ');
+
+			mashiro_option.land_at_home = true;
+		</script>
+		<script type="text/javascript">
+			if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+				alert('朋友，IE浏览器未适配哦~（QQ、360浏览器请关闭 IE 模式访问~）');
+			}
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.css">
+		<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.6/dist/jquery.fancybox.min.js"></script>
+		<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-100439904-2"></script>
+		<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','UA-100439904-2');</script>
+		<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script>(adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8993652926815164",
+    enable_page_level_ads: true
+  });</script>
+		<style type="text/css">
+			.hljs-ln {
+				border-collapse: collapse
+			}
+
+			.hljs-ln td {
+				padding: 0
+			}
+
+			.hljs-ln-n:before {
+				content: attr(data-line-number)
+			}
+		</style>
+	</head>
+	<body nonce-data="8762b785be" class="home blog hfeed chinese-font serif isWebKit" style="background-image: url(&quot;https://view.moezx.cc/images/2018/01/24/kyotoanimation.png&quot;);">
+		<div class="scrollbar" id="bar" style="width: 0%; background: orange;"></div>
+		<section id="main-container">
+			<div class="headertop filter-dot" style="height: 0px; display: none;">
+				<div id="banner_wave_1" class="banner_wave_hide_fit_skin" style="left: -1013.3px;"></div>
+				<div id="banner_wave_2" class="banner_wave_hide_fit_skin" style="left: -327.774px;"></div>
+				<figure id="centerbg" class="centerbg" style="height: 856px;">
+					<div class="focusinfo no-select">
+						<h1 class="center-text glitch is-glitching Ubuntu-font" data-text="Hi, Mashiro!">Hi, Mashiro!</h1>
+						<div class="header-info">
+							<p><i class="fa fa-quote-left"></i> You got to put the past behind you before you can move on. <i class="fa fa-quote-right"></i></p>
+							<div class="top-social_v2">
+								<li id="bg-pre"><img class="flipx" src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/next-b.svg"></li>
+								<li><a href="http://github.com/mashirozx" target="_blank" class="social-github" title="github"><img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png"></a></li>
+								<li><a href="http://weibo.com/mashirozx?is_all=1" target="_blank" class="social-sina" title="sina"><img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/sina.png"></a></li>
+								<li><a href="https://t.me/SakurasoNoMashiro" target="_blank" class="social-lofter" title="telegram"><img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/telegram.svg"></a></li>
+								<li><a rel="me" href="https://hello.2heng.xin/@mashiro" target="_blank" class="social-lofter" title="Mastodon"><img
+										 src="https://2heng.xin/wp-content/themes/Sakura/images/Mastodon_Logotype_Simple.svg"></a></li>
+								<li><a href="https://music.163.com/m/user/home?id=2655217" target="_blank" class="social-wangyiyun" title="CloudMusic"><img
+										 src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/wangyiyun.png"></a></li>
+								<li><a href="https://twitter.com/2hengxin" target="_blank" class="social-wangyiyun" title="Twitter"><img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/twitter.png"></a></li>
+								<li><a href="https://www.zhihu.com/people/young-dolphin" target="_blank" class="social-wangyiyun" title="Zhihu"><img
+										 src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/zhihu.png"></a></li>
+								<li><a onclick="mail_me()" class="social-wangyiyun" title="E-mail"><img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/email.svg"></a></li>
+								<li id="bg-next"><img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/next-b.svg"></li>
+							</div>
+						</div>
+					</div>
+				</figure>
+				<div id="video-container" style=""><video id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto"
+					 style="min-height: 856px;"></video>
+					<div id="video-btn" class="loadvideo videolive"></div>
+					<div id="video-add"></div>
+					<div class="video-stu"></div>
+				</div>
+				<div class="headertop-down faa-float animated" onclick="headertop_down()"> <span> <i class="fa fa-chevron-down"
+						 aria-hidden="true"></i> </span></div>
+			</div>
+			<div id="page" class="site wrapper">
+				<header class="site-header no-select gizle sabit" role="banner">
+					<div class="site-top">
+						<div class="site-branding"> <span class="site-title"> <span class="logolink moe-mashiro"> <a href="https://2heng.xin"
+									 alt="樱花庄的白猫"> <ruby><span class="sakuraso">さくら荘</span><span class="no">の</span><span class="shironeko">白猫</span>
+											<rp></rp>
+											<rt class="chinese-font">樱花庄的白猫</rt>
+											<rp></rp>
+										</ruby> </a> </span> </span></div>
+						<div class="lower-cantiner">
+							<div class="lower">
+								<div id="show-nav" class="showNav mobile-fit">
+									<div class="line line1"></div>
+									<div class="line line2"></div>
+									<div class="line line3"></div>
+								</div>
+								<nav class="mobile-fit-control hide">
+									<ul id="menu-new" class="menu">
+										<li><a href="/"><span class="faa-parent animated-hover"><i class="fa fa-fort-awesome faa-horizontal"
+													 aria-hidden="true"></i> 首页</span></a></li>
+										<li><a href="/time-series/"><span class="faa-parent animated-hover"><i class="fa fa-archive faa-shake"
+													 aria-hidden="true"></i> 归档</span></a>
+											<ul class="sub-menu">
+												<li><a href="https://2heng.xin/archives/hacking/"><i class="fa fa-terminal" aria-hidden="true"></i> 极客</a></li>
+												<li><a href="https://2heng.xin/archives/article/"><i class="fa fa-file-text-o" aria-hidden="true"></i> 文章</a></li>
+												<li><a href="https://2heng.xin/archives/review/"><i class="fa fa-quote-right" aria-hidden="true"></i> 影评</a></li>
+												<li><a href="https://2heng.xin/archives/thingking/"><i class="fa fa-commenting-o" aria-hidden="true"></i>
+														随想</a></li>
+												<li><a target="_blank" rel="noopener noreferrer" href="https://mashiro.top/"><i class="fa fa-book"
+														 aria-hidden="true"></i> 笔记</a></li>
+											</ul>
+										</li>
+										<li><a><span class="faa-parent animated-hover"><i class="fa fa-list-ul faa-vertical" aria-hidden="true"></i>
+													清单</span></a>
+											<ul class="sub-menu">
+												<li><a href="https://2heng.xin/book-list/"><i class="fa fa-th-list faa-bounce" aria-hidden="true"></i> 书单</a></li>
+												<li><a href="https://2heng.xin/bangumi/"><i class="fa fa-film faa-vertical" aria-hidden="true"></i> 番组</a></li>
+												<li><a href="https://2heng.xin/music/"><i class="fa fa-headphones" aria-hidden="true"></i> 歌单</a></li>
+												<li><a href="https://2heng.xin/hearthstone-deck-index/"><i class="iconfont icon-Hearthstone" aria-hidden="true"></i>
+														卡组</a></li>
+											</ul>
+										</li>
+										<li><a href="https://2heng.xin/comment/"><span class="faa-parent animated-hover"><i class="fa fa-pencil-square-o  faa-tada"
+													 aria-hidden="true"></i> 留言板</span></a></li>
+										<li><a href="https://2heng.xin/friends/"><span class="faa-parent animated-hover"><i class="fa fa-link faa-shake"
+													 aria-hidden="true"></i> 友人帐</span></a></li>
+										<li class="current-menu-item"><a href="https://2heng.xin/donate/" aria-current="page"><span class="faa-parent animated-hover"><i
+													 class="fa fa-heart faa-pulse" aria-hidden="true"></i> 赞赏</span></a></li>
+										<li><a href="#"><span class="faa-parent animated-hover"><i class="fa fa-leaf faa-wrench" aria-hidden="true"></i>
+													关于</span></a>
+											<ul class="sub-menu">
+												<li><a href="https://2heng.xin/about/"><i class="fa fa-grav" aria-hidden="true"></i> 我？</a></li>
+												<li><a href="https://2heng.xin/analytics/"><i class="fa fa-area-chart" aria-hidden="true"></i> 统计</a></li>
+												<li><a href="https://2heng.xin/server-status/"><i class="fa fa-heartbeat" aria-hidden="true"></i> 监控</a></li>
+												<li><a href="https://2heng.xin/theme-sakura/"><i class="iconfont icon-sakura" aria-hidden="true"></i> 主题</a></li>
+												<li><a target="_blank" rel="noopener noreferrer" href="https://2heng.xin/sitemap_index.xml"><i class="fa fa-map-signs"
+														 aria-hidden="true"></i> MAP</a></li>
+												<li><a target="_blank" rel="noopener noreferrer" href="https://2heng.xin/feed"><i class="fa fa-rss "
+														 aria-hidden="true"></i> RSS</a></li>
+											</ul>
+										</li>
+										<li><a href="https://2heng.xin/client/"><span class="faa-parent animated-hover"><i class="fa fa-android faa-vertical"
+													 aria-hidden="true"></i> APP</span></a></li>
+										<li><a target="_blank" rel="noopener noreferrer" href="https://hello.2heng.xin/about/more"><span class="faa-parent animated-hover"><i
+													 class="fa fa-tree faa-pulse" aria-hidden="true"></i> 小森林</span></a></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+						<div class="header-user-avatar"> <a href="https://2heng.xin/wp-login.php"> <img class="faa-shake animated-hover"
+								 src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/none.png" width="30" height="30"> </a>
+							<div class="header-user-menu">
+								<div class="herder-user-name no-logged">Whether to <a href="https://2heng.xin/login/" target="_blank" style="color:#333;font-weight:bold;text-decoration:none">log
+										in</a> now?</div>
+							</div>
+						</div>
+						<div class="searchbox"><i class="iconfont js-toggle-search iconsearch icon-search"></i></div>
+					</div>
+				</header>
+				<div class="pattern-center-blank"></div>
+				<div class="pattern-center-sakura">
+					<div class="pattern-attachment-img"> <img src="https://2heng.xin/wp-content/uploads//2017/08/午後_58898122.jpg"
+						 data-src="https://2heng.xin/wp-content/uploads//2017/08/午後_58898122.jpg" class="lazyload" onerror="imgError(this,3)"
+						 style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;"></div>
+					<header class="pattern-header ">
+						<h1 class="entry-title">谢谢饲主了喵~</h1>
+					</header>
+				</div>
+				<div id="content" class="site-content">
+					<div id="primary" class="content-area">
+						<main id="main" class="site-main" role="main">
+							<article id="post-1206" class="post-1206 page type-page status-publish has-post-thumbnail hentry">
+								<div class="entry-content">
+									<p>如果喜欢我的博客，可以考虑资助一下哦~非常感激！<br> 网站所需的服务器和 CDN 都是不小的开支、日常维护也需要大量精力，博主只是一个普通的死肥宅 (,,• ₃ •,,)</p>
+									<p><iframe src="https://2heng.xin/donate-me/" style="overflow-x:hidden;overflow-y:hidden; border:0xp none #fff; min-height:240px; width:100%;"
+										 frameborder="0" scrolling="no"></iframe></p>
+									<p></p>
+									<p>~~~~~~~~~~~~~~此处为测试，请自动忽略~~~~~~~~~~~~~~<br> <a href="https://moonworm.cn" target="_blank" rel="nofollow"><img
+											 class="lazyload" data-src="" src="https://view.moezx.cc/images/2018/05/13/image-404.png" onerror="imgError(this)"
+											 alt="谢谢饲主了喵~" title="谢谢饲主了喵~" width="100%"></a></p> <noscript></a></p></noscript>
+								</div>
+								<footer class="entry-footer"></footer>
+							</article>
+						</main>
+					</div>
+				</div>
+			</div>
+			<footer id="colophon" class="site-footer" role="contentinfo">
+				<div class="site-info">
+					<div class="footertext">
+						<div class="img-preload"> <img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/wordpress-rotating-ball-o.svg">
+							<img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/disqus-preloader.svg"></div>
+						<p class="foo-logo" style="background-image: url('https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sakura.svg');"></p>
+						<p style="font-family: 'Ubuntu', sans-serif;"><span style="color: #666666;">Crafted with <i class="fa fa-heart animated"
+								 style="color: #e74c3c;"></i> by <a rel="me" href="https://hello.2heng.xin/@mashiro" target="_blank" style="color: #000000;text-decoration:none;">Mashiro</a></span></p>
+						<p>© 2020 樱花庄的白猫 <a href="http://www.beian.miit.gov.cn" target="_blank">沪ICP备17028213号</a></p>
+					</div>
+					<div class="footer-device"></div>
+					<p id="footer-sponsor"><a href="#" target="_blank" alt="CDN Sponsor" rel="nofollow"><img src="https://2heng.xin/wp-content/themes/Sakura/images/Tencent_Cloud_logo.svg"
+							 alt="CDN Sponsor" style="height: 1.5em;"></a>&nbsp;&nbsp;&nbsp;<a href="http://www.vultr.com/?ref=7196564"
+						 target="_blank" alt="Server provider" rel="nofollow"><img src="https://2heng.xin/wp-content/themes/Sakura/images/vultr_logo__on-white.svg"
+							 alt="Server provider" style="height: 1.5em;"></a>&nbsp;&nbsp;&nbsp;<a href="#" target="_blank" alt="Free CDN"
+						 rel="nofollow"><img src="https://2heng.xin/wp-content/themes/Sakura/images/baidu_cdn.svg" alt="jsDelivr" style="height: 1.5em;"></a>&nbsp;&nbsp;&nbsp;<a
+						 href="https://www.google.com/intl/ja/analytics/" target="_blank" alt="Analytics solution" rel="nofollow"><img
+							 src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.0.8/img/logo/Google.svg" alt="Google Analytics" style="height: 1.5em; "></a></p>
+				</div>
+			</footer>
+			<div class="openNav no-select" style="height: 50px;">
+				<div class="iconflat no-select" style="width: 50px; height: 50px;">
+					<div class="icon"></div>
+				</div>
+				<div class="site-branding">
+					<h1 class="site-title"><a href="https://2heng.xin">樱花庄的白猫</a></h1>
+				</div>
+			</div>
+		</section>
+		<div id="mo-nav">
+			<div class="m-avatar"> <img src="https://static.mashiro.top/avatar.jpg"></div>
+			<p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">Mashiro
+				Sama...</p>
+			<p style="text-align: center; word-spacing: 20px;"> <a href="http://twitter.com/2hengxin" class="fa fa-twitter"
+				 target="_blank" style="color: #00aced"></a> <a href="http://weibo.com/2960337711" class="fa fa-weibo" target="_blank"
+				 style="color: #dd4b39"></a> <a href="http://github.com/mashirozx" class="fa fa-github" target="_blank" style="color: #333"></a>
+				<a onclick="mail_me()" class="fa fa-envelope" style="color: #ffbf00"></a></p>
+			<div class="m-search">
+				<form class="m-search-form" method="get" action="https://2heng.xin" role="search"> <input class="m-search-input"
+					 type="search" name="s" placeholder="搜索..." required=""></form>
+			</div>
+			<ul id="menu-new-1" class="menu">
+				<li class="current-menu-item"><a href="/" aria-current="page"><span class="faa-parent animated-hover"><i class="fa fa-fort-awesome faa-horizontal"
+							 aria-hidden="true"></i> 首页</span></a></li>
+				<li><a href="/time-series/"><span class="faa-parent animated-hover"><i class="fa fa-archive faa-shake" aria-hidden="true"></i>
+							归档</span></a>
+					<ul class="sub-menu">
+						<li><a href="https://2heng.xin/archives/hacking/"><i class="fa fa-terminal" aria-hidden="true"></i> 极客</a></li>
+						<li><a href="https://2heng.xin/archives/article/"><i class="fa fa-file-text-o" aria-hidden="true"></i> 文章</a></li>
+						<li><a href="https://2heng.xin/archives/review/"><i class="fa fa-quote-right" aria-hidden="true"></i> 影评</a></li>
+						<li><a href="https://2heng.xin/archives/thingking/"><i class="fa fa-commenting-o" aria-hidden="true"></i> 随想</a></li>
+						<li><a target="_blank" rel="noopener noreferrer" href="https://mashiro.top/"><i class="fa fa-book" aria-hidden="true"></i>
+								笔记</a></li>
+					</ul>
+				</li>
+				<li><a><span class="faa-parent animated-hover"><i class="fa fa-list-ul faa-vertical" aria-hidden="true"></i> 清单</span></a>
+					<ul class="sub-menu">
+						<li><a href="https://2heng.xin/book-list/"><i class="fa fa-th-list faa-bounce" aria-hidden="true"></i> 书单</a></li>
+						<li><a href="https://2heng.xin/bangumi/"><i class="fa fa-film faa-vertical" aria-hidden="true"></i> 番组</a></li>
+						<li><a href="https://2heng.xin/music/"><i class="fa fa-headphones" aria-hidden="true"></i> 歌单</a></li>
+						<li><a href="https://2heng.xin/hearthstone-deck-index/"><i class="iconfont icon-Hearthstone" aria-hidden="true"></i>
+								卡组</a></li>
+					</ul>
+				</li>
+				<li><a href="https://2heng.xin/comment/"><span class="faa-parent animated-hover"><i class="fa fa-pencil-square-o  faa-tada"
+							 aria-hidden="true"></i> 留言板</span></a></li>
+				<li><a href="https://2heng.xin/friends/"><span class="faa-parent animated-hover"><i class="fa fa-link faa-shake"
+							 aria-hidden="true"></i> 友人帐</span></a></li>
+				<li><a href="https://2heng.xin/donate/"><span class="faa-parent animated-hover"><i class="fa fa-heart faa-pulse"
+							 aria-hidden="true"></i> 赞赏</span></a></li>
+				<li><a href="#"><span class="faa-parent animated-hover"><i class="fa fa-leaf faa-wrench" aria-hidden="true"></i> 关于</span></a>
+					<ul class="sub-menu">
+						<li><a href="https://2heng.xin/about/"><i class="fa fa-grav" aria-hidden="true"></i> 我？</a></li>
+						<li><a href="https://2heng.xin/analytics/"><i class="fa fa-area-chart" aria-hidden="true"></i> 统计</a></li>
+						<li><a href="https://2heng.xin/server-status/"><i class="fa fa-heartbeat" aria-hidden="true"></i> 监控</a></li>
+						<li><a href="https://2heng.xin/theme-sakura/"><i class="iconfont icon-sakura" aria-hidden="true"></i> 主题</a></li>
+						<li><a target="_blank" rel="noopener noreferrer" href="https://2heng.xin/sitemap_index.xml"><i class="fa fa-map-signs"
+								 aria-hidden="true"></i> MAP</a></li>
+						<li><a target="_blank" rel="noopener noreferrer" href="https://2heng.xin/feed"><i class="fa fa-rss " aria-hidden="true"></i>
+								RSS</a></li>
+					</ul>
+				</li>
+				<li><a href="https://2heng.xin/client/"><span class="faa-parent animated-hover"><i class="fa fa-android faa-vertical"
+							 aria-hidden="true"></i> APP</span></a></li>
+				<li><a target="_blank" rel="noopener noreferrer" href="https://hello.2heng.xin/about/more"><span class="faa-parent animated-hover"><i
+							 class="fa fa-tree faa-pulse" aria-hidden="true"></i> 小森林</span></a></li>
+			</ul>
+			<p style="text-align: center; font-size: 13px; color: #b9b9b9;">© 2018 樱花庄的白猫</p>
+		</div> <a href="#" class="cd-top faa-float animated" style="top: -900px;"></a> <button onclick="topFunction()" class="mobile-cd-top"
+		 id="moblieGoTop" title="Go to top"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+		<form class="js-search search-form search-form--modal" method="get" action="https://2heng.xin" role="search">
+			<div class="search-form__inner">
+				<div>
+					<p class="micro mb-">想要找点什么呢？</p> <i class="iconfont icon-search"></i> <input class="text-input" type="search"
+					 name="s" placeholder="Search" required="">
+				</div>
+			</div>
+			<div class="search_close"></div>
+		</form>
+		<script type="text/javascript">
+			var HermitX = {
+				"ajaxurl": "https:\/\/2heng.xin\/wp-admin\/admin-ajax.php",
+				"version": "2.9.7"
+			};
+		</script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/moeplayer/hermit-x@2.9.7/assets/js/hermit-load.min.js?ver=2.9.7"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.7.5/js/lib.min.js?ver=3.1.5"></script><canvas
+		 width="1278" height="495" style="position: fixed; top: 0px; left: 0px; pointer-events: none; z-index: 999999;"></canvas>
+		<script type="text/javascript">
+			var Poi = {
+				"pjax": "1",
+				"movies": {
+					"url": "https:\/\/cdn.jsdelivr.net\/gh\/moezx\/cdn@3.1.3\/",
+					"name": "The Pet Girl of Sakurasou",
+					"live": "close"
+				},
+				"windowheight": "auto",
+				"codelamp": "close",
+				"ajaxurl": "https:\/\/2heng.xin\/wp-admin\/admin-ajax.php",
+				"order": "desc",
+				"formpostion": "bottom"
+			};
+		</script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/github-cards/latest/widget.js?ver=3.1.5"></script>
+		<div id="aplayer-float" style="z-index: 100;" class="aplayer aplayer-withlist aplayer-fixed aplayer-narrow" data-id="2288037900"
+		 data-server="netease" data-type="playlist" data-fixed="true" data-preload="none" data-order="random" data-theme="orange">
+			<div class="aplayer-list" style="max-height: 250px">
+				<ol style="max-height: 250px">
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">1</span>
+						<span class="aplayer-list-title">故乡的风</span>
+						<span class="aplayer-list-author">塞壬唱片-MSR / Obadiah Brown-Beach</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">2</span>
+						<span class="aplayer-list-title">Grace</span>
+						<span class="aplayer-list-author">Laura Story</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">3</span>
+						<span class="aplayer-list-title">タイトル</span>
+						<span class="aplayer-list-author">miwa</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">4</span>
+						<span class="aplayer-list-title">結衣の決意</span>
+						<span class="aplayer-list-author">黒須克彦 / 帆足圭吾</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">5</span>
+						<span class="aplayer-list-title">近からず遠からず</span>
+						<span class="aplayer-list-author">石濱翔</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">6</span>
+						<span class="aplayer-list-title">Long Way Home</span>
+						<span class="aplayer-list-author">Alex Masters</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">7</span>
+						<span class="aplayer-list-title">Mother</span>
+						<span class="aplayer-list-author">久石譲</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">8</span>
+						<span class="aplayer-list-title">Avatar (The Theme)</span>
+						<span class="aplayer-list-author">The Piano Guys</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">9</span>
+						<span class="aplayer-list-title">亲爱的旅人啊（翻自 木村弓） </span>
+						<span class="aplayer-list-author">周深</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">10</span>
+						<span class="aplayer-list-title">Micmacs A La Gare</span>
+						<span class="aplayer-list-author">Raphaël Beau</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">11</span>
+						<span class="aplayer-list-title">WIND LINER</span>
+						<span class="aplayer-list-author">DAISHI DANCE</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">12</span>
+						<span class="aplayer-list-title">Silhouette</span>
+						<span class="aplayer-list-author">Owl City</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">13</span>
+						<span class="aplayer-list-title">Imagine</span>
+						<span class="aplayer-list-author">Avril Lavigne</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">14</span>
+						<span class="aplayer-list-title">ちいさな冒険者</span>
+						<span class="aplayer-list-author">雨宮天 / 高橋李依 / 茅野愛衣</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">15</span>
+						<span class="aplayer-list-title">Game of Thrones Medley</span>
+						<span class="aplayer-list-author">2Cellos</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">16</span>
+						<span class="aplayer-list-title">ひだまりの詩</span>
+						<span class="aplayer-list-author">Le Couple</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">17</span>
+						<span class="aplayer-list-title">Highest Life</span>
+						<span class="aplayer-list-author">Girls Dead Monster</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">18</span>
+						<span class="aplayer-list-title">时代を超える想い2</span>
+						<span class="aplayer-list-author">和田薫</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">19</span>
+						<span class="aplayer-list-title">Memories of the orphanage</span>
+						<span class="aplayer-list-author">Battle Royale</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">20</span>
+						<span class="aplayer-list-title">Colorful Voice</span>
+						<span class="aplayer-list-author">Night Keepers 守夜人</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">21</span>
+						<span class="aplayer-list-title">It Is Well (Live)</span>
+						<span class="aplayer-list-author">Bethel Music / Kristene DiMarco</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">22</span>
+						<span class="aplayer-list-title">More Than Friends</span>
+						<span class="aplayer-list-author">Jason Mraz / Meghan Trainor</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">23</span>
+						<span class="aplayer-list-title">As The Deer</span>
+						<span class="aplayer-list-author">Cadet</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">24</span>
+						<span class="aplayer-list-title">汐</span>
+						<span class="aplayer-list-author">戸越まごめ</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">25</span>
+						<span class="aplayer-list-title">いつも何度でも (千と千尋の神隠し)</span>
+						<span class="aplayer-list-author">木村弓</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">26</span>
+						<span class="aplayer-list-title">風になる</span>
+						<span class="aplayer-list-author">つじあやの</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">27</span>
+						<span class="aplayer-list-title">Concerning Hobbits</span>
+						<span class="aplayer-list-author">Howard Shore</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">28</span>
+						<span class="aplayer-list-title">still...</span>
+						<span class="aplayer-list-author">麗美</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">29</span>
+						<span class="aplayer-list-title">白のサンクチュアリ</span>
+						<span class="aplayer-list-author">F9</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">30</span>
+						<span class="aplayer-list-title">Coda</span>
+						<span class="aplayer-list-author">Xeuphoria</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">31</span>
+						<span class="aplayer-list-title">remember</span>
+						<span class="aplayer-list-author">Uru</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">32</span>
+						<span class="aplayer-list-title">Stories</span>
+						<span class="aplayer-list-author">黒石ひとみ</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">33</span>
+						<span class="aplayer-list-title">パズル</span>
+						<span class="aplayer-list-author">ENE</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">34</span>
+						<span class="aplayer-list-title">美しきもの</span>
+						<span class="aplayer-list-author">Sound Horizon</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">35</span>
+						<span class="aplayer-list-title">Spica</span>
+						<span class="aplayer-list-author">茶太</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">36</span>
+						<span class="aplayer-list-title">今日の日はさようなら</span>
+						<span class="aplayer-list-author">林有三</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">37</span>
+						<span class="aplayer-list-title">The Right Path</span>
+						<span class="aplayer-list-author">Thomas Greenberg</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">38</span>
+						<span class="aplayer-list-title">猫になりたい</span>
+						<span class="aplayer-list-author">つじあやの</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">39</span>
+						<span class="aplayer-list-title">日が落ちるまで</span>
+						<span class="aplayer-list-author">ハンバート ハンバート</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">40</span>
+						<span class="aplayer-list-title">dear sleeper</span>
+						<span class="aplayer-list-author">Chima</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">41</span>
+						<span class="aplayer-list-title">Proud Of You</span>
+						<span class="aplayer-list-author">冯曦妤</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">42</span>
+						<span class="aplayer-list-title">夜の向日葵</span>
+						<span class="aplayer-list-author">松本文紀</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">43</span>
+						<span class="aplayer-list-title">Silent Love (Main Theme)</span>
+						<span class="aplayer-list-author">久石譲</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">44</span>
+						<span class="aplayer-list-title">誕生日には真白な百合を</span>
+						<span class="aplayer-list-author">福山雅治</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">45</span>
+						<span class="aplayer-list-title">Comptine D'un Autre Été, L'après-Midi</span>
+						<span class="aplayer-list-author">Yann Tiersen</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">46</span>
+						<span class="aplayer-list-title">Playing Love from The Legend of 1900</span>
+						<span class="aplayer-list-author">Yo-Yo Ma</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">47</span>
+						<span class="aplayer-list-title">Have It All</span>
+						<span class="aplayer-list-author">Jason Mraz</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">48</span>
+						<span class="aplayer-list-title">Start Of Something New</span>
+						<span class="aplayer-list-author">Vanessa Hudgens / Zac Efron / Drew Seeley</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">49</span>
+						<span class="aplayer-list-title">Way Back Into Love</span>
+						<span class="aplayer-list-author">Haley Bennett / Hugh Grant</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">50</span>
+						<span class="aplayer-list-title">Anything But Ordinary</span>
+						<span class="aplayer-list-author">Avril Lavigne</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">51</span>
+						<span class="aplayer-list-title">Can You Feel the Love Tonight (End Title/ From "The Lion King"/Soundtrack
+							Version)</span>
+						<span class="aplayer-list-author">Elton John</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">52</span>
+						<span class="aplayer-list-title">となりのトトロ</span>
+						<span class="aplayer-list-author">井上あずみ</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">53</span>
+						<span class="aplayer-list-title">Hope</span>
+						<span class="aplayer-list-author">Lightscape</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">54</span>
+						<span class="aplayer-list-title">Long Long Ago (Piano Cello)</span>
+						<span class="aplayer-list-author">Jon Schmidt</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">55</span>
+						<span class="aplayer-list-title">奏 (かなで)</span>
+						<span class="aplayer-list-author">雨宮天</span>
+					</li>
+
+					<li class="aplayer-list-light">
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">56</span>
+						<span class="aplayer-list-title">匠 / Takumi ~ Live Version (From Live Image4)</span>
+						<span class="aplayer-list-author">松谷卓</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">57</span>
+						<span class="aplayer-list-title">On écrit sur les murs</span>
+						<span class="aplayer-list-author">Kids United</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">58</span>
+						<span class="aplayer-list-title">Valkyrie III: Atonement (feat. Laura Brehm)</span>
+						<span class="aplayer-list-author">Varien / Laura Brehm</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">59</span>
+						<span class="aplayer-list-title">I See You</span>
+						<span class="aplayer-list-author">Leona Lewis</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">60</span>
+						<span class="aplayer-list-title">好きなので。</span>
+						<span class="aplayer-list-author">雨宮天</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">61</span>
+						<span class="aplayer-list-title">Fragrance</span>
+						<span class="aplayer-list-author">Galen Crew</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">62</span>
+						<span class="aplayer-list-title">东京日和</span>
+						<span class="aplayer-list-author">小松未歩</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">63</span>
+						<span class="aplayer-list-title">何もかも有り余っている こんな時代も</span>
+						<span class="aplayer-list-author">Goose house</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">64</span>
+						<span class="aplayer-list-title">最后的旅行——记《龙族》</span>
+						<span class="aplayer-list-author">绘梨衣</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">65</span>
+						<span class="aplayer-list-title">小さなてのひら</span>
+						<span class="aplayer-list-author">riya</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">66</span>
+						<span class="aplayer-list-title">给希望一点勇气</span>
+						<span class="aplayer-list-author">many</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">67</span>
+						<span class="aplayer-list-title">Stardust</span>
+						<span class="aplayer-list-author">Lights &amp; Motion</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">68</span>
+						<span class="aplayer-list-title">The Theory of Everything</span>
+						<span class="aplayer-list-author">Jóhann Jóhannsson</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">69</span>
+						<span class="aplayer-list-title">インタビュア</span>
+						<span class="aplayer-list-author">H△G</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">70</span>
+						<span class="aplayer-list-title">YELL</span>
+						<span class="aplayer-list-author">いきものがかり</span>
+					</li>
+
+					<li>
+						<span class="aplayer-list-cur" style="background-color: orange;"></span>
+						<span class="aplayer-list-index">71</span>
+						<span class="aplayer-list-title">A Tender Feeling</span>
+						<span class="aplayer-list-author">梶浦由記</span>
+					</li>
+
+				</ol>
+			</div>
+			<div class="aplayer-body ap-hover" style="width: 400px;">
+				<div class="aplayer-pic" style="background-image: url(&quot;https://api.i-meto.com/meting/api?server=netease&amp;type=pic&amp;id=556352883666526&amp;auth=54e56d7756494c2c1c20b8fe7d2787694cc0eda8&quot;);background-color: orange;">
+					<div class="aplayer-button aplayer-play"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 16 31">
+							<path d="M15.552 15.168q0.448 0.32 0.448 0.832 0 0.448-0.448 0.768l-13.696 8.512q-0.768 0.512-1.312 0.192t-0.544-1.28v-16.448q0-0.96 0.544-1.28t1.312 0.192z"></path>
+						</svg></div>
+				</div>
+				<div class="aplayer-info" style="display: block;">
+					<div class="aplayer-music">
+						<span class="aplayer-title">匠 / Takumi ~ Live Version (From Live Image4)</span>
+						<span class="aplayer-author"> - 松谷卓</span>
+					</div>
+					<div class="aplayer-controller">
+						<div class="aplayer-bar-wrap">
+							<div class="aplayer-bar">
+								<div class="aplayer-loaded" style="width: 0"></div>
+								<div class="aplayer-played" style="width: 0; background: orange;">
+									<span class="aplayer-thumb" style="background: orange;">
+										<span class="aplayer-loading-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
+												<path d="M4 16c0-6.6 5.4-12 12-12s12 5.4 12 12c0 1.2-0.8 2-2 2s-2-0.8-2-2c0-4.4-3.6-8-8-8s-8 3.6-8 8 3.6 8 8 8c1.2 0 2 0.8 2 2s-0.8 2-2 2c-6.6 0-12-5.4-12-12z"></path>
+											</svg></span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="aplayer-time aplayer-time-narrow">
+							<span class="aplayer-time-inner">
+								<span class="aplayer-ptime">00:00</span> / <span class="aplayer-dtime">00:00</span>
+							</span>
+							<span class="aplayer-icon aplayer-icon-back">
+								<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
+									<path d="M25.468 6.947c-0.326-0.172-0.724-0.151-1.030 0.057l-6.438 4.38v-3.553c0-0.371-0.205-0.71-0.532-0.884-0.326-0.172-0.724-0.151-1.030 0.057l-12 8.164c-0.274 0.186-0.438 0.496-0.438 0.827s0.164 0.641 0.438 0.827l12 8.168c0.169 0.115 0.365 0.174 0.562 0.174 0.16 0 0.321-0.038 0.468-0.116 0.327-0.173 0.532-0.514 0.532-0.884v-3.556l6.438 4.382c0.169 0.115 0.365 0.174 0.562 0.174 0.16 0 0.321-0.038 0.468-0.116 0.327-0.173 0.532-0.514 0.532-0.884v-16.333c0-0.371-0.205-0.71-0.532-0.884z"></path>
+								</svg>
+							</span>
+							<span class="aplayer-icon aplayer-icon-play">
+								<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 16 31">
+									<path d="M15.552 15.168q0.448 0.32 0.448 0.832 0 0.448-0.448 0.768l-13.696 8.512q-0.768 0.512-1.312 0.192t-0.544-1.28v-16.448q0-0.96 0.544-1.28t1.312 0.192z"></path>
+								</svg>
+							</span>
+							<span class="aplayer-icon aplayer-icon-forward">
+								<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
+									<path d="M25.468 6.947c-0.326-0.172-0.724-0.151-1.030 0.057l-6.438 4.38v-3.553c0-0.371-0.205-0.71-0.532-0.884-0.326-0.172-0.724-0.151-1.030 0.057l-12 8.164c-0.274 0.186-0.438 0.496-0.438 0.827s0.164 0.641 0.438 0.827l12 8.168c0.169 0.115 0.365 0.174 0.562 0.174 0.16 0 0.321-0.038 0.468-0.116 0.327-0.173 0.532-0.514 0.532-0.884v-3.556l6.438 4.382c0.169 0.115 0.365 0.174 0.562 0.174 0.16 0 0.321-0.038 0.468-0.116 0.327-0.173 0.532-0.514 0.532-0.884v-16.333c0-0.371-0.205-0.71-0.532-0.884z"></path>
+								</svg>
+							</span>
+							<div class="aplayer-volume-wrap">
+								<button type="button" class="aplayer-icon aplayer-icon-volume-down"><svg xmlns="http://www.w3.org/2000/svg"
+									 version="1.1" viewBox="0 0 28 32">
+										<path d="M13.728 6.272v19.456q0 0.448-0.352 0.8t-0.8 0.32-0.8-0.32l-5.952-5.952h-4.672q-0.48 0-0.8-0.352t-0.352-0.8v-6.848q0-0.48 0.352-0.8t0.8-0.352h4.672l5.952-5.952q0.32-0.32 0.8-0.32t0.8 0.32 0.352 0.8zM20.576 16q0 1.344-0.768 2.528t-2.016 1.664q-0.16 0.096-0.448 0.096-0.448 0-0.8-0.32t-0.32-0.832q0-0.384 0.192-0.64t0.544-0.448 0.608-0.384 0.512-0.64 0.192-1.024-0.192-1.024-0.512-0.64-0.608-0.384-0.544-0.448-0.192-0.64q0-0.48 0.32-0.832t0.8-0.32q0.288 0 0.448 0.096 1.248 0.48 2.016 1.664t0.768 2.528z"></path>
+									</svg></button>
+								<div class="aplayer-volume-bar-wrap">
+									<div class="aplayer-volume-bar">
+										<div class="aplayer-volume" style="height: 70%; background: orange;"></div>
+									</div>
+								</div>
+							</div>
+							<button type="button" class="aplayer-icon aplayer-icon-order">
+								<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
+									<path d="M22.667 4l7 6-7 6 7 6-7 6v-4h-3.653l-3.76-3.76 2.827-2.827 2.587 2.587h2v-8h-2l-12 12h-6v-4h4.347l12-12h3.653v-4zM2.667 8h6l3.76 3.76-2.827 2.827-2.587-2.587h-4.347v-4z"></path>
+								</svg>
+							</button>
+							<button type="button" class="aplayer-icon aplayer-icon-loop">
+								<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 29 32">
+									<path d="M9.333 9.333h13.333v4l5.333-5.333-5.333-5.333v4h-16v8h2.667v-5.333zM22.667 22.667h-13.333v-4l-5.333 5.333 5.333 5.333v-4h16v-8h-2.667v5.333z"></path>
+								</svg>
+							</button>
+							<button type="button" class="aplayer-icon aplayer-icon-menu">
+								<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 22 32">
+									<path d="M20.8 14.4q0.704 0 1.152 0.48t0.448 1.12-0.48 1.12-1.12 0.48h-19.2q-0.64 0-1.12-0.48t-0.48-1.12 0.448-1.12 1.152-0.48h19.2zM1.6 11.2q-0.64 0-1.12-0.48t-0.48-1.12 0.448-1.12 1.152-0.48h19.2q0.704 0 1.152 0.48t0.448 1.12-0.48 1.12-1.12 0.48h-19.2zM20.8 20.8q0.704 0 1.152 0.48t0.448 1.12-0.48 1.12-1.12 0.48h-19.2q-0.64 0-1.12-0.48t-0.48-1.12 0.448-1.12 1.152-0.48h19.2z"></path>
+								</svg>
+							</button>
+							<button type="button" class="aplayer-icon aplayer-icon-lrc">
+								<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
+									<path d="M26.667 5.333h-21.333c-0 0-0.001 0-0.001 0-1.472 0-2.666 1.194-2.666 2.666 0 0 0 0.001 0 0.001v-0 16c0 0 0 0.001 0 0.001 0 1.472 1.194 2.666 2.666 2.666 0 0 0.001 0 0.001 0h21.333c0 0 0.001 0 0.001 0 1.472 0 2.666-1.194 2.666-2.666 0-0 0-0.001 0-0.001v0-16c0-0 0-0.001 0-0.001 0-1.472-1.194-2.666-2.666-2.666-0 0-0.001 0-0.001 0h0zM5.333 16h5.333v2.667h-5.333v-2.667zM18.667 24h-13.333v-2.667h13.333v2.667zM26.667 24h-5.333v-2.667h5.333v2.667zM26.667 18.667h-13.333v-2.667h13.333v2.667z"></path>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="aplayer-notice"></div>
+				<div class="aplayer-miniswitcher"><button class="aplayer-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+						 viewBox="0 0 32 32">
+							<path d="M22 16l-10.105-10.6-1.895 1.987 8.211 8.613-8.211 8.612 1.895 1.988 8.211-8.613z"></path>
+						</svg></button></div>
+			</div>
+			<div class="aplayer-lrc aplayer-lrc-hide">
+				<div class="aplayer-lrc-contents" style="transform: translateY(0); -webkit-transform: translateY(0);"></div>
+			</div>
+		</div>
+		<div class="prpr">
+			<div class="mashiro-tips" style="opacity: 1;">她只是想吃这个而已啊……这一定是她非常爱吃的，我居然连如此细微的幸福也夺走了……</div><canvas id="live2d"
+			 width="280" height="250" class="live2d"></canvas>
+		</div>
+		<div class="live2d-tool hide-live2d no-select" onclick="hide_live2d()">
+			<div class="keys">Hide</div>
+		</div>
+		<div class="live2d-tool switch-live2d no-select" onclick="switch_pio()">
+			<div class="keys">Switch</div>
+		</div>
+		<div class="live2d-tool save-live2d no-select" onclick="save_pio()">
+			<div class="keys">Save</div>
+		</div>
+		<div class="changeSkin-gear no-select" style="background: none; visibility: visible; bottom: -999px;">
+			<div class="keys"> <span id="open-skinMenu"> 切换主题 | SCHEME TOOL &nbsp;<i class="iconfont icon-gear inline-block rotating"></i>
+				</span></div>
+		</div>
+		<div class="skin-menu no-select">
+			<div class="theme-controls row-container">
+				<ul class="menu-list">
+					<li id="white-bg"> <i class="fa fa-television" aria-hidden="true"></i></li>
+					<li id="sakura-bg"> <i class="iconfont icon-sakura"></i></li>
+					<li id="gribs-bg"> <i class="fa fa-slack" aria-hidden="true"></i></li>
+					<li id="KAdots-bg"> <i class="iconfont icon-dots"></i></li>
+					<li id="totem-bg"> <i class="fa fa-optin-monster" aria-hidden="true"></i></li>
+					<li id="pixiv-bg"> <i class="iconfont icon-pixiv"></i></li>
+					<li id="bing-bg"> <i class="iconfont icon-bing"></i></li>
+					<li id="dark-bg"> <i class="fa fa-moon-o" aria-hidden="true"></i></li>
+				</ul>
+			</div>
+			<div class="font-family-controls row-container"> <button type="button" class="control-btn-serif selected" data-mode="serif"
+				 onclick="mashiro_global.font_control.change_font()">Serif</button> <button type="button" class="control-btn-sans-serif"
+				 data-mode="sans-serif" onclick="mashiro_global.font_control.change_font()">Sans Serif</button></div>
+		</div><canvas id="night-mode-cover" style="visibility: hidden;"></canvas>
+		<script defer="" src="https://2heng.xin/wp-content/cache/autoptimize/js/autoptimize_4654329a35ecbb3d723ecbca457d9799.js"></script>
+		<!-- Dynamic page generated in 0.120 seconds. -->
+		<!-- Cached page generated by WP-Super-Cache on 2020-11-30 11:16:47 -->
+
+		<!-- Super Cache dynamic page detected but late init not set. See the readme.txt for further details. -->
+		<!-- Dynamic Super Cache -->
+		<!-- Compression = gzip --><canvas width="1278" height="495" style="position: fixed; top: 0px; left: 0px; pointer-events: none; z-index: 999999;"></canvas>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/moezx/cdn@3.7.5/css/lib.min.css" media="all">
+		<link rel="stylesheet" href="https://at.alicdn.com/t/font_679578_dishi1yoavm.css" media="all">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/moezx/cdn@3.5.4/fonts/Moe-Mashiro/stylesheet.css" media="all">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC"
+		 media="all">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/moezx/cdn@3.3.9/css/sharejs.css" media="all">
+		<div role="dialog" id="baguetteBox-overlay">
+			<div id="baguetteBox-slider"></div><button type="button" id="previous-button" aria-label="Previous" class="baguetteBox-button"><svg
+				 width="44" height="60">
+					<polyline points="30 10 10 30 30 50" stroke="rgba(255,255,255,0.5)" stroke-width="4" stroke-linecap="butt" fill="none"
+					 stroke-linejoin="round"></polyline>
+				</svg></button><button type="button" id="next-button" aria-label="Next" class="baguetteBox-button"><svg width="44"
+				 height="60">
+					<polyline points="14 10 34 30 14 50" stroke="rgba(255,255,255,0.5)" stroke-width="4" stroke-linecap="butt" fill="none"
+					 stroke-linejoin="round"></polyline>
+				</svg></button><button type="button" id="close-button" aria-label="Close" class="baguetteBox-button"><svg width="30"
+				 height="30">
+					<g stroke="rgb(160,160,160)" stroke-width="4">
+						<line x1="5" y1="5" x2="25" y2="25"></line>
+						<line x1="5" y1="25" x2="25" y2="5"></line>
+					</g>
+				</svg></button>
+		</div>
+	</body>
+</html>
