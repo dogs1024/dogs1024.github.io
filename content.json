@@ -42,6 +42,39 @@
   ],
   "posts": [
     {
+      "title": "如何驯服小羽羽",
+      "slug": "如何驯服小羽羽",
+      "date": "2020年12月3日15:37:06",
+      "updated": "2020年12月3日15:37:17",
+      "comments": true,
+      "path": "2020/11/25/如何驯服小羽羽/",
+      "link": "",
+      "permalink": "/2020/11/25/如何驯服小羽羽/",
+      "excerpt": "",
+      "text": "驯服不了，透哭她就对了。",
+      "categories": [
+        {
+          "name": "文件夹归类",
+          "slug": "文件夹归类",
+          "permalink": "/categories/文件夹归类/"
+        }
+      ],
+      "tags": [
+        {
+          "name": "标签",
+          "slug": "标签",
+          "permalink": "/tags/标签/"
+        }
+      ],
+      "keywords": [
+        {
+          "name": "文件夹归类",
+          "slug": "文件夹归类",
+          "permalink": "/categories/文件夹归类/"
+        }
+      ]
+    },
+    {
       "title": "短暂的暑假",
       "slug": "短暂的暑假",
       "date": "2020-08-08T14:01:50.000Z",
