@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZhangKun - Java / Python 后端开发工程师</title>
+<style>
+/* ===== Reset & Variables ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --teal: #4E7282;
+  --teal-light: #6a9aad;
+  --teal-dark: #3a5a68;
+  --gold: #C19F67;
+  --gold-light: #d4b988;
+  --gold-dark: #a8864e;
+  --bg-white: #ffffff;
+  --bg-alt: #f9fafb;
+  --text-h: #1a1a1a;
+  --text-b: #333333;
+  --text-s: #666666;
+  --border: #e8eaed;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-md: 0 8px 30px rgba(78,114,130,0.10);
+  --shadow-lg: 0 16px 48px rgba(78,114,130,0.14);
+  --radius: 16px;
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-b);
+  background: var(--bg-white);
+  line-height: 1.7;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ===== Scroll Progress Bar ===== */
+#scrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  z-index: 10001;
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ===== Floating Geometric Shapes ===== */
+.geo-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.geo-shape {
+  position: absolute;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+/* Circle */
+.geo-circle {
+  border-radius: 50%;
+  border: 1.5px solid;
+}
+/* Triangle */
+.geo-tri {
+  width: 0; height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 34px solid;
+  background: none !important;
+}
+/* Hexagon via SVG inline */
+.geo-hex { }
+
+/* Animation keyframes for floating */
+@keyframes geoFloat1 {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.12; }
+  50% { transform: translate(30px, -40px) rotate(180deg); opacity: 0.08; }
+  90% { opacity: 0.12; }
+  100% { transform: translate(0, 0) rotate(360deg); opacity: 0; }
+}
+@keyframes geoFloat2 {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.10; }
+  50% { transform: translate(-25px, 35px) rotate(-180deg); opacity: 0.06; }
+  90% { opacity: 0.10; }
+  100% { transform: translate(0, 0) rotate(-360deg); opacity: 0; }
+}
+@keyframes geoFloat3 {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0; }
+  15% { opacity: 0.09; }
+  50% { transform: translate(20px, 25px) rotate(120deg) scale(1.1); opacity: 0.06; }
+  85% { opacity: 0.09; }
+  100% { transform: translate(0, 0) rotate(360deg) scale(1); opacity: 0; }
+}
+
+/* individual shape configs */
+.geo-s1 { top: 8%; left: 5%; width: 60px; height: 60px; border-color: var(--teal); animation: geoFloat1 18s ease-in-out infinite; }
+.geo-s2 { top: 20%; right: 8%; width: 45px; height: 45px; border-color: var(--gold); animation: geoFloat2 22s ease-in-out infinite 2s; }
+.geo-s3 { top: 55%; left: 3%; border-bottom-color: var(--teal); animation: geoFloat3 20s ease-in-out infinite 4s; }
+.geo-s4 { top: 70%; right: 6%; width: 35px; height: 35px; border-color: var(--gold); animation: geoFloat1 25s ease-in-out infinite 6s; }
+.geo-s5 { top: 35%; left: 92%; width: 50px; height: 50px; border-color: var(--teal); animation: geoFloat2 19s ease-in-out infinite 1s; }
+.geo-s6 { top: 85%; left: 15%; border-bottom-color: var(--gold); animation: geoFloat3 23s ease-in-out infinite 3s; }
+.geo-s7 { top: 12%; left: 60%; width: 28px; height: 28px; border-color: var(--gold-light); animation: geoFloat1 21s ease-in-out infinite 5s; }
+.geo-s8 { top: 45%; right: 15%; width: 55px; height: 55px; border-color: var(--teal-light); animation: geoFloat2 17s ease-in-out infinite 7s; }
+.geo-s9 { top: 92%; left: 50%; border-bottom-color: var(--teal); animation: geoFloat1 24s ease-in-out infinite 2s; }
+.geo-s10 { top: 60%; left: 75%; width: 40px; height: 40px; border-color: var(--gold); animation: geoFloat3 20s ease-in-out infinite 8s; }
+
+/* SVG hexagons */
+.geo-hex-wrap { position: absolute; opacity: 0; }
+.geo-h1 { top: 30%; left: 8%; width: 48px; height: 48px; animation: geoFloat2 26s ease-in-out infinite 3s; }
+.geo-h2 { top: 75%; right: 10%; width: 36px; height: 36px; animation: geoFloat1 22s ease-in-out infinite 5s; }
+.geo-h3 { top: 15%; right: 30%; width: 42px; height: 42px; animation: geoFloat3 24s ease-in-out infinite 1s; }
+
+/* ===== Navigation ===== */
+.navbar {
+  position: fixed;
+  top: 3px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--teal);
+  transition: all 0.4s var(--ease);
+  height: 56px;
+}
+.navbar.scrolled {
+  background: rgba(78, 114, 130, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(78,114,130,0.18);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+.nav-brand {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+}
+.nav-brand span { color: var(--gold-light); }
+.nav-links { display: flex; gap: 4px; list-style: none; }
+.nav-links a {
+  text-decoration: none;
+  color: rgba(255,255,255,0.75);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: all 0.3s var(--ease);
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: all 0.3s var(--ease);
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+.nav-links a:hover { color: #fff; }
+.nav-links a:hover::after,
+.nav-links a.active::after { width: 60%; }
+.nav-links a.active { color: #fff; }
+
+/* Hamburger */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  background: none;
+  border: none;
+  z-index: 1001;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.35s var(--ease);
+  transform-origin: center;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ===== Container ===== */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ===== Section base ===== */
+section { padding: 90px 0; position: relative; z-index: 1; }
+.bg-alt { background: var(--bg-alt); }
+
+/* ===== Section Title with animated underline ===== */
+.section-header {
+  text-align: center;
+  margin-bottom: 56px;
+  position: relative;
+}
+.section-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--teal);
+  display: inline-block;
+  position: relative;
+  letter-spacing: 1px;
+}
+.section-title .gold-dot {
+  color: var(--gold);
+  font-weight: 800;
+}
+.section-title-line {
+  display: block;
+  width: 0;
+  height: 3px;
+  margin: 10px auto 0;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 2px;
+  transition: width 0.8s var(--ease);
+}
+.section-header.in-view .section-title-line { width: 60px; }
+
+/* ===== Slide-in Animations ===== */
+.slide-in {
+  opacity: 0;
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.slide-left { transform: translateX(-60px) rotate(-1.5deg); }
+.slide-right { transform: translateX(60px) rotate(1.5deg); }
+.slide-up { transform: translateY(40px); }
+.slide-in.visible {
+  opacity: 1;
+  transform: translateX(0) rotate(0deg);
+}
+
+/* delay helpers */
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.2s; }
+.d3 { transition-delay: 0.3s; }
+.d4 { transition-delay: 0.4s; }
+.d5 { transition-delay: 0.5s; }
+
+/* ===== Hero ===== */
+.hero {
+  padding: 170px 0 110px;
+  background: linear-gradient(165deg, #ffffff 0%, #f4f8fa 40%, #faf8f5 100%);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.hero-bg-geo {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Large decorative circles in hero */
+.hero-bg-geo .hg1 {
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  border: 2px solid rgba(78,114,130,0.06);
+}
+.hero-bg-geo .hg2 {
+  position: absolute;
+  bottom: -60px; left: -60px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  border: 2px solid rgba(193,159,103,0.06);
+}
+.hero-bg-geo .hg3 {
+  position: absolute;
+  top: 60%; right: 20%;
+  width: 120px; height: 120px;
+  border: 1.5px solid rgba(78,114,130,0.05);
+  transform: rotate(45deg);
+}
+.hero-bg-geo .hg4 {
+  position: absolute;
+  top: 20%; left: 35%;
+  width: 0; height: 0;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+  border-bottom: 69px solid rgba(193,159,103,0.04);
+}
+
+.hero-content { position: relative; z-index: 2; }
+
+.hero-name {
+  font-size: 58px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  line-height: 1.2;
+  margin-bottom: 14px;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 40%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title {
+  font-size: 22px;
+  color: var(--text-s);
+  font-weight: 400;
+  margin-bottom: 32px;
+  letter-spacing: 2px;
+}
+
+.hero-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+}
+.hero-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-s);
+  font-size: 14px;
+  transition: color 0.3s;
+}
+.hero-contact-item:hover { color: var(--teal); }
+.hero-contact-item svg {
+  width: 17px; height: 17px;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+.hero-contact-item a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.hero-contact-item a:hover { color: var(--teal); }
+
+/* ===== About / Summary ===== */
+.summary-card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 36px 40px;
+  background: var(--bg-white);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  box-shadow: var(--shadow-sm);
+  font-size: 16px;
+  line-height: 2;
+  color: var(--text-b);
+  transition: box-shadow 0.4s var(--ease), transform 0.4s var(--ease);
+}
+.summary-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* ===== Skills ===== */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  perspective: 1200px;
+}
+.skill-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s var(--ease);
+  transform-style: preserve-3d;
+}
+.skill-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--gold));
+  transform: scaleX(0);
+  transition: transform 0.4s var(--ease);
+  transform-origin: center;
+}
+.skill-card:hover {
+  border-color: transparent;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px) rotate(0.8deg);
+}
+.skill-card:hover::before { transform: scaleX(1); }
+
+.skill-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.skill-card-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(78,114,130,0.08), rgba(193,159,103,0.06));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 20px;
+}
+.skill-card-icon svg {
+  width: 22px; height: 22px;
+  stroke: var(--teal);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.skill-card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+/* Skill bars */
+.skill-item { margin-bottom: 20px; }
+.skill-item:last-child { margin-bottom: 0; }
+.skill-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.skill-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+.skill-item-desc {
+  font-size: 12px;
+  color: var(--text-s);
+}
+.skill-bar-wrap {
+  position: relative;
+  padding-top: 20px;
+}
+.skill-bar-track {
+  width: 100%;
+  height: 8px;
+  background: #eef1f3;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.skill-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--gold));
+  background-size: 200% 100%;
+  width: 0;
+  transition: width 1.4s var(--ease);
+  position: relative;
+}
+/* Diagonal stripe pattern (candy-bar) */
+.skill-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(255,255,255,0.15) 4px,
+    rgba(255,255,255,0.15) 8px
+  );
+  border-radius: 4px;
+}
+/* Percentage label */
+.skill-pct {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+  opacity: 0;
+  transform: scale(0.5) translateY(8px);
+  transition: all 0.4s var(--ease) 1.2s;
+}
+.skill-pct.pop {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Skill tags */
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.skill-tag {
+  font-size: 13px;
+  padding: 8px 16px;
+  border: 1px solid rgba(78,114,130,0.2);
+  color: var(--teal);
+  border-radius: 24px;
+  transition: all 0.3s var(--ease);
+  cursor: default;
+  line-height: 1.5;
+}
+.skill-tag:hover {
+  background: var(--teal);
+  color: #fff;
+  border-color: var(--teal);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(78,114,130,0.2);
+}
+.skill-tag-desc {
+  display: block;
+  font-size: 11px;
+  color: var(--text-s);
+  margin-top: 2px;
+}
+.skill-tag:hover .skill-tag-desc { color: rgba(255,255,255,0.8); }
+
+.skill-card.full-width { grid-column: 1 / -1; }
+
+/* ===== Experience ===== */
+.exp-card {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  padding: 40px;
+  border: 1px solid var(--border);
+  transition: all 0.4s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+.exp-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: linear-gradient(180deg, var(--teal), var(--gold));
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.exp-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.exp-card:hover::after { opacity: 1; }
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.exp-company {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-h);
+}
+.exp-period {
+  font-size: 13px;
+  color: var(--teal);
+  font-weight: 600;
+  background: rgba(78,114,130,0.06);
+  padding: 4px 16px;
+  border-radius: 20px;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+.exp-role {
+  font-size: 15px;
+  color: var(--text-s);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+.exp-list { list-style: none; }
+.exp-list li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 14px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-b);
+}
+.exp-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 11px;
+  width: 7px; height: 7px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+.exp-list li:last-child { margin-bottom: 0; }
+
+/* ===== Education ===== */
+.edu-card {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  padding: 36px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: 650px;
+  margin: 0 auto;
+  transition: all 0.4s var(--ease);
+}
+.edu-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.edu-icon {
+  width: 60px; height: 60px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(78,114,130,0.08), rgba(193,159,103,0.06));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.edu-icon svg {
+  width: 28px; height: 28px;
+  stroke: var(--teal);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.edu-info h3 {
+  font-size: 19px;
+  color: var(--text-h);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.edu-info p {
+  font-size: 14px;
+  color: var(--text-s);
+}
+
+/* ===== Honors ===== */
+.honors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.honor-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  text-align: center;
+  transition: all 0.4s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+.honor-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--teal));
+  transform: scaleX(0);
+  transition: transform 0.4s var(--ease);
+}
+.honor-card:hover {
+  border-color: transparent;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-6px) rotate(-0.5deg);
+}
+.honor-card:hover::before { transform: scaleX(1); }
+.honor-icon {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(193,159,103,0.12), rgba(78,114,130,0.08));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+}
+.honor-icon svg {
+  width: 24px; height: 24px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.honor-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-h);
+  margin-bottom: 6px;
+}
+.honor-card p {
+  font-size: 13px;
+  color: var(--text-s);
+}
+
+/* ===== Footer ===== */
+.footer {
+  padding: 44px 0;
+  text-align: center;
+  border-top: 2px solid var(--teal);
+  position: relative;
+  z-index: 1;
+  background: var(--bg-white);
+}
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 4px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+.footer p {
+  font-size: 13px;
+  color: var(--text-s);
+  letter-spacing: 0.5px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 56px;
+    left: 0; right: 0;
+    background: rgba(78,114,130,0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    flex-direction: column;
+    padding: 16px 24px 20px;
+    gap: 4px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: flex; }
+  .hero { padding: 130px 0 80px; }
+  .hero-name { font-size: 38px; letter-spacing: 3px; }
+  .hero-title { font-size: 17px; }
+  .hero-contacts { gap: 14px; }
+  section { padding: 70px 0; }
+  .section-title { font-size: 24px; }
+  .section-header { margin-bottom: 40px; }
+  .skills-grid { grid-template-columns: 1fr; gap: 20px; }
+  .honors-grid { grid-template-columns: 1fr; }
+  .exp-card, .skill-card { padding: 24px; }
+  .summary-card { padding: 28px 24px; }
+  .edu-card { flex-direction: column; text-align: center; padding: 28px; }
+
+  .slide-left { transform: translateX(-30px) rotate(-0.5deg); }
+  .slide-right { transform: translateX(30px) rotate(0.5deg); }
+}
+
+@media (max-width: 480px) {
+  .hero-name { font-size: 32px; letter-spacing: 2px; }
+  .hero-contacts { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .exp-header { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- Scroll Progress Bar -->
+<div id="scrollProgress"></div>
+
+<!-- Floating Geometric Shapes -->
+<div class="geo-canvas" aria-hidden="true">
+  <!-- Circles -->
+  <div class="geo-shape geo-circle geo-s1"></div>
+  <div class="geo-shape geo-circle geo-s2"></div>
+  <div class="geo-shape geo-circle geo-s4"></div>
+  <div class="geo-shape geo-circle geo-s5"></div>
+  <div class="geo-shape geo-circle geo-s7"></div>
+  <div class="geo-shape geo-circle geo-s8"></div>
+  <div class="geo-shape geo-circle geo-s10"></div>
+  <!-- Triangles -->
+  <div class="geo-shape geo-tri geo-s3"></div>
+  <div class="geo-shape geo-tri geo-s6"></div>
+  <div class="geo-shape geo-tri geo-s9"></div>
+  <!-- Hexagons (inline SVG) -->
+  <svg class="geo-hex-wrap geo-h1" viewBox="0 0 100 100" style="animation: geoFloat2 26s ease-in-out infinite 3s;">
+    <polygon points="50,3 93,25 93,75 50,97 7,75 7,25" fill="none" stroke="#4E7282" stroke-width="2" opacity="0.12"/>
+  </svg>
+  <svg class="geo-hex-wrap geo-h2" viewBox="0 0 100 100" style="animation: geoFloat1 22s ease-in-out infinite 5s;">
+    <polygon points="50,3 93,25 93,75 50,97 7,75 7,25" fill="none" stroke="#C19F67" stroke-width="2" opacity="0.10"/>
+  </svg>
+  <svg class="geo-hex-wrap geo-h3" viewBox="0 0 100 100" style="animation: geoFloat3 24s ease-in-out infinite 1s;">
+    <polygon points="50,3 93,25 93,75 50,97 7,75 7,25" fill="none" stroke="#4E7282" stroke-width="2" opacity="0.08"/>
+  </svg>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <div class="nav-brand">ZhangKun<span>.</span></div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">首页</a></li>
+      <li><a href="#about">简介</a></li>
+      <li><a href="#skills">技能</a></li>
+      <li><a href="#experience">经历</a></li>
+      <li><a href="#education">教育</a></li>
+      <li><a href="#honors">荣誉</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="hero">
+  <div class="hero-bg-geo">
+    <div class="hg1"></div>
+    <div class="hg2"></div>
+    <div class="hg3"></div>
+    <div class="hg4"></div>
+  </div>
+  <div class="container hero-content">
+    <h1 class="hero-name slide-in slide-up">ZhangKun</h1>
+    <p class="hero-title slide-in slide-up d1">Python / Go 后端开发工程师</p>
+    <div class="hero-contacts slide-in slide-up d2">
+      <div class="hero-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span>178********</span>
+      </div>
+      <div class="hero-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <a href="mailto:********@qq.com">********@qq.com</a>
+      </div>
+      <div class="hero-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <a href="https://generalzy.blog.csdn.net" target="_blank" rel="noopener">generalzy.blog.csdn.net</a>
+      </div>
+      <div class="hero-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>北京</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="section-header slide-in slide-up">
+      <h2 class="section-title">简介<span class="gold-dot">.</span></h2>
+      <span class="section-title-line"></span>
+    </div>
+    <div class="summary-card slide-in slide-left">
+      2.5 年安全领域后端开发经验，专注漏洞治理、威胁狩猎、AI 安全工程化三大方向。独立设计并落地多个核心安全平台，包括高并发流式猎捕引擎、漏洞数据治理中台、AI 研判系统等。擅长 Go / Python 高性能后端开发，具备从架构设计到高可用上线的全链路交付能力，以及大规模安全日志实时处理与 LLM 工程化落地实战经验。
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills" class="bg-alt">
+  <div class="container">
+    <div class="section-header slide-in slide-up">
+      <h2 class="section-title">技能<span class="gold-dot">.</span></h2>
+      <span class="section-title-line"></span>
+    </div>
+    <div class="skills-grid">
+
+      <!-- 1. Programming Languages -->
+      <div class="skill-card slide-in slide-left">
+        <div class="skill-card-header">
+          <div class="skill-card-icon">
+            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3 class="skill-card-title">编程语言</h3>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">Go</span>
+            <span class="skill-item-desc">主力语言，2.5年生产环境经验</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct" data-pct="90">90%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">Python</span>
+            <span class="skill-item-desc">主力语言，2.5年生产环境经验</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct" data-pct="90">90%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">Lua</span>
+            <span class="skill-item-desc">打游戏写脚本的启蒙语言</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct" data-pct="60">60%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="60"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Backend Frameworks -->
+      <div class="skill-card slide-in slide-right d1">
+        <div class="skill-card-header">
+          <div class="skill-card-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <h3 class="skill-card-title">后端框架</h3>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">Gin (Go)</span>
+            <span class="skill-item-desc">高性能API服务开发</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct">85%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">FastAPI</span>
+            <span class="skill-item-desc">异步API与AI服务</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct">85%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">Flask</span>
+            <span class="skill-item-desc">上班摸鱼写小工具专用</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct">80%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">Django</span>
+            <span class="skill-item-desc">只用过admin后台</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct">70%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="70"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Data Storage -->
+      <div class="skill-card slide-in slide-left d1">
+        <div class="skill-card-header">
+          <div class="skill-card-icon">
+            <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <h3 class="skill-card-title">数据存储</h3>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">MongoDB</span>
+            <span class="skill-item-desc">Schema设计、强校验、聚合管线</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct">85%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">Elasticsearch</span>
+            <span class="skill-item-desc">索引优化、聚合查询、全文搜索</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct">85%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">Redis</span>
+            <span class="skill-item-desc">主要用来抢红包</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct">75%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="75"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Performance Engineering -->
+      <div class="skill-card slide-in slide-right d2">
+        <div class="skill-card-header">
+          <div class="skill-card-icon">
+            <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h3 class="skill-card-title">性能工程</h3>
+        </div>
+        <div class="skill-tags">
+          <div class="skill-tag">Go高性能服务开发<span class="skill-tag-desc">zero-alloc、连接池化、多副本协同</span></div>
+          <div class="skill-tag">OOM排查与治理<span class="skill-tag-desc">内存炸了就重启，重启解决99%的问题</span></div>
+          <div class="skill-tag">ES查询优化<span class="skill-tag-desc">查询从3s优化到2.9s，已经很努力了</span></div>
+          <div class="skill-tag">K8s HPA自动扩缩容<span class="skill-tag-desc">基于资源使用率弹性伸缩</span></div>
+        </div>
+      </div>
+
+      <!-- 5. AI / LLM -->
+      <div class="skill-card slide-in slide-left d2">
+        <div class="skill-card-header">
+          <div class="skill-card-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+          </div>
+          <h3 class="skill-card-title">AI / LLM 工程化</h3>
+        </div>
+        <div class="skill-tags">
+          <div class="skill-tag">LangChain / LangGraph<span class="skill-tag-desc">Function Call工具链开发</span></div>
+          <div class="skill-tag">MCP协议服务<span class="skill-tag-desc">漏洞能力对外暴露</span></div>
+          <div class="skill-tag">训练数据工程<span class="skill-tag-desc">SFT/RLHF数据格式设计、自动化生产流水线</span></div>
+          <div class="skill-tag">模型评估<span class="skill-tag-desc">Benchmark设计与召回率验证(99%+)</span></div>
+        </div>
+      </div>
+
+      <!-- 6. DevOps -->
+      <div class="skill-card slide-in slide-right d3">
+        <div class="skill-card-header">
+          <div class="skill-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M22.61 16.95A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/><polyline points="16 16 12 12 8 16"/></svg>
+          </div>
+          <h3 class="skill-card-title">DevOps &amp; 基础设施</h3>
+        </div>
+        <div class="skill-tags">
+          <div class="skill-tag">Docker / containerd<span class="skill-tag-desc">容器化与镜像管理</span></div>
+          <div class="skill-tag">K8s<span class="skill-tag-desc">Pod编排、HPA弹性伸缩</span></div>
+          <div class="skill-tag">EFK日志系统<span class="skill-tag-desc">搭建与运维</span></div>
+          <div class="skill-tag">Playwright<span class="skill-tag-desc">上班自动打卡签到</span></div>
+        </div>
+      </div>
+
+      <!-- 7. System Design (full width) -->
+      <div class="skill-card full-width slide-in slide-up d3">
+        <div class="skill-card-header">
+          <div class="skill-card-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+          </div>
+          <h3 class="skill-card-title">系统设计</h3>
+        </div>
+        <div class="skill-tags">
+          <div class="skill-tag">多语言SDK设计<span class="skill-tag-desc">Go/Python/Lua跨语言SDK架构</span></div>
+          <div class="skill-tag">API网关与鉴权<span class="skill-tag-desc">接口限流、认证授权</span></div>
+          <div class="skill-tag">服务拆分与重构<span class="skill-tag-desc">4服务 -> 2服务，70%代码精简</span></div>
+          <div class="skill-tag">OpenAPI服务化<span class="skill-tag-desc">RESTful接口规范与对外输出</span></div>
+          <div class="skill-tag">前后端分离改造<span class="skill-tag-desc">前端不会写，索性甩给别人</span></div>
+        </div>
+      </div>
+
+      <!-- 8. 生活技能 -->
+      <div class="skill-card slide-in slide-left d4">
+        <div class="skill-card-header">
+          <div class="skill-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <h3 class="skill-card-title">生活技能</h3>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">干饭</span>
+            <span class="skill-item-desc">一次三碗，速度全组第一</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct" data-pct="95">95%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">摸鱼</span>
+            <span class="skill-item-desc">上班摸鱼从未被发现</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct" data-pct="99">99%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="99"></div></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">甩锅</span>
+            <span class="skill-item-desc">精通Bug归因与责任转移</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct" data-pct="85">85%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+          </div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item-header">
+            <span class="skill-item-name">划水开会</span>
+            <span class="skill-item-desc">能在任何会议中保持清醒（大概）</span>
+          </div>
+          <div class="skill-bar-wrap">
+            <span class="skill-pct" data-pct="35">35%</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="35"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. 跨维度技能 (full width) -->
+      <div class="skill-card full-width slide-in slide-up d4">
+        <div class="skill-card-header">
+          <div class="skill-card-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3 class="skill-card-title">跨维度技能</h3>
+        </div>
+        <div class="skill-tags">
+          <div class="skill-tag">维度折叠编程<span class="skill-tag-desc">将三维Bug压缩到二维解决，三体文明认证</span></div>
+          <div class="skill-tag">魔杖调试术<span class="skill-tag-desc">对代码施展Reparo修复咒，霍格沃兹O.W.L.认证</span></div>
+          <div class="skill-tag">内力Debug<span class="skill-tag-desc">运行真气排查内存泄漏，华山派正宗心法</span></div>
+          <div class="skill-tag">纳美语通信协议<span class="skill-tag-desc">支持脑辫子直连API，潘多拉星际认证</span></div>
+          <div class="skill-tag">奏折式文档编写<span class="skill-tag-desc">明朝国子监认证，深得朱元璋赏识</span></div>
+        </div>
+      </div>
+
+      <!-- 10. 兴趣爱好 (full width) -->
+      <div class="skill-card full-width slide-in slide-up d5">
+        <div class="skill-card-header">
+          <div class="skill-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <h3 class="skill-card-title">兴趣爱好</h3>
+        </div>
+        <div class="skill-tags">
+          <div class="skill-tag">健身<span class="skill-tag-desc">每天5km跑，但我只跑了1.5km</span></div>
+          <div class="skill-tag">旅游<span class="skill-tag-desc">向往诗和远方，但缺了路费</span></div>
+          <div class="skill-tag">摄影<span class="skill-tag-desc">拍糊的比拍清楚的多了</span></div>
+          <div class="skill-tag">骑摩托车/自行车<span class="skill-tag-desc">风一样的男子，但不带风的</span></div>
+          <div class="skill-tag">游泳<span class="skill-tag-desc">狗刨第一，人类姿势第二</span></div>
+          <div class="skill-tag">滑雪<span class="skill-tag-desc">上去容易下去难，经常坐缆车下来</span></div>
+          <div class="skill-tag">潜水<span class="skill-tag-desc">在水里呼吸，但不敢深潜</span></div>
+          <div class="skill-tag">羽毛球<span class="skill-tag-desc">发球必下网，接球必出界</span></div>
+          <div class="skill-tag">台球<span class="skill-tag-desc">瞄准很准，白球总进袋</span></div>
+          <div class="skill-tag">写博客<span class="skill-tag-desc">间歇性热血，持续性拖延</span></div>
+          <div class="skill-tag">写代码<span class="skill-tag-desc">上班写代码，下班写代码，做梦也在写代码</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+  <div class="container">
+    <div class="section-header slide-in slide-up">
+      <h2 class="section-title">经历<span class="gold-dot">.</span></h2>
+      <span class="section-title-line"></span>
+    </div>
+    <div class="exp-card slide-in slide-right d1">
+      <div class="exp-header">
+        <span class="exp-company">家里蹲（北京）</span>
+        <span class="exp-period">2023.07 - 至今</span>
+      </div>
+      <p class="exp-role">后端开发工程师</p>
+      <ul class="exp-list">
+        <li>担任安全产品后端开发骨干，独立负责漏洞治理、威胁狩猎、AI安全三大业务线的后端架构设计与核心模块开发</li>
+        <li>曾一天修复42个Bug，后来发现其中39个是自己写的</li>
+        <li>被同事评为"Ctrl+Z之王"，单日撤销操作次数突破200次，至今无人打破纪录</li>
+      </ul>
+    </div>
+    <div class="exp-card slide-in slide-right d2" style="margin-top:24px">
+      <div class="exp-header">
+        <span class="exp-company">银河系联合政府 · 面壁计划</span>
+        <span class="exp-period">危机纪年 205 - 208</span>
+      </div>
+      <p class="exp-role">面壁者技术顾问</p>
+      <ul class="exp-list">
+        <li>协助面壁者罗辑实现黑暗森林威慑系统的后端架构，广播延迟控制在0.01光秒以内</li>
+        <li>为执剑人开发引力波广播系统，成功对接三体舰队通信协议</li>
+        <li>与荒天帝并肩作战，在仙域最终之战中负责战场实时通信与后勤保障系统</li>
+        <li>出差至圆蛤镇（Quahog）期间结识Peter Griffin，合作开发了啤酒库存管理系统</li>
+      </ul>
+    </div>
+    <div class="exp-card slide-in slide-right d3" style="margin-top:24px">
+      <div class="exp-header">
+        <span class="exp-company">明朝 · 国子监</span>
+        <span class="exp-period">洪武三年 - 洪武五年</span>
+      </div>
+      <p class="exp-role">国子监祭酒（兼IT总监）</p>
+      <ul class="exp-list">
+        <li>为朱元璋搭建大明王朝第一套OA办公系统，实现奏折电子化审批</li>
+        <li>用Python重写科举考试阅卷流程，批卷效率提升300%，朱元璋龙颜大悦</li>
+        <li>兼任锦衣卫数据分析组组长，开发舆情监控平台（明朝版大数据）</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Education -->
+<section id="education" class="bg-alt">
+  <div class="container">
+    <div class="section-header slide-in slide-up">
+      <h2 class="section-title">教育<span class="gold-dot">.</span></h2>
+      <span class="section-title-line"></span>
+    </div>
+    <div class="edu-card slide-in slide-left d1">
+      <div class="edu-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
+      </div>
+      <div class="edu-info">
+        <h3>北京大学(蓝翔校区)</h3>
+        <p>信息管理与信息系统（本科） | 2019.09 - 2023.07</p>
+      </div>
+    </div>
+    <div class="edu-card slide-in slide-left d1" style="margin-top:12px">
+      <div class="edu-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
+      </div>
+      <div class="edu-info">
+        <h3>霍格沃兹魔法学校</h3>
+        <p>黑魔法防御术与计算机科学（双学位） | 与哈利·波特并肩击败伏地魔 | 2015.09 - 2019.07</p>
+      </div>
+    </div>
+    <div class="edu-card slide-in slide-left d2" style="margin-top:12px">
+      <div class="edu-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
+      </div>
+      <div class="edu-info">
+        <h3>三体星 · 智子研究院</h3>
+        <p>维度折叠与质子计算（硕士） | 参与向地球发射智子的技术攻关 | 宇宙纪元 201 - 204</p>
+      </div>
+    </div>
+    <div class="edu-card slide-in slide-left d3" style="margin-top:12px">
+      <div class="edu-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
+      </div>
+      <div class="edu-info">
+        <h3>半人马座α星 · 潘多拉理工大学</h3>
+        <p>纳美语与生物网络工程（交换生） | 骑翼兽通勤上课，与Jake Sully同班 | 2154.03 - 2154.09</p>
+      </div>
+    </div>
+    <div class="edu-card slide-in slide-left d4" style="margin-top:12px">
+      <div class="edu-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
+      </div>
+      <div class="edu-info">
+        <h3>中土世界 · 瑞文戴尔精灵学院</h3>
+        <p>精灵语编程与魔法数据结构（进修） | 师从甘道夫学习分布式魔法系统 | 第三纪元 3018 - 3019</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Honors -->
+<section id="honors">
+  <div class="container">
+    <div class="section-header slide-in slide-up">
+      <h2 class="section-title">荣誉<span class="gold-dot">.</span></h2>
+      <span class="section-title-line"></span>
+    </div>
+    <div class="honors-grid">
+      <div class="honor-card slide-in slide-left">
+        <div class="honor-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <h3>中级软件设计师</h3>
+        <p>国家职业资格</p>
+      </div>
+      <div class="honor-card slide-in slide-up d1">
+        <div class="honor-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3>银河系马拉松冠军（亚光速完赛）</h3>
+        <p>2023 - 2024</p>
+      </div>
+      <div class="honor-card slide-in slide-right d2">
+        <div class="honor-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        </div>
+        <h3>干饭大王（一次三碗不带喘气）</h3>
+        <p>2024 - 2025</p>
+      </div>
+      <div class="honor-card slide-in slide-left d3">
+        <div class="honor-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>面壁者认证</h3>
+        <p>联合国面壁计划特别授予</p>
+      </div>
+      <div class="honor-card slide-in slide-up d4">
+        <div class="honor-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3>荒天帝亲授"不灭码神"称号</h3>
+        <p>仙域纪元</p>
+      </div>
+      <div class="honor-card slide-in slide-right d5">
+        <div class="honor-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        </div>
+        <h3>华山论剑 · 键盘侠组别冠军</h3>
+        <p>每秒击键频率突破宇宙极限</p>
+      </div>
+      <div class="honor-card slide-in slide-left d3">
+        <div class="honor-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <h3>取经团队优秀技术志愿者</h3>
+        <p>唐僧亲笔推荐信</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2026 ZhangKun &middot; Built with pure HTML/CSS/JS</p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // ===== Scroll Progress Bar =====
+  var progressBar = document.getElementById('scrollProgress');
+  function updateProgress() {
+    var winH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (window.pageYOffset / winH) * 100;
+    progressBar.style.width = Math.min(scrolled, 100) + '%';
+  }
+
+  // ===== Navbar scroll effect =====
+  var navbar = document.getElementById('navbar');
+  function handleScroll() {
+    var st = window.pageYOffset || document.documentElement.scrollTop;
+    if (st > 30) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+    updateProgress();
+  }
+  window.addEventListener('scroll', handleScroll, { passive: true });
+
+  // ===== Parallax on hero =====
+  var hero = document.querySelector('.hero');
+  function parallax() {
+    var st = window.pageYOffset;
+    if (st < window.innerHeight) {
+      hero.style.transform = 'translateY(' + (st * 0.3) + 'px)';
+    }
+  }
+  window.addEventListener('scroll', parallax, { passive: true });
+
+  // ===== Mobile nav toggle =====
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  toggle.addEventListener('click', function() {
+    links.classList.toggle('open');
+    toggle.classList.toggle('open');
+  });
+  var navAnchors = links.querySelectorAll('a');
+  for (var i = 0; i < navAnchors.length; i++) {
+    navAnchors[i].addEventListener('click', function() {
+      links.classList.remove('open');
+      toggle.classList.remove('open');
+    });
+  }
+
+  // ===== Active nav on scroll =====
+  var sections = document.querySelectorAll('section[id], header[id]');
+  function setActiveNav() {
+    var scrollY = window.pageYOffset;
+    for (var i = sections.length - 1; i >= 0; i--) {
+      var section = sections[i];
+      var top = section.offsetTop - 100;
+      if (scrollY >= top) {
+        var id = section.getAttribute('id');
+        for (var j = 0; j < navAnchors.length; j++) {
+          navAnchors[j].classList.remove('active');
+          if (navAnchors[j].getAttribute('href') === '#' + id) {
+            navAnchors[j].classList.add('active');
+          }
+        }
+        break;
+      }
+    }
+  }
+  window.addEventListener('scroll', setActiveNav, { passive: true });
+
+  // ===== IntersectionObserver for slide-in animations =====
+  var slideEls = document.querySelectorAll('.slide-in');
+  if ('IntersectionObserver' in window) {
+    var slideObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          slideObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+    slideEls.forEach(function(el) { slideObserver.observe(el); });
+  } else {
+    slideEls.forEach(function(el) { el.classList.add('visible'); });
+  }
+
+  // ===== Section header underline animation =====
+  var sectionHeaders = document.querySelectorAll('.section-header');
+  if ('IntersectionObserver' in window) {
+    var headerObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          headerObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    sectionHeaders.forEach(function(h) { headerObserver.observe(h); });
+  } else {
+    sectionHeaders.forEach(function(h) { h.classList.add('in-view'); });
+  }
+
+  // ===== Skill bar animation with percentage pop =====
+  var skillBars = document.querySelectorAll('.skill-bar-fill');
+  if ('IntersectionObserver' in window) {
+    var barObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var w = entry.target.getAttribute('data-width');
+          entry.target.style.width = w + '%';
+          // Pop the percentage label
+          var wrap = entry.target.closest('.skill-bar-wrap');
+          if (wrap) {
+            var pct = wrap.querySelector('.skill-pct');
+            if (pct) {
+              setTimeout(function() { pct.classList.add('pop'); }, 1000);
+            }
+          }
+          barObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    skillBars.forEach(function(bar) { barObserver.observe(bar); });
+  } else {
+    skillBars.forEach(function(bar) {
+      bar.style.width = bar.getAttribute('data-width') + '%';
+      var wrap = bar.closest('.skill-bar-wrap');
+      if (wrap) {
+        var pct = wrap.querySelector('.skill-pct');
+        if (pct) pct.classList.add('pop');
+      }
+    });
+  }
+
+  // ===== Initial calls =====
+  handleScroll();
+  setActiveNav();
+})();
+</script>
+
+<!-- Theme Nav -->
+<div id="themeNav" style="position:fixed;bottom:24px;right:24px;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',sans-serif">
+<button onclick="document.getElementById('themePanel').style.display=document.getElementById('themePanel').style.display==='flex'?'none':'flex'" style="width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,255,255,.2);background:rgba(30,30,30,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font-size:20px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:all .3s;display:flex;align-items:center;justify-content:center" onmouseenter="this.style.transform='scale(1.1)';this.style.borderColor='rgba(255,255,255,.5)'" onmouseleave="this.style.transform='scale(1)';this.style.borderColor='rgba(255,255,255,.2)'">&#9776;</button>
+<div id="themePanel" style="display:none;position:absolute;bottom:60px;right:0;flex-direction:column;gap:6px;background:rgba(20,20,20,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 14px;min-width:120px;box-shadow:0 8px 32px rgba(0,0,0,.5)">
+<a href="../index.html" style="color:#00ff41;text-decoration:none;font-size:.85rem;padding:8px 12px;border-radius:6px;transition:background .2s;font-weight:600;white-space:nowrap" onmouseenter="this.style.background='rgba(0,255,65,.1)'" onmouseleave="this.style.background='transparent'">&#8592; 返回首页</a>
+<div style="height:1px;background:rgba(255,255,255,.08);margin:4px 0"></div>
+<a href="../pages/gallery.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap;font-weight:600" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#128247; Gallery</a>
+<div style="height:1px;background:rgba(255,255,255,.08);margin:4px 0"></div>
+<a href="./light.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#9728;&#65039; 明亮</a>
+<a href="./gradient.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#127752; 渐变</a>
+<a href="./pixel.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#127918; 像素</a>
+<a href="./scifi.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#128640; 科幻</a>
+</div>
+</div>
+
+</body>
+</html>

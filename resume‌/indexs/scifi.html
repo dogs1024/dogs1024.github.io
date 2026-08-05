@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KasperLund - Python / Go 后端开发工程师</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+@font-face{font-family:'Mono';src:local('Consolas'),local('Menlo'),local('Monaco'),local('monospace');font-display:swap}
+:root{
+--bg-deep:#0a0a1a;--bg-mid:#0d1117;--cyan:#00f0ff;--blue:#0066ff;--purple:#9d00ff;
+--orange:#ff6600;--green:#00ff88;--text:#e0e6ed;--text2:#8899aa;
+--glow-cyan:0 0 15px rgba(0,240,255,.4);--glow-blue:0 0 15px rgba(0,102,255,.4);
+--glow-purple:0 0 15px rgba(157,0,255,.4);--glow-green:0 0 15px rgba(0,255,136,.4);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Mono',Consolas,Monaco,'Courier New',monospace;background:var(--bg-deep);color:var(--text);overflow-x:hidden;line-height:1.7}
+canvas#starfield{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.perspective-grid{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.07;
+background:linear-gradient(transparent 0%,transparent 49.5%,var(--cyan) 49.5%,var(--cyan) 50.5%,transparent 50.5%) 0 0/100% 80px,
+linear-gradient(90deg,transparent 0%,transparent 49.5%,var(--cyan) 49.5%,var(--cyan) 50.5%,transparent 50.5%) 0 0/80px 100%;
+perspective:600px;transform:rotateX(45deg);transform-origin:center 120%}
+/* BOOT SCREEN */
+#boot-screen{position:fixed;inset:0;z-index:9999;background:var(--bg-deep);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s}
+#boot-screen.hidden{opacity:0;pointer-events:none}
+.boot-text{color:var(--cyan);font-size:1.2rem;margin-bottom:1.5rem;letter-spacing:4px}
+.boot-bar-outer{width:300px;height:4px;background:rgba(0,240,255,.1);border:1px solid rgba(0,240,255,.3);border-radius:2px;overflow:hidden}
+.boot-bar-inner{width:0%;height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue));transition:width .1s;box-shadow:var(--glow-cyan)}
+.boot-status{color:var(--green);font-size:.9rem;margin-top:1rem;opacity:0;transition:opacity .3s;letter-spacing:2px}
+.boot-status.show{opacity:1}
+/* MAIN WRAPPER */
+#main-content{opacity:0;transition:opacity .6s;position:relative;z-index:1}
+#main-content.visible{opacity:1}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,26,.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,240,255,.15);overflow:hidden}
+nav::after{content:'';position:absolute;bottom:0;left:-100%;width:50%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);animation:navScan 4s linear infinite}
+@keyframes navScan{to{left:150%}}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.5rem}
+.nav-logo{color:var(--cyan);font-size:1rem;font-weight:700;letter-spacing:2px;text-shadow:var(--glow-cyan)}
+.nav-links{display:flex;gap:.3rem;flex-wrap:wrap}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.8rem;padding:.35rem .7rem;border:1px solid transparent;transition:all .3s;position:relative;letter-spacing:1px}
+.nav-links a::before{content:'[ '}
+.nav-links a::after{content:' ]'}
+.nav-links a:hover,.nav-links a.active{color:var(--cyan);border-color:rgba(0,240,255,.3);text-shadow:var(--glow-cyan)}
+.nav-links a.active::before{content:'';position:absolute;left:-6px;top:50%;width:5px;height:5px;border-radius:50%;background:var(--cyan);transform:translateY(-50%);box-shadow:var(--glow-cyan);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:translateY(-50%) scale(1)}50%{opacity:.4;transform:translateY(-50%) scale(.6)}}
+.nav-toggle{display:none;background:none;border:1px solid var(--cyan);color:var(--cyan);padding:.3rem .6rem;font-family:inherit;font-size:.8rem;cursor:pointer}
+/* SECTIONS */
+section{padding:5rem 1.5rem 3rem;max-width:1100px;margin:0 auto}
+section:first-of-type{padding-top:7rem}
+/* SECTION HEADERS */
+.section-title{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;position:relative}
+.section-title .hex{width:18px;height:18px;background:var(--cyan);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);animation:pulse 2s infinite;flex-shrink:0}
+.section-title h2{font-size:1.4rem;color:var(--cyan);letter-spacing:3px;white-space:nowrap;text-shadow:var(--glow-cyan)}
+.section-title .line{flex:1;height:1px;background:linear-gradient(90deg,var(--cyan),transparent);opacity:.4}
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;padding-top:4rem}
+.hero-container{text-align:center;position:relative}
+.hud-frame{position:relative;padding:3rem 3.5rem;display:inline-block}
+.hud-corner{position:absolute;width:30px;height:30px;border-color:var(--cyan);border-style:solid;border-width:0;opacity:.7}
+.hud-corner.tl{top:0;left:0;border-top-width:2px;border-left-width:2px}
+.hud-corner.tr{top:0;right:0;border-top-width:2px;border-right-width:2px}
+.hud-corner.bl{bottom:0;left:0;border-bottom-width:2px;border-left-width:2px}
+.hud-corner.br{bottom:0;right:0;border-bottom-width:2px;border-right-width:2px}
+.hero-rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.ring{position:absolute;border-radius:50%;border:1px solid;top:50%;left:50%;transform:translate(-50%,-50%)}
+.ring1{width:280px;height:280px;border-color:rgba(0,240,255,.15);animation:spin 20s linear infinite}
+.ring2{width:350px;height:350px;border-color:rgba(0,102,255,.12);animation:spin 30s linear infinite reverse;border-style:dashed}
+.ring3{width:420px;height:420px;border-color:rgba(157,0,255,.08);animation:spin 40s linear infinite}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.radar{position:absolute;width:200px;height:200px;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);overflow:hidden;opacity:.15}
+.radar::before{content:'';position:absolute;top:0;left:50%;width:50%;height:50%;background:linear-gradient(to left,transparent,var(--cyan));transform-origin:bottom left;animation:radarSweep 3s linear infinite;border-radius:0 100% 0 0}
+@keyframes radarSweep{to{transform:rotate(360deg)}}
+.hero-name{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:700;color:var(--text);letter-spacing:6px;position:relative;z-index:2}
+.hero-title{font-size:clamp(.9rem,2.5vw,1.15rem);color:var(--cyan);margin-top:.8rem;letter-spacing:3px;position:relative;z-index:2}
+.hero-contact{margin-top:1.5rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem 1.5rem;position:relative;z-index:2}
+.hero-contact span{color:var(--text2);font-size:.78rem;letter-spacing:1px}
+.hero-contact span::before{content:'> ';color:var(--cyan)}
+.data-stream{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;pointer-events:none;opacity:.06;z-index:0}
+.data-col{position:absolute;top:-100%;font-size:.65rem;color:var(--cyan);writing-mode:vertical-rl;animation:dataFall linear infinite;letter-spacing:2px}
+@keyframes dataFall{to{top:120%}}
+/* ABOUT */
+.about-box{border:1px solid rgba(0,240,255,.15);padding:2rem;position:relative;background:rgba(10,10,26,.5);line-height:2}
+.about-box .hud-corner{width:20px;height:20px}
+.about-box p{color:var(--text2);font-size:.9rem}
+/* CARD */
+.card{position:relative;background:rgba(13,17,23,.7);border:1px solid rgba(0,240,255,.1);padding:1.8rem;overflow:hidden;transition:all .4s}
+.card::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 29px,rgba(0,240,255,.03) 29px,rgba(0,240,255,.03) 30px),repeating-linear-gradient(90deg,transparent,transparent 29px,rgba(0,240,255,.03) 29px,rgba(0,240,255,.03) 30px);pointer-events:none}
+.card::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 40%,rgba(0,240,255,.03) 50%,transparent 60%);animation:shimmer 6s linear infinite;pointer-events:none}
+@keyframes shimmer{0%{transform:translateX(-30%) translateY(-30%)}100%{transform:translateX(30%) translateY(30%)}}
+.card .c-tl,.card .c-br{position:absolute;width:16px;height:16px;border-color:var(--cyan);border-style:solid;border-width:0;opacity:.5;transition:opacity .4s}
+.card .c-tl{top:0;left:0;border-top-width:1px;border-left-width:1px}
+.card .c-br{bottom:0;right:0;border-bottom-width:1px;border-right-width:1px}
+.card:hover{border-color:rgba(0,240,255,.35);transform:translateY(-2px);box-shadow:0 0 25px rgba(0,240,255,.08)}
+.card:hover .c-tl,.card:hover .c-br{opacity:1}
+.card h3{color:var(--cyan);font-size:1rem;margin-bottom:1rem;letter-spacing:2px}
+/* SKILLS GRID */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+.skills-grid .full-width{grid-column:1/-1}
+.gauge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:1.2rem;margin-top:.5rem}
+.gauge-item{text-align:center}
+.gauge-svg{width:90px;height:90px;margin:0 auto;display:block}
+.gauge-bg{fill:none;stroke:rgba(0,240,255,.1);stroke-width:4}
+.gauge-fg{fill:none;stroke:var(--cyan);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease;filter:drop-shadow(0 0 4px rgba(0,240,255,.5))}
+.gauge-text{fill:var(--text);font-family:inherit;font-size:.7rem;text-anchor:middle;dominant-baseline:central}
+.gauge-label{color:var(--text2);font-size:.65rem;margin-top:.4rem;line-height:1.3}
+.gauge-sub{color:var(--text2);font-size:.55rem;opacity:.6;display:block;margin-top:2px}
+/* TAGS */
+.tag-list{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.5rem}
+.tag{position:relative;padding:.35rem .8rem;font-size:.7rem;color:var(--cyan);background:rgba(0,240,255,.04);border:1px solid rgba(0,240,255,.2);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:all .3s;letter-spacing:.5px}
+.tag:hover{background:rgba(0,240,255,.1);border-color:rgba(0,240,255,.5)}
+.tag-desc{display:block;color:var(--text2);font-size:.6rem;opacity:.7;margin-top:2px}
+/* TIMELINE */
+.timeline{position:relative;padding-left:2.5rem}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--cyan),var(--blue),var(--purple));opacity:.3}
+.timeline-item{position:relative;margin-bottom:2rem}
+.timeline-node{position:absolute;left:-2.5rem;top:.3rem;width:18px;height:18px;border-radius:50%;border:2px solid var(--cyan);background:var(--bg-deep);box-shadow:var(--glow-cyan);display:flex;align-items:center;justify-content:center}
+.timeline-node::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
+.timeline-header{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1.5rem;margin-bottom:.8rem}
+.timeline-header h3{color:var(--text);font-size:1rem;letter-spacing:1px}
+.timeline-header .role{color:var(--cyan);font-size:.85rem}
+.timeline-header .date{color:var(--text2);font-size:.8rem}
+.timeline-bullets{list-style:none;padding:0}
+.timeline-bullets li{position:relative;padding-left:1.2rem;margin-bottom:.5rem;color:var(--text2);font-size:.82rem;line-height:1.8}
+.timeline-bullets li::before{content:'>';position:absolute;left:0;color:var(--cyan)}
+/* EDUCATION & HONORS */
+.edu-card{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 2rem}
+.edu-card .school{color:var(--text);font-size:1rem;letter-spacing:1px}
+.edu-card .major{color:var(--cyan);font-size:.85rem}
+.edu-card .dates{color:var(--text2);font-size:.8rem}
+.honors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.2rem}
+.honor-card{text-align:center;padding:2rem 1.5rem}
+.honor-card .icon{font-size:1.8rem;margin-bottom:.8rem;display:block;filter:drop-shadow(0 0 8px rgba(0,240,255,.3))}
+.honor-card h3{color:var(--text);font-size:.9rem;letter-spacing:1px}
+/* FOOTER */
+footer{border-top:1px solid rgba(0,240,255,.1);margin-top:3rem;padding:1.5rem;text-align:center;position:relative;z-index:1}
+.footer-status{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem 1.5rem;font-size:.7rem;color:var(--text2);letter-spacing:1px}
+.footer-status .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:5px;animation:blink 2s infinite;vertical-align:middle;box-shadow:var(--glow-green)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.footer-copy{font-size:.65rem;color:var(--text2);margin-top:.8rem;opacity:.5}
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(10,10,26,.95);padding:1rem;border-bottom:1px solid rgba(0,240,255,.15)}
+  .nav-links.open{display:flex}
+  .nav-toggle{display:block}
+  .hud-frame{padding:2rem 1.5rem}
+  .ring1{width:200px;height:200px}.ring2{width:260px;height:260px}.ring3{width:320px;height:320px}
+  .radar{width:140px;height:140px}
+  section{padding:4rem 1rem 2rem}
+  .skills-grid{grid-template-columns:1fr}
+  .gauge-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
+  .honors-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .hero-contact{flex-direction:column;align-items:center;gap:.3rem}
+  .gauge-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- BOOT SCREEN -->
+<div id="boot-screen">
+  <div class="boot-text">SYSTEM INITIALIZING...</div>
+  <div class="boot-bar-outer"><div class="boot-bar-inner" id="boot-bar"></div></div>
+  <div class="boot-status" id="boot-status">[ SYSTEM ONLINE ]</div>
+</div>
+
+<!-- STARFIELD CANVAS -->
+<canvas id="starfield"></canvas>
+<div class="perspective-grid"></div>
+
+<!-- MAIN CONTENT -->
+<div id="main-content">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">ZY://HUD</div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">[ MENU ]</button>
+    <div class="nav-links">
+      <a href="#hero">首页</a>
+      <a href="#about">简介</a>
+      <a href="#skills">技能</a>
+      <a href="#experience">经历</a>
+      <a href="#education">教育</a>
+      <a href="#honors">荣誉</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-container">
+    <div class="data-stream" id="dataStream"></div>
+    <div class="hero-rings">
+      <div class="radar"></div>
+      <div class="ring ring1"></div>
+      <div class="ring ring2"></div>
+      <div class="ring ring3"></div>
+    </div>
+    <div class="hud-frame">
+      <div class="hud-corner tl"></div>
+      <div class="hud-corner tr"></div>
+      <div class="hud-corner bl"></div>
+      <div class="hud-corner br"></div>
+      <div class="hero-name" id="heroName" data-text="KasperLund">KasperLund</div>
+      <div class="hero-title" id="heroTitle" data-text="Python / Go 后端开发工程师">Python / Go 后端开发工程师</div>
+      <div class="hero-contact">
+        <span>178********</span>
+        <span>********@qq.com</span>
+        <span>generalzy.blog.csdn.net</span>
+        <span>北京</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-title reveal">
+    <div class="hex"></div>
+    <h2>个人简介</h2>
+    <div class="line"></div>
+  </div>
+  <div class="about-box card reveal">
+    <div class="hud-corner tl"></div>
+    <div class="hud-corner br"></div>
+    <div class="c-tl"></div><div class="c-br"></div>
+    <p>2.5 年安全领域后端开发经验，专注漏洞治理、威胁狩猎、AI 安全工程化三大方向。独立设计并落地多个核心安全平台，包括高并发流式猎捕引擎、漏洞数据治理中台、AI 研判系统等。擅长 Go / Python 高性能后端开发，具备从架构设计到高可用上线的全链路交付能力，以及大规模安全日志实时处理与 LLM 工程化落地实战经验。</p>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-title reveal">
+    <div class="hex"></div>
+    <h2>技术能力</h2>
+    <div class="line"></div>
+  </div>
+  <div class="skills-grid">
+
+    <!-- 编程语言 -->
+    <div class="card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <h3>// 编程语言</h3>
+      <div class="gauge-grid">
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="90" transform="rotate(-90 50 50)"/>
+            <text class="gauge-text" x="50" y="50">90%</text>
+          </svg>
+          <div class="gauge-label">Go<span class="gauge-sub">主力语言 2.5年</span></div>
+        </div>
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="90" transform="rotate(-90 50 50)"/>
+            <text class="gauge-text" x="50" y="50">90%</text>
+          </svg>
+          <div class="gauge-label">Python<span class="gauge-sub">主力语言 2.5年</span></div>
+        </div>
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="60" transform="rotate(-90 50 50)" style="stroke:var(--blue)"/>
+            <text class="gauge-text" x="50" y="50">60%</text>
+          </svg>
+          <div class="gauge-label">Lua<span class="gauge-sub">打游戏写脚本</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 后端框架 -->
+    <div class="card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <h3>// 后端框架</h3>
+      <div class="gauge-grid">
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="85" transform="rotate(-90 50 50)"/>
+            <text class="gauge-text" x="50" y="50">85%</text>
+          </svg>
+          <div class="gauge-label">Gin<span class="gauge-sub">高性能API</span></div>
+        </div>
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="85" transform="rotate(-90 50 50)"/>
+            <text class="gauge-text" x="50" y="50">85%</text>
+          </svg>
+          <div class="gauge-label">FastAPI<span class="gauge-sub">异步API与AI服务</span></div>
+        </div>
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="80" transform="rotate(-90 50 50)" style="stroke:var(--blue)"/>
+            <text class="gauge-text" x="50" y="50">80%</text>
+          </svg>
+          <div class="gauge-label">Flask<span class="gauge-sub">摸鱼写小工具</span></div>
+        </div>
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="70" transform="rotate(-90 50 50)" style="stroke:var(--blue)"/>
+            <text class="gauge-text" x="50" y="50">70%</text>
+          </svg>
+          <div class="gauge-label">Django<span class="gauge-sub">只用过admin后台</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 数据存储 -->
+    <div class="card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <h3>// 数据存储</h3>
+      <div class="gauge-grid">
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="85" transform="rotate(-90 50 50)" style="stroke:var(--green)"/>
+            <text class="gauge-text" x="50" y="50">85%</text>
+          </svg>
+          <div class="gauge-label">MongoDB<span class="gauge-sub">Schema、聚合管线</span></div>
+        </div>
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="85" transform="rotate(-90 50 50)" style="stroke:var(--green)"/>
+            <text class="gauge-text" x="50" y="50">85%</text>
+          </svg>
+          <div class="gauge-label">Elasticsearch<span class="gauge-sub">索引优化、全文搜索</span></div>
+        </div>
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="75" transform="rotate(-90 50 50)" style="stroke:var(--green)"/>
+            <text class="gauge-text" x="50" y="50">75%</text>
+          </svg>
+          <div class="gauge-label">Redis<span class="gauge-sub">主要用来抢红包</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 性能工程 -->
+    <div class="card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <h3>// 性能工程</h3>
+      <div class="tag-list">
+        <div class="tag">Go高性能服务开发<span class="tag-desc">zero-alloc、连接池化、多副本协同</span></div>
+        <div class="tag">OOM排查与治理<span class="tag-desc">内存炸了就重启，重启解决99%的问题</span></div>
+        <div class="tag">ES查询优化<span class="tag-desc">3s → 2.9s，已经很努力了</span></div>
+        <div class="tag">K8s HPA自动扩缩容<span class="tag-desc">基于资源使用率弹性伸缩</span></div>
+      </div>
+    </div>
+
+    <!-- AI / LLM 工程化 -->
+    <div class="card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <h3>// AI / LLM 工程化</h3>
+      <div class="tag-list">
+        <div class="tag">LangChain / LangGraph<span class="tag-desc">Function Call工具链开发</span></div>
+        <div class="tag">MCP协议服务<span class="tag-desc">漏洞能力对外暴露</span></div>
+        <div class="tag">训练数据工程<span class="tag-desc">SFT/RLHF数据格式、自动化流水线</span></div>
+        <div class="tag">模型评估<span class="tag-desc">Benchmark设计 召回率99%+</span></div>
+      </div>
+    </div>
+
+    <!-- DevOps -->
+    <div class="card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <h3>// DevOps &amp; 基础设施</h3>
+      <div class="tag-list">
+        <div class="tag">Docker / containerd<span class="tag-desc">容器化与镜像管理</span></div>
+        <div class="tag">K8s<span class="tag-desc">Pod编排、HPA弹性伸缩</span></div>
+        <div class="tag">EFK日志系统<span class="tag-desc">搭建与运维</span></div>
+        <div class="tag">Playwright<span class="tag-desc">上班自动打卡签到</span></div>
+      </div>
+    </div>
+
+    <!-- 系统设计 (full width) -->
+    <div class="card reveal full-width">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <h3>// 系统设计</h3>
+      <div class="tag-list">
+        <div class="tag">多语言SDK设计<span class="tag-desc">Go/Python/Lua跨语言SDK架构</span></div>
+        <div class="tag">API网关与鉴权<span class="tag-desc">接口限流、认证授权</span></div>
+        <div class="tag">服务拆分与重构<span class="tag-desc">4服务 → 2服务，70%代码精简</span></div>
+        <div class="tag">OpenAPI服务化<span class="tag-desc">RESTful接口规范与对外输出</span></div>
+        <div class="tag">前后端分离改造<span class="tag-desc">前端不会写，索性甩给别人</span></div>
+      </div>
+    </div>
+
+    <!-- 生活技能 -->
+    <div class="card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <h3>// 生活技能</h3>
+      <div class="gauge-grid">
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="95" transform="rotate(-90 50 50)"/>
+            <text class="gauge-text" x="50" y="50">95%</text>
+          </svg>
+          <div class="gauge-label">干饭<span class="gauge-sub">一次三碗，速度全组第一</span></div>
+        </div>
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="99" transform="rotate(-90 50 50)"/>
+            <text class="gauge-text" x="50" y="50">99%</text>
+          </svg>
+          <div class="gauge-label">摸鱼<span class="gauge-sub">上班摸鱼从未被发现</span></div>
+        </div>
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="85" transform="rotate(-90 50 50)"/>
+            <text class="gauge-text" x="50" y="50">85%</text>
+          </svg>
+          <div class="gauge-label">甩锅<span class="gauge-sub">精通Bug归因与责任转移</span></div>
+        </div>
+        <div class="gauge-item">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+            <circle class="gauge-fg" cx="50" cy="50" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" data-target="35" transform="rotate(-90 50 50)" style="stroke:var(--blue)"/>
+            <text class="gauge-text" x="50" y="50">35%</text>
+          </svg>
+          <div class="gauge-label">划水开会<span class="gauge-sub">能在任何会议中保持清醒（大概）</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 跨维度技能 -->
+    <div class="card reveal full-width">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <h3>// 跨维度技能</h3>
+      <div class="tag-list">
+        <div class="tag">维度折叠编程<span class="tag-desc">将三维Bug压缩到二维解决，三体文明认证</span></div>
+        <div class="tag">魔杖调试术<span class="tag-desc">对代码施展Reparo修复咒，霍格沃兹O.W.L.认证</span></div>
+        <div class="tag">内力Debug<span class="tag-desc">运行真气排查内存泄漏，华山派正宗心法</span></div>
+        <div class="tag">纳美语通信协议<span class="tag-desc">支持脑辫子直连API，潘多拉星际认证</span></div>
+        <div class="tag">奏折式文档编写<span class="tag-desc">明朝国子监认证，深得朱元璋赏识</span></div>
+      </div>
+    </div>
+
+    <!-- 兴趣爱好 (full width) -->
+    <div class="card reveal full-width">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <h3>// 兴趣爱好</h3>
+      <div class="tag-list">
+        <div class="tag">健身<span class="tag-desc">每天5km跑，但我只跑了1.5km</span></div>
+        <div class="tag">旅游<span class="tag-desc">向往诗和远方，但缺了路费</span></div>
+        <div class="tag">摄影<span class="tag-desc">拍糊的比拍清楚的多了</span></div>
+        <div class="tag">骑摩托车/自行车<span class="tag-desc">风一样的男子，但不带风的</span></div>
+        <div class="tag">游泳<span class="tag-desc">狗刨第一，人类姿势第二</span></div>
+        <div class="tag">滑雪<span class="tag-desc">上去容易下去难，经常坐缆车下来</span></div>
+        <div class="tag">潜水<span class="tag-desc">在水里呼吸，但不敢深潜</span></div>
+        <div class="tag">羽毛球<span class="tag-desc">发球必下网，接球必出界</span></div>
+        <div class="tag">台球<span class="tag-desc">瞄准很准，白球总进袋</span></div>
+        <div class="tag">写博客<span class="tag-desc">间歇性热血，持续性拖延</span></div>
+        <div class="tag">写代码<span class="tag-desc">上班写代码，下班写代码，做梦也在写代码</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-title reveal">
+    <div class="hex"></div>
+    <h2>工作经历</h2>
+    <div class="line"></div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-node"></div>
+      <div class="card">
+        <div class="c-tl"></div><div class="c-br"></div>
+        <div class="timeline-header">
+          <h3>家里蹲（北京）</h3>
+          <span class="role">后端开发工程师</span>
+          <span class="date">2023.07 - 至今</span>
+        </div>
+        <ul class="timeline-bullets">
+          <li>担任安全产品后端开发骨干，独立负责漏洞治理、威胁狩猎、AI安全三大业务线的后端架构设计与核心模块开发</li>
+          <li>曾一天修复42个Bug，后来发现其中39个是自己写的</li>
+          <li>被同事评为"Ctrl+Z之王"，单日撤销操作次数突破200次，至今无人打破纪录</li>
+        </ul>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-node"></div>
+      <div class="card">
+        <div class="c-tl"></div><div class="c-br"></div>
+        <div class="timeline-header">
+          <h3>银河系联合政府 · 面壁计划</h3>
+          <span class="role">面壁者技术顾问</span>
+          <span class="date">危机纪年 205 - 208</span>
+        </div>
+        <ul class="timeline-bullets">
+          <li>协助面壁者罗辑实现黑暗森林威慑系统的后端架构，广播延迟控制在0.01光秒以内</li>
+          <li>为执剑人开发引力波广播系统，成功对接三体舰队通信协议</li>
+          <li>与荒天帝并肩作战，在仙域最终之战中负责战场实时通信与后勤保障系统</li>
+          <li>出差至圆蛤镇（Quahog）期间结识Peter Griffin，合作开发了啤酒库存管理系统</li>
+        </ul>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-node"></div>
+      <div class="card">
+        <div class="c-tl"></div><div class="c-br"></div>
+        <div class="timeline-header">
+          <h3>明朝 · 国子监</h3>
+          <span class="role">国子监祭酒（兼IT总监）</span>
+          <span class="date">洪武三年 - 洪武五年</span>
+        </div>
+        <ul class="timeline-bullets">
+          <li>为朱元璋搭建大明王朝第一套OA办公系统，实现奏折电子化审批</li>
+          <li>用Python重写科举考试阅卷流程，批卷效率提升300%，朱元璋龙颜大悦</li>
+          <li>兼任锦衣卫数据分析组组长，开发舆情监控平台（明朝版大数据）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-title reveal">
+    <div class="hex"></div>
+    <h2>教育背景</h2>
+    <div class="line"></div>
+  </div>
+  <div class="card reveal">
+    <div class="c-tl"></div><div class="c-br"></div>
+    <div class="edu-card">
+      <span class="school">北京大学(蓝翔校区)</span>
+      <span class="major">信息管理与信息系统（本科）</span>
+      <span class="dates">2019.09 - 2023.07</span>
+    </div>
+  </div>
+  <div class="card reveal" style="margin-top:12px">
+    <div class="c-tl"></div><div class="c-br"></div>
+    <div class="edu-card">
+      <span class="school">霍格沃兹魔法学校</span>
+      <span class="major">黑魔法防御术与计算机科学（双学位） | 与哈利·波特并肩击败伏地魔</span>
+      <span class="dates">2015.09 - 2019.07</span>
+    </div>
+  </div>
+  <div class="card reveal" style="margin-top:12px">
+    <div class="c-tl"></div><div class="c-br"></div>
+    <div class="edu-card">
+      <span class="school">三体星 · 智子研究院</span>
+      <span class="major">维度折叠与质子计算（硕士） | 参与向地球发射智子的技术攻关</span>
+      <span class="dates">宇宙纪元 201 - 204</span>
+    </div>
+  </div>
+  <div class="card reveal" style="margin-top:12px">
+    <div class="c-tl"></div><div class="c-br"></div>
+    <div class="edu-card">
+      <span class="school">半人马座α星 · 潘多拉理工大学</span>
+      <span class="major">纳美语与生物网络工程（交换生） | 骑翼兽通勤上课，与Jake Sully同班</span>
+      <span class="dates">2154.03 - 2154.09</span>
+    </div>
+  </div>
+  <div class="card reveal" style="margin-top:12px">
+    <div class="c-tl"></div><div class="c-br"></div>
+    <div class="edu-card">
+      <span class="school">中土世界 · 瑞文戴尔精灵学院</span>
+      <span class="major">精灵语编程与魔法数据结构（进修） | 师从甘道夫学习分布式魔法系统</span>
+      <span class="dates">第三纪元 3018 - 3019</span>
+    </div>
+  </div>
+</section>
+
+<!-- HONORS -->
+<section id="honors">
+  <div class="section-title reveal">
+    <div class="hex"></div>
+    <h2>荣誉资质</h2>
+    <div class="line"></div>
+  </div>
+  <div class="honors-grid">
+    <div class="card honor-card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <span class="icon" style="color:var(--orange)">&#9733;</span>
+      <h3>中级软件设计师（国家职业资格）</h3>
+    </div>
+    <div class="card honor-card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <span class="icon" style="color:var(--cyan)">&#9734;</span>
+      <h3>2023-2024 银河系马拉松冠军（亚光速完赛）</h3>
+    </div>
+    <div class="card honor-card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <span class="icon" style="color:var(--green)">&#9734;</span>
+      <h3>2024-2025 干饭大王（一次三碗不带喘气）</h3>
+    </div>
+    <div class="card honor-card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <span class="icon" style="color:var(--purple)">&#9733;</span>
+      <h3>面壁者认证（联合国面壁计划特别授予）</h3>
+    </div>
+    <div class="card honor-card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <span class="icon" style="color:var(--orange)">&#9734;</span>
+      <h3>荒天帝亲授"不灭码神"称号</h3>
+    </div>
+    <div class="card honor-card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <span class="icon" style="color:var(--cyan)">&#9733;</span>
+      <h3>华山论剑 · 键盘侠组别冠军</h3>
+    </div>
+    <div class="card honor-card reveal">
+      <div class="c-tl"></div><div class="c-br"></div>
+      <span class="icon" style="color:var(--green)">&#9733;</span>
+      <h3>取经团队优秀技术志愿者（唐僧亲笔推荐信）</h3>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-status">
+    <span><span class="dot"></span>SYSTEM STATUS: ONLINE</span>
+    <span>UPTIME: 2.5 YRS</span>
+    <span>BUILD: v2025.05</span>
+    <span>LOCATION: BEIJING</span>
+  </div>
+  <div class="footer-copy">&copy; 2025 KasperLund | ALL SYSTEMS NOMINAL</div>
+</footer>
+
+</div><!-- /main-content -->
+
+<script>
+(function(){
+/* === BOOT SEQUENCE === */
+const bootBar=document.getElementById('boot-bar');
+const bootStatus=document.getElementById('boot-status');
+const bootScreen=document.getElementById('boot-screen');
+const mainContent=document.getElementById('main-content');
+let progress=0;
+const bootInterval=setInterval(()=>{
+  progress+=Math.random()*12+3;
+  if(progress>=100){progress=100;clearInterval(bootInterval);
+    bootBar.style.width='100%';
+    bootStatus.classList.add('show');
+    setTimeout(()=>{bootScreen.classList.add('hidden');mainContent.classList.add('visible');initAll()},600);
+  } else{bootBar.style.width=progress+'%'}
+},80);
+
+function initAll(){initStarfield();initDataStream();initDecode();initScrollReveal();initGauges();initNav()}
+
+/* === STARFIELD === */
+function initStarfield(){
+  const c=document.getElementById('starfield');
+  const ctx=c.getContext('2d');
+  let W,H;
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  const layers=[
+    {count:120,speed:.15,size:.8,color:'rgba(224,230,237,'},
+    {count:80,speed:.35,size:1.2,color:'rgba(0,240,255,'},
+    {count:40,speed:.6,size:1.6,color:'rgba(0,102,255,'}
+  ];
+  const stars=[];
+  layers.forEach(l=>{for(let i=0;i<l.count;i++){
+    stars.push({x:Math.random()*2000,y:Math.random()*2000,s:l.speed,sz:l.size+Math.random()*.5,c:l.color,tw:Math.random()*Math.PI*2,ts:Math.random()*.02+.01})
+  }});
+  let shootingStars=[];
+  function spawnShoot(){
+    if(Math.random()<.005&&shootingStars.length<2){
+      shootingStars.push({x:Math.random()*W,y:Math.random()*H*.3,vx:3+Math.random()*4,vy:1+Math.random()*2,life:1})
+    }
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      s.y+=s.s;s.tw+=s.ts;
+      if(s.y>H+10)s.y=-10;
+      const a=.3+Math.sin(s.tw)*.3;
+      ctx.fillStyle=s.c+a+')';
+      ctx.beginPath();ctx.arc(s.x%W,s.y,s.sz,0,Math.PI*2);ctx.fill()
+    });
+    spawnShoot();
+    shootingStars=shootingStars.filter(s=>{
+      s.x+=s.vx;s.y+=s.vy;s.life-=.015;
+      if(s.life<=0)return false;
+      ctx.save();ctx.globalAlpha=s.life;
+      ctx.strokeStyle='rgba(0,240,255,.7)';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x-s.vx*8,s.y-s.vy*8);ctx.stroke();
+      ctx.restore();return true
+    });
+    requestAnimationFrame(draw)
+  }
+  draw()
+}
+
+/* === DATA STREAM === */
+function initDataStream(){
+  const container=document.getElementById('dataStream');
+  const chars='01アイウエオカキクケコ>>=::{}[]0xFF';
+  for(let i=0;i<8;i++){
+    const col=document.createElement('div');col.className='data-col';
+    col.style.left=(10+i*12)+'%';
+    col.style.animationDuration=(8+Math.random()*12)+'s';
+    col.style.animationDelay=(-Math.random()*10)+'s';
+    let t='';for(let j=0;j<60;j++)t+=chars[Math.floor(Math.random()*chars.length)];
+    col.textContent=t;container.appendChild(col)
+  }
+}
+
+/* === TEXT DECODE EFFECT === */
+function initDecode(){
+  const els=[document.getElementById('heroName'),document.getElementById('heroTitle')];
+  const glitchChars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
+  els.forEach((el,idx)=>{
+    const target=el.getAttribute('data-text');
+    let frame=0;const totalFrames=20;
+    setTimeout(()=>{
+      const iv=setInterval(()=>{
+        frame++;let s='';
+        for(let i=0;i<target.length;i++){
+          if(i<(frame/totalFrames)*target.length)s+=target[i];
+          else s+=glitchChars[Math.floor(Math.random()*glitchChars.length)]
+        }
+        el.textContent=s;
+        if(frame>=totalFrames){clearInterval(iv);el.textContent=target}
+      },50)
+    },idx*400+200)
+  })
+}
+
+/* === SCROLL REVEAL & SECTION GLITCH === */
+function initScrollReveal(){
+  const reveals=document.querySelectorAll('.reveal');
+  const headers=document.querySelectorAll('.section-title h2');
+  const glitchChars='!@#$%^&*SYSTEM_ERR';
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        const h2=e.target.querySelector('h2');
+        if(h2&&!h2.dataset.glitched){
+          h2.dataset.glitched='1';
+          const orig=h2.textContent;let f=0;const tf=12;
+          const iv=setInterval(()=>{
+            f++;let s='';
+            for(let i=0;i<orig.length;i++){
+              if(i<(f/tf)*orig.length)s+=orig[i];
+              else s+=glitchChars[Math.floor(Math.random()*glitchChars.length)]
+            }
+            h2.textContent=s;
+            if(f>=tf){clearInterval(iv);h2.textContent=orig}
+          },40)
+        }
+      }
+    })
+  },{threshold:.15});
+  reveals.forEach(r=>observer.observe(r))
+}
+
+/* === GAUGE ANIMATION === */
+function initGauges(){
+  const circles=document.querySelectorAll('.gauge-fg');
+  const circumference=251.3;
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting&&!e.target.dataset.animated){
+        e.target.dataset.animated='1';
+        const pct=parseInt(e.target.getAttribute('data-target'));
+        const offset=circumference-(circumference*pct/100);
+        e.target.style.strokeDashoffset=offset;
+      }
+    })
+  },{threshold:.3});
+  circles.forEach(c=>observer.observe(c))
+}
+
+/* === NAV ACTIVE STATE === */
+function initNav(){
+  const sections=document.querySelectorAll('section[id]');
+  const links=document.querySelectorAll('.nav-links a');
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('active'));
+        const active=document.querySelector('.nav-links a[href="#'+e.target.id+'"]');
+        if(active)active.classList.add('active')
+      }
+    })
+  },{threshold:.3,rootMargin:'-80px 0px -50% 0px'});
+  sections.forEach(s=>observer.observe(s));
+  // close mobile nav on click
+  links.forEach(l=>l.addEventListener('click',()=>{
+    document.querySelector('.nav-links').classList.remove('open')
+  }))
+}
+
+})();
+</script>
+
+<!-- Theme Nav -->
+<div id="themeNav" style="position:fixed;bottom:24px;right:24px;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',sans-serif">
+<button onclick="document.getElementById('themePanel').style.display=document.getElementById('themePanel').style.display==='flex'?'none':'flex'" style="width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,255,255,.2);background:rgba(30,30,30,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font-size:20px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:all .3s;display:flex;align-items:center;justify-content:center" onmouseenter="this.style.transform='scale(1.1)';this.style.borderColor='rgba(255,255,255,.5)'" onmouseleave="this.style.transform='scale(1)';this.style.borderColor='rgba(255,255,255,.2)'">&#9776;</button>
+<div id="themePanel" style="display:none;position:absolute;bottom:60px;right:0;flex-direction:column;gap:6px;background:rgba(20,20,20,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 14px;min-width:120px;box-shadow:0 8px 32px rgba(0,0,0,.5)">
+<a href="../index.html" style="color:#00ff41;text-decoration:none;font-size:.85rem;padding:8px 12px;border-radius:6px;transition:background .2s;font-weight:600;white-space:nowrap" onmouseenter="this.style.background='rgba(0,255,65,.1)'" onmouseleave="this.style.background='transparent'">&#8592; 返回首页</a>
+<div style="height:1px;background:rgba(255,255,255,.08);margin:4px 0"></div>
+<a href="../pages/gallery.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap;font-weight:600" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#128247; Gallery</a>
+<div style="height:1px;background:rgba(255,255,255,.08);margin:4px 0"></div>
+<a href="./light.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#9728;&#65039; 明亮</a>
+<a href="./gradient.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#127752; 渐变</a>
+<a href="./pixel.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#127918; 像素</a>
+<a href="./scifi.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#128640; 科幻</a>
+</div>
+</div>
+
+</body>
+</html>

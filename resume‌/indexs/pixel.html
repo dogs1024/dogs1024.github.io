@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KasperLund - Python / Go 后端开发工程师</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f0f23;--bg2:#1a1a2e;--panel:#1d2b53;
+  --green:#00ff41;--blue:#0077ff;--red:#ff004d;
+  --yellow:#ffec27;--cyan:#29adff;--white:#fff1e8;
+  --px:4px;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--white);
+  font-family:"Courier New","Consolas","Liberation Mono",monospace;
+  font-size:14px;line-height:1.6;
+  -webkit-font-smoothing:none;-moz-osx-font-smoothing:unset;
+  font-smooth:never;
+  overflow-x:hidden;
+  image-rendering:pixelated;
+}
+
+/* === CRT WRAPPER === */
+.crt-wrapper{
+  position:relative;min-height:100vh;
+  padding:12px;
+}
+.crt-wrapper::before{
+  content:"";position:fixed;top:0;left:0;width:100%;height:100%;
+  background:repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.15) 0px,
+    rgba(0,0,0,0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events:none;z-index:9998;
+}
+.crt-wrapper::after{
+  content:"";position:fixed;top:0;left:0;width:100%;height:100%;
+  background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.45) 100%);
+  pointer-events:none;z-index:9997;
+}
+
+/* === SCREEN FLICKER ON LOAD === */
+@keyframes crt-flicker{
+  0%{opacity:0.3}
+  5%{opacity:0.85}
+  10%{opacity:0.4}
+  15%{opacity:1}
+  20%{opacity:0.7}
+  30%{opacity:1}
+  100%{opacity:1}
+}
+.crt-screen{
+  max-width:960px;margin:0 auto;position:relative;
+  animation:crt-flicker 1.2s steps(6) forwards;
+  border:var(--px) solid var(--cyan);
+  box-shadow:
+    0 0 0 var(--px) var(--panel),
+    0 0 20px rgba(41,173,255,0.15),
+    inset 0 0 60px rgba(0,0,0,0.3);
+  padding:20px;
+  background:var(--bg);
+}
+
+/* === PIXEL BORDER MIXIN (via box-shadow) === */
+.pixel-border{
+  border:3px solid var(--cyan);
+  box-shadow:
+    -3px 0 0 0 var(--cyan),
+    3px 0 0 0 var(--cyan),
+    0 -3px 0 0 var(--cyan),
+    0 3px 0 0 var(--cyan),
+    -3px -3px 0 0 var(--bg),
+    3px -3px 0 0 var(--bg),
+    -3px 3px 0 0 var(--bg),
+    3px 3px 0 0 var(--bg),
+    -6px 0 0 0 var(--cyan),
+    6px 0 0 0 var(--cyan),
+    0 -6px 0 0 var(--cyan),
+    0 6px 0 0 var(--cyan);
+}
+
+/* === SECTION TITLE === */
+.section-title{
+  text-align:center;font-size:20px;font-weight:bold;
+  color:var(--yellow);letter-spacing:6px;
+  margin:40px 0 24px;padding:8px 0;
+  text-transform:uppercase;
+  position:relative;
+}
+.section-title::before,.section-title::after{
+  content:"════════";color:var(--cyan);
+  display:inline-block;vertical-align:middle;margin:0 10px;
+  font-size:14px;
+}
+
+/* === HERO === */
+.hero{
+  text-align:center;padding:30px 15px;
+  border:3px solid var(--green);
+  background:var(--panel);
+  margin-bottom:10px;
+  position:relative;
+  box-shadow:
+    -4px 0 0 0 var(--green),
+    4px 0 0 0 var(--green),
+    0 -4px 0 0 var(--green),
+    0 4px 0 0 var(--green);
+}
+.hero-name{
+  font-size:clamp(32px,8vw,56px);
+  font-weight:bold;color:var(--green);
+  letter-spacing:12px;
+  text-shadow:3px 3px 0 var(--panel),4px 4px 0 rgba(0,255,65,0.3);
+  margin-bottom:8px;
+}
+.hero-title{
+  font-size:clamp(14px,3vw,18px);
+  color:var(--cyan);letter-spacing:4px;
+  display:inline-block;
+}
+.hero-title .cursor{
+  display:inline-block;width:12px;height:18px;
+  background:var(--cyan);vertical-align:text-bottom;
+  margin-left:4px;
+  animation:blink-cursor 0.8s steps(1) infinite;
+}
+@keyframes blink-cursor{0%,100%{opacity:1}50%{opacity:0}}
+
+.hero-hud{
+  margin-top:18px;display:flex;flex-wrap:wrap;
+  justify-content:center;gap:8px 20px;
+  font-size:12px;color:var(--white);
+}
+.hero-hud span::before{
+  content:"[";color:var(--yellow);
+}
+.hero-hud span::after{
+  content:"]";color:var(--yellow);
+}
+.hero-hud a{color:var(--white);text-decoration:none}
+.hero-hud a:hover{color:var(--yellow)}
+
+.hero-stars{
+  margin-top:12px;font-size:10px;color:var(--yellow);
+  letter-spacing:4px;
+  animation:twinkle 2s steps(2) infinite;
+}
+@keyframes twinkle{0%,100%{opacity:1}50%{opacity:0.5}}
+
+/* === NAV / GAME MENU === */
+.game-nav{
+  background:var(--panel);border:2px solid var(--blue);
+  padding:12px;margin:20px 0;
+}
+.nav-header{
+  text-align:center;color:var(--yellow);
+  font-size:12px;letter-spacing:4px;
+  margin-bottom:8px;
+  animation:blink-cursor 1.5s steps(1) infinite;
+}
+.nav-list{
+  list-style:none;display:flex;flex-wrap:wrap;
+  justify-content:center;gap:4px 6px;
+}
+.nav-list li a{
+  display:block;color:var(--white);text-decoration:none;
+  padding:4px 12px;font-size:13px;
+  transition:none;position:relative;
+}
+.nav-list li a::before{
+  content:"  ";white-space:pre;
+}
+.nav-list li a:hover,
+.nav-list li a.active{
+  color:var(--yellow);background:rgba(255,236,39,0.08);
+}
+.nav-list li a:hover::before,
+.nav-list li a.active::before{
+  content:"\25BA ";color:var(--yellow);
+  animation:arrow-blink 0.6s steps(1) infinite;
+}
+@keyframes arrow-blink{0%,100%{opacity:1}50%{opacity:0}}
+.nav-list li a:hover{
+  animation:menu-flash 0.15s steps(1);
+}
+@keyframes menu-flash{
+  0%{background:var(--yellow);color:var(--panel)}
+  100%{background:transparent}
+}
+
+/* === ABOUT / TYPEWRITER === */
+.about-box{
+  background:var(--panel);border:2px solid var(--green);
+  padding:16px;margin:0 0 10px;
+  position:relative;
+}
+.about-label{
+  color:var(--green);font-size:11px;
+  letter-spacing:2px;margin-bottom:8px;
+}
+.about-text{
+  color:var(--white);font-size:13px;line-height:1.8;
+}
+.about-text.typewriter{
+  overflow:hidden;
+  border-right:3px solid var(--green);
+  white-space:normal;
+  animation:typewriter-blink 0.8s steps(1) infinite;
+}
+@keyframes typewriter-blink{0%,100%{border-color:var(--green)}50%{border-color:transparent}}
+
+/* === SKILL BARS (RPG HP/MP) === */
+.skills-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;
+}
+.skill-card{
+  background:var(--panel);border:2px solid var(--blue);
+  padding:14px;
+  opacity:0;transform:scale(0.7);
+  transition:none;
+}
+.skill-card.visible{
+  animation:pop-in 0.4s steps(5) forwards;
+}
+@keyframes pop-in{
+  0%{opacity:0;transform:scale(0.5)}
+  40%{opacity:1;transform:scale(1.05)}
+  70%{transform:scale(0.97)}
+  100%{opacity:1;transform:scale(1)}
+}
+.skill-card.full-width{
+  grid-column:1/-1;
+}
+.skill-card-title{
+  color:var(--yellow);font-size:14px;font-weight:bold;
+  letter-spacing:2px;margin-bottom:10px;
+  padding-bottom:6px;border-bottom:1px dashed var(--blue);
+}
+.skill-card-title::before{
+  content:"\25C6 ";color:var(--cyan);
+}
+
+/* Bar-style skill */
+.skill-bar-item{margin-bottom:10px}
+.skill-bar-header{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:3px;
+  font-size:12px;
+}
+.skill-bar-name{color:var(--white)}
+.skill-bar-name small{color:var(--cyan);font-size:10px;margin-left:6px}
+.skill-bar-level{
+  color:var(--yellow);font-weight:bold;font-size:13px;
+}
+.skill-bar-track{
+  height:14px;background:#0a0a1a;
+  border:2px solid var(--white);
+  position:relative;overflow:hidden;
+}
+.skill-bar-fill{
+  height:100%;width:0;
+  transition:none;
+  position:relative;
+}
+.skill-bar-fill.animate{
+  animation:bar-fill 1.2s steps(10) forwards;
+}
+@keyframes bar-fill{0%{width:0}100%{width:var(--target-width)}}
+.skill-bar-fill.high{background:var(--green)}
+.skill-bar-fill.mid{background:var(--yellow)}
+.skill-bar-fill.low{background:var(--red)}
+.skill-bar-desc{font-size:10px;color:var(--cyan);margin-top:2px}
+
+/* Tag-style skills */
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+.skill-tag{
+  border:2px solid var(--cyan);padding:4px 10px;
+  font-size:11px;color:var(--white);
+  background:rgba(41,173,255,0.06);
+  position:relative;
+  transition:none;
+}
+.skill-tag::before{
+  content:"\25C7 ";color:var(--yellow);font-size:10px;
+}
+.skill-tag:hover{
+  background:rgba(255,236,39,0.12);
+  border-color:var(--yellow);
+  animation:tag-flash 0.15s steps(1);
+}
+@keyframes tag-flash{
+  0%{background:var(--yellow);color:var(--panel)}
+  100%{background:transparent}
+}
+.skill-tag-detail{
+  display:block;font-size:9px;color:var(--cyan);
+  margin-top:1px;
+}
+
+/* === EXPERIENCE / QUEST LOG === */
+.quest-log{
+  background:var(--panel);border:2px solid var(--yellow);
+  padding:16px;position:relative;
+}
+.quest-header{
+  display:flex;flex-wrap:wrap;justify-content:space-between;
+  align-items:center;margin-bottom:12px;
+  padding-bottom:8px;border-bottom:2px dashed var(--yellow);
+}
+.quest-company{
+  color:var(--yellow);font-size:16px;font-weight:bold;
+  letter-spacing:2px;
+}
+.quest-role{color:var(--cyan);font-size:13px}
+.quest-time{color:var(--green);font-size:12px;letter-spacing:1px}
+.quest-list{list-style:none;padding:0}
+.quest-list li{
+  padding:6px 0 6px 24px;font-size:13px;
+  color:var(--white);position:relative;
+  border-left:2px solid var(--blue);
+  margin-left:8px;
+}
+.quest-list li::before{
+  content:"\2605";position:absolute;left:-9px;top:6px;
+  color:var(--yellow);font-size:14px;
+}
+.quest-list li:last-child{border-left-color:transparent}
+
+/* === EDUCATION / TRAINING GROUND === */
+.training-card{
+  background:var(--panel);border:2px solid var(--green);
+  padding:16px;display:flex;flex-wrap:wrap;
+  align-items:center;gap:10px 24px;
+}
+.training-icon{
+  font-size:28px;color:var(--green);
+  width:48px;height:48px;display:flex;
+  align-items:center;justify-content:center;
+  border:2px solid var(--green);
+}
+.training-info{flex:1;min-width:200px}
+.training-school{
+  color:var(--green);font-size:16px;font-weight:bold;
+  letter-spacing:2px;
+}
+.training-major{color:var(--cyan);font-size:13px;margin-top:2px}
+.training-time{color:var(--yellow);font-size:12px;margin-top:2px}
+
+/* === HONORS / TROPHIES === */
+.trophy-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+}
+.trophy-card{
+  background:var(--panel);border:2px solid var(--yellow);
+  padding:16px;text-align:center;
+  opacity:0;transform:scale(0.7);
+}
+.trophy-card.visible{
+  animation:pop-in 0.4s steps(5) forwards;
+}
+.trophy-icon{
+  font-size:24px;color:var(--yellow);
+  margin-bottom:6px;
+  animation:trophy-bounce 2s steps(4) infinite;
+}
+@keyframes trophy-bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+}
+.trophy-name{
+  color:var(--white);font-size:13px;font-weight:bold;
+  letter-spacing:1px;
+}
+.trophy-card:hover{
+  border-color:var(--green);
+  box-shadow:0 0 12px rgba(0,255,65,0.2);
+}
+
+/* === FOOTER === */
+.game-footer{
+  text-align:center;padding:30px 10px 20px;
+  border-top:2px dashed var(--blue);
+  margin-top:40px;
+}
+.game-clear{
+  font-size:20px;font-weight:bold;
+  color:var(--green);letter-spacing:6px;
+  animation:blink-cursor 1.2s steps(1) infinite;
+}
+.press-start{
+  margin-top:8px;font-size:11px;
+  color:var(--cyan);letter-spacing:3px;
+  animation:blink-cursor 2s steps(1) infinite;
+}
+.footer-copy{
+  margin-top:16px;font-size:10px;
+  color:rgba(255,241,232,0.4);
+}
+
+/* === PIXEL DECORATIONS === */
+.pixel-divider{
+  text-align:center;color:var(--blue);
+  font-size:10px;letter-spacing:8px;
+  margin:16px 0;
+  opacity:0.5;
+}
+
+/* === RESPONSIVE === */
+@media(max-width:640px){
+  .crt-screen{padding:10px}
+  .hero{padding:20px 10px}
+  .hero-name{letter-spacing:6px}
+  .section-title::before,.section-title::after{content:"════";font-size:12px;margin:0 6px}
+  .section-title{font-size:16px;letter-spacing:4px}
+  .skills-grid{grid-template-columns:1fr}
+  .trophy-grid{grid-template-columns:1fr}
+  .nav-list{gap:2px 4px}
+  .nav-list li a{padding:4px 8px;font-size:12px}
+  .quest-header{flex-direction:column;align-items:flex-start;gap:4px}
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--blue);border:2px solid var(--bg)}
+</style>
+</head>
+<body>
+<div class="crt-wrapper">
+<div class="crt-screen">
+
+<!-- ========== HERO ========== -->
+<section class="hero" id="home">
+  <div class="hero-stars">+ * . * + . * + * . + * . *</div>
+  <div class="hero-name">KasperLund</div>
+  <div class="hero-title">
+    Python / Go 后端开发工程师<span class="cursor"></span>
+  </div>
+  <div class="hero-hud">
+    <span>TEL: 178********</span>
+    <span>MAIL: ********@qq.com</span>
+    <span>BLOG: <a href="https://generalzy.blog.csdn.net" target="_blank">generalzy.blog.csdn.net</a></span>
+    <span>LOC: 北京</span>
+  </div>
+  <div class="hero-stars">* . + * . * + . + * . * + .</div>
+</section>
+
+<!-- ========== NAV ========== -->
+<nav class="game-nav">
+  <div class="nav-header">- SELECT YOUR DESTINATION -</div>
+  <ul class="nav-list">
+    <li><a href="#home" class="active">首页</a></li>
+    <li><a href="#about">简介</a></li>
+    <li><a href="#skills">技能</a></li>
+    <li><a href="#experience">经历</a></li>
+    <li><a href="#education">教育</a></li>
+    <li><a href="#honors">荣誉</a></li>
+  </ul>
+</nav>
+
+<!-- ========== ABOUT ========== -->
+<section id="about">
+  <div class="section-title">CHARACTER PROFILE</div>
+  <div class="about-box">
+    <div class="about-label">&gt; LOADING PROFILE DATA...</div>
+    <div class="about-text typewriter" id="aboutText">
+      2.5 年安全领域后端开发经验，专注漏洞治理、威胁狩猎、AI 安全工程化三大方向。独立设计并落地多个核心安全平台，包括高并发流式猎捕引擎、漏洞数据治理中台、AI 研判系统等。擅长 Go / Python 高性能后端开发，具备从架构设计到高可用上线的全链路交付能力，以及大规模安全日志实时处理与 LLM 工程化落地实战经验。
+    </div>
+  </div>
+</section>
+
+<div class="pixel-divider">. . . . . . . . . . . . . .</div>
+
+<!-- ========== SKILLS ========== -->
+<section id="skills">
+  <div class="section-title">== SKILLS ==</div>
+
+  <div class="skills-grid">
+
+    <!-- 编程语言 -->
+    <div class="skill-card" data-animate>
+      <div class="skill-card-title">编程语言</div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">Go <small>主力语言，2.5年生产环境经验</small></span>
+          <span class="skill-bar-level">LV.90</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill high" style="--target-width:90%"></div></div>
+      </div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">Python <small>主力语言，2.5年生产环境经验</small></span>
+          <span class="skill-bar-level">LV.90</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill high" style="--target-width:90%"></div></div>
+      </div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">Lua <small>打游戏写脚本的启蒙语言</small></span>
+          <span class="skill-bar-level">LV.60</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill mid" style="--target-width:60%"></div></div>
+      </div>
+    </div>
+
+    <!-- 后端框架 -->
+    <div class="skill-card" data-animate>
+      <div class="skill-card-title">后端框架</div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">Gin (Go) <small>高性能API服务开发</small></span>
+          <span class="skill-bar-level">LV.85</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill high" style="--target-width:85%"></div></div>
+      </div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">FastAPI <small>异步API与AI服务</small></span>
+          <span class="skill-bar-level">LV.85</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill high" style="--target-width:85%"></div></div>
+      </div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">Flask <small>上班摸鱼写小工具专用</small></span>
+          <span class="skill-bar-level">LV.80</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill mid" style="--target-width:80%"></div></div>
+      </div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">Django <small>只用过admin后台</small></span>
+          <span class="skill-bar-level">LV.70</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill mid" style="--target-width:70%"></div></div>
+      </div>
+    </div>
+
+    <!-- 数据存储 -->
+    <div class="skill-card" data-animate>
+      <div class="skill-card-title">数据存储</div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">MongoDB <small>Schema设计、强校验、聚合管线</small></span>
+          <span class="skill-bar-level">LV.85</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill high" style="--target-width:85%"></div></div>
+      </div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">Elasticsearch <small>索引优化、聚合查询、全文搜索</small></span>
+          <span class="skill-bar-level">LV.85</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill high" style="--target-width:85%"></div></div>
+      </div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">Redis <small>主要用来抢红包</small></span>
+          <span class="skill-bar-level">LV.75</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill mid" style="--target-width:75%"></div></div>
+      </div>
+    </div>
+
+    <!-- 性能工程 -->
+    <div class="skill-card" data-animate>
+      <div class="skill-card-title">性能工程</div>
+      <div class="skill-tags">
+        <div class="skill-tag">Go高性能服务开发<span class="skill-tag-detail">zero-alloc、连接池化、多副本协同</span></div>
+        <div class="skill-tag">OOM排查与治理<span class="skill-tag-detail">内存炸了就重启，重启解决99%的问题</span></div>
+        <div class="skill-tag">ES查询优化<span class="skill-tag-detail">查询从3s优化到2.9s，已经很努力了</span></div>
+        <div class="skill-tag">K8s HPA自动扩缩容<span class="skill-tag-detail">基于资源使用率弹性伸缩</span></div>
+      </div>
+    </div>
+
+    <!-- AI / LLM 工程化 -->
+    <div class="skill-card" data-animate>
+      <div class="skill-card-title">AI / LLM 工程化</div>
+      <div class="skill-tags">
+        <div class="skill-tag">LangChain / LangGraph<span class="skill-tag-detail">Function Call工具链开发</span></div>
+        <div class="skill-tag">MCP协议服务<span class="skill-tag-detail">漏洞能力对外暴露</span></div>
+        <div class="skill-tag">训练数据工程<span class="skill-tag-detail">SFT/RLHF数据格式设计、自动化生产流水线</span></div>
+        <div class="skill-tag">模型评估<span class="skill-tag-detail">Benchmark设计与召回率验证(99%+)</span></div>
+      </div>
+    </div>
+
+    <!-- DevOps & 基础设施 -->
+    <div class="skill-card" data-animate>
+      <div class="skill-card-title">DevOps &amp; 基础设施</div>
+      <div class="skill-tags">
+        <div class="skill-tag">Docker / containerd<span class="skill-tag-detail">容器化与镜像管理</span></div>
+        <div class="skill-tag">K8s<span class="skill-tag-detail">Pod编排、HPA弹性伸缩</span></div>
+        <div class="skill-tag">EFK日志系统<span class="skill-tag-detail">搭建与运维</span></div>
+        <div class="skill-tag">Playwright<span class="skill-tag-detail">上班自动打卡签到</span></div>
+      </div>
+    </div>
+
+    <!-- 系统设计 (full width) -->
+    <div class="skill-card full-width" data-animate>
+      <div class="skill-card-title">系统设计</div>
+      <div class="skill-tags">
+        <div class="skill-tag">多语言SDK设计<span class="skill-tag-detail">Go/Python/Lua跨语言SDK架构</span></div>
+        <div class="skill-tag">API网关与鉴权<span class="skill-tag-detail">接口限流、认证授权</span></div>
+        <div class="skill-tag">服务拆分与重构<span class="skill-tag-detail">4服务 -> 2服务，70%代码精简</span></div>
+        <div class="skill-tag">OpenAPI服务化<span class="skill-tag-detail">RESTful接口规范与对外输出</span></div>
+        <div class="skill-tag">前后端分离改造<span class="skill-tag-detail">前端不会写，索性甩给别人</span></div>
+      </div>
+    </div>
+
+    <!-- 生活技能 -->
+    <div class="skill-card" data-animate>
+      <div class="skill-card-title">生活技能</div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">干饭 <small>一次三碗，速度全组第一</small></span>
+          <span class="skill-bar-level">LV.95</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill high" style="--target-width:95%"></div></div>
+      </div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">摸鱼 <small>上班摸鱼从未被发现</small></span>
+          <span class="skill-bar-level">LV.99</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill high" style="--target-width:99%"></div></div>
+      </div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">甩锅 <small>精通Bug归因与责任转移</small></span>
+          <span class="skill-bar-level">LV.85</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill high" style="--target-width:85%"></div></div>
+      </div>
+      <div class="skill-bar-item">
+        <div class="skill-bar-header">
+          <span class="skill-bar-name">划水开会 <small>能在任何会议中保持清醒（大概）</small></span>
+          <span class="skill-bar-level">LV.35</span>
+        </div>
+        <div class="skill-bar-track"><div class="skill-bar-fill low" style="--target-width:35%"></div></div>
+      </div>
+    </div>
+
+    <!-- 跨维度技能 (full width) -->
+    <div class="skill-card full-width" data-animate>
+      <div class="skill-card-title">跨维度技能</div>
+      <div class="skill-tags">
+        <div class="skill-tag">维度折叠编程<span class="skill-tag-detail">将三维Bug压缩到二维解决，三体文明认证</span></div>
+        <div class="skill-tag">魔杖调试术<span class="skill-tag-detail">对代码施展Reparo修复咒，霍格沃兹O.W.L.认证</span></div>
+        <div class="skill-tag">内力Debug<span class="skill-tag-detail">运行真气排查内存泄漏，华山派正宗心法</span></div>
+        <div class="skill-tag">纳美语通信协议<span class="skill-tag-detail">支持脑辫子直连API，潘多拉星际认证</span></div>
+        <div class="skill-tag">奏折式文档编写<span class="skill-tag-detail">明朝国子监认证，深得朱元璋赏识</span></div>
+      </div>
+    </div>
+
+    <!-- 兴趣爱好 (full width) -->
+    <div class="skill-card full-width" data-animate>
+      <div class="skill-card-title">== HOBBIES ==</div>
+      <div class="skill-tags">
+        <div class="skill-tag">健身<span class="skill-tag-detail">每天5km跑，但我只跑了1.5km</span></div>
+        <div class="skill-tag">旅游<span class="skill-tag-detail">向往诗和远方，但缺了路费</span></div>
+        <div class="skill-tag">摄影<span class="skill-tag-detail">拍糊的比拍清楚的多了</span></div>
+        <div class="skill-tag">骑摩托车/自行车<span class="skill-tag-detail">风一样的男子，但不带风的</span></div>
+        <div class="skill-tag">游泳<span class="skill-tag-detail">狗刨第一，人类姿势第二</span></div>
+        <div class="skill-tag">滑雪<span class="skill-tag-detail">上去容易下去难，经常坐缆车下来</span></div>
+        <div class="skill-tag">潜水<span class="skill-tag-detail">在水里呼吸，但不敢深潜</span></div>
+        <div class="skill-tag">羽毛球<span class="skill-tag-detail">发球必下网，接球必出界</span></div>
+        <div class="skill-tag">台球<span class="skill-tag-detail">瞄准很准，白球总进袋</span></div>
+        <div class="skill-tag">写博客<span class="skill-tag-detail">间歇性热血，持续性拖延</span></div>
+        <div class="skill-tag">写代码<span class="skill-tag-detail">上班写代码，下班写代码，做梦也在写代码</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="pixel-divider">. . . . . . . . . . . . . .</div>
+
+<!-- ========== EXPERIENCE ========== -->
+<section id="experience">
+  <div class="section-title">== QUEST LOG ==</div>
+  <div class="quest-log">
+    <div class="quest-header">
+      <div>
+        <div class="quest-company">家里蹲（北京）</div>
+        <div class="quest-role">后端开发工程师</div>
+      </div>
+      <div class="quest-time">2023.07 - 至今</div>
+    </div>
+    <ul class="quest-list">
+      <li>担任安全产品后端开发骨干，独立负责漏洞治理、威胁狩猎、AI安全三大业务线的后端架构设计与核心模块开发</li>
+      <li>曾一天修复42个Bug，后来发现其中39个是自己写的</li>
+      <li>被同事评为"Ctrl+Z之王"，单日撤销操作次数突破200次，至今无人打破纪录</li>
+    </ul>
+  </div>
+  <div class="quest-log" style="margin-top:12px">
+    <div class="quest-header">
+      <div>
+        <div class="quest-company">银河系联合政府 · 面壁计划</div>
+        <div class="quest-role">面壁者技术顾问</div>
+      </div>
+      <div class="quest-time">危机纪年 205 - 208</div>
+    </div>
+    <ul class="quest-list">
+      <li>协助面壁者罗辑实现黑暗森林威慑系统的后端架构，广播延迟控制在0.01光秒以内</li>
+      <li>为执剑人开发引力波广播系统，成功对接三体舰队通信协议</li>
+      <li>与荒天帝并肩作战，在仙域最终之战中负责战场实时通信与后勤保障系统</li>
+      <li>出差至圆蛤镇（Quahog）期间结识Peter Griffin，合作开发了啤酒库存管理系统</li>
+    </ul>
+  </div>
+  <div class="quest-log" style="margin-top:12px">
+    <div class="quest-header">
+      <div>
+        <div class="quest-company">明朝 · 国子监</div>
+        <div class="quest-role">国子监祭酒（兼IT总监）</div>
+      </div>
+      <div class="quest-time">洪武三年 - 洪武五年</div>
+    </div>
+    <ul class="quest-list">
+      <li>为朱元璋搭建大明王朝第一套OA办公系统，实现奏折电子化审批</li>
+      <li>用Python重写科举考试阅卷流程，批卷效率提升300%，朱元璋龙颜大悦</li>
+      <li>兼任锦衣卫数据分析组组长，开发舆情监控平台（明朝版大数据）</li>
+    </ul>
+  </div>
+</section>
+
+<div class="pixel-divider">. . . . . . . . . . . . . .</div>
+
+<!-- ========== EDUCATION ========== -->
+<section id="education">
+  <div class="section-title">== TRAINING GROUND ==</div>
+  <div class="training-card">
+    <div class="training-icon">&Xi;</div>
+    <div class="training-info">
+      <div class="training-school">北京大学(蓝翔校区)</div>
+      <div class="training-major">信息管理与信息系统（本科）</div>
+      <div class="training-time">2019.09 - 2023.07</div>
+    </div>
+  </div>
+  <div class="training-card" style="margin-top:12px">
+    <div class="training-icon">&Xi;</div>
+    <div class="training-info">
+      <div class="training-school">霍格沃兹魔法学校</div>
+      <div class="training-major">黑魔法防御术与计算机科学（双学位） | 与哈利·波特并肩击败伏地魔</div>
+      <div class="training-time">2015.09 - 2019.07</div>
+    </div>
+  </div>
+  <div class="training-card" style="margin-top:12px">
+    <div class="training-icon">&Xi;</div>
+    <div class="training-info">
+      <div class="training-school">三体星 · 智子研究院</div>
+      <div class="training-major">维度折叠与质子计算（硕士） | 参与向地球发射智子的技术攻关</div>
+      <div class="training-time">宇宙纪元 201 - 204</div>
+    </div>
+  </div>
+  <div class="training-card" style="margin-top:12px">
+    <div class="training-icon">&Xi;</div>
+    <div class="training-info">
+      <div class="training-school">半人马座α星 · 潘多拉理工大学</div>
+      <div class="training-major">纳美语与生物网络工程（交换生） | 骑翼兽通勤上课，与Jake Sully同班</div>
+      <div class="training-time">2154.03 - 2154.09</div>
+    </div>
+  </div>
+  <div class="training-card" style="margin-top:12px">
+    <div class="training-icon">&Xi;</div>
+    <div class="training-info">
+      <div class="training-school">中土世界 · 瑞文戴尔精灵学院</div>
+      <div class="training-major">精灵语编程与魔法数据结构（进修） | 师从甘道夫学习分布式魔法系统</div>
+      <div class="training-time">第三纪元 3018 - 3019</div>
+    </div>
+  </div>
+</section>
+
+<div class="pixel-divider">. . . . . . . . . . . . . .</div>
+
+<!-- ========== HONORS ========== -->
+<section id="honors">
+  <div class="section-title">== TROPHIES ==</div>
+  <div class="trophy-grid">
+    <div class="trophy-card" data-animate>
+      <div class="trophy-icon">&starf;</div>
+      <div class="trophy-name">中级软件设计师<br><small style="color:var(--cyan);font-weight:normal;font-size:11px">国家职业资格</small></div>
+    </div>
+    <div class="trophy-card" data-animate>
+      <div class="trophy-icon">&starf;</div>
+      <div class="trophy-name">2023-2024<br>银河系马拉松冠军（亚光速完赛）</div>
+    </div>
+    <div class="trophy-card" data-animate>
+      <div class="trophy-icon">&starf;</div>
+      <div class="trophy-name">2024-2025<br>干饭大王（一次三碗不带喘气）</div>
+    </div>
+    <div class="trophy-card" data-animate>
+      <div class="trophy-icon">&starf;</div>
+      <div class="trophy-name">面壁者认证<br><small style="color:var(--cyan);font-weight:normal;font-size:11px">联合国面壁计划特别授予</small></div>
+    </div>
+    <div class="trophy-card" data-animate>
+      <div class="trophy-icon">&starf;</div>
+      <div class="trophy-name">荒天帝亲授<br>"不灭码神"称号</div>
+    </div>
+    <div class="trophy-card" data-animate>
+      <div class="trophy-icon">&starf;</div>
+      <div class="trophy-name">华山论剑<br>键盘侠组别冠军</div>
+    </div>
+    <div class="trophy-card" data-animate>
+      <div class="trophy-icon">&starf;</div>
+      <div class="trophy-name">取经团队优秀技术志愿者<br><small style="color:var(--cyan);font-weight:normal;font-size:11px">唐僧亲笔推荐信</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="game-footer">
+  <div class="game-clear">GAME CLEAR!</div>
+  <div class="press-start">PRESS START TO CONTINUE</div>
+  <div class="footer-copy">&copy; 2025 KasperLund</div>
+</footer>
+
+</div><!-- .crt-screen -->
+</div><!-- .crt-wrapper -->
+
+<script>
+(function(){
+  // === Intersection Observer for card pop-in ===
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        // Animate skill bars inside
+        var bars = entry.target.querySelectorAll('.skill-bar-fill');
+        bars.forEach(function(bar,i){
+          setTimeout(function(){
+            bar.classList.add('animate');
+          }, i * 200);
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.15});
+
+  document.querySelectorAll('[data-animate]').forEach(function(el){
+    observer.observe(el);
+  });
+
+  // === Active nav tracking ===
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('.nav-list a');
+  window.addEventListener('scroll',function(){
+    var scrollY = window.scrollY + 120;
+    sections.forEach(function(sec){
+      var top = sec.offsetTop;
+      var height = sec.offsetHeight;
+      var id = sec.getAttribute('id');
+      if(scrollY >= top && scrollY < top + height){
+        navLinks.forEach(function(a){
+          a.classList.remove('active');
+          if(a.getAttribute('href') === '#'+id) a.classList.add('active');
+        });
+      }
+    });
+  });
+
+  // === Smooth scroll for nav ===
+  navLinks.forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+})();
+</script>
+
+<!-- Theme Nav -->
+<div id="themeNav" style="position:fixed;bottom:24px;right:24px;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',sans-serif">
+<button onclick="document.getElementById('themePanel').style.display=document.getElementById('themePanel').style.display==='flex'?'none':'flex'" style="width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,255,255,.2);background:rgba(30,30,30,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font-size:20px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:all .3s;display:flex;align-items:center;justify-content:center" onmouseenter="this.style.transform='scale(1.1)';this.style.borderColor='rgba(255,255,255,.5)'" onmouseleave="this.style.transform='scale(1)';this.style.borderColor='rgba(255,255,255,.2)'">&#9776;</button>
+<div id="themePanel" style="display:none;position:absolute;bottom:60px;right:0;flex-direction:column;gap:6px;background:rgba(20,20,20,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 14px;min-width:120px;box-shadow:0 8px 32px rgba(0,0,0,.5)">
+<a href="../index.html" style="color:#00ff41;text-decoration:none;font-size:.85rem;padding:8px 12px;border-radius:6px;transition:background .2s;font-weight:600;white-space:nowrap" onmouseenter="this.style.background='rgba(0,255,65,.1)'" onmouseleave="this.style.background='transparent'">&#8592; 返回首页</a>
+<div style="height:1px;background:rgba(255,255,255,.08);margin:4px 0"></div>
+<a href="../pages/gallery.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap;font-weight:600" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#128247; Gallery</a>
+<div style="height:1px;background:rgba(255,255,255,.08);margin:4px 0"></div>
+<a href="./light.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#9728;&#65039; 明亮</a>
+<a href="./gradient.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#127752; 渐变</a>
+<a href="./pixel.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#127918; 像素</a>
+<a href="./scifi.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#128640; 科幻</a>
+</div>
+</div>
+
+</body>
+</html>

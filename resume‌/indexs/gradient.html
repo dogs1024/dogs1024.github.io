@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KasperLund - Python / Go 后端开发工程师</title>
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --blue: #5B6FF1;
+  --purple: #8B5CF6;
+  --pink: #EC4899;
+  --teal: #14b8a6;
+  --yellow: #FFD958;
+  --bg: #ffffff;
+  --text: #1a1a2e;
+  --text2: #4a4a6a;
+  --glass: rgba(255,255,255,0.55);
+  --glass-border: rgba(255,255,255,0.25);
+  --nav-h: 64px;
+  --radius: 16px;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ==================== FLOATING ORBS ==================== */
+.orb-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+  will-change: transform;
+}
+.orb-1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, var(--blue), transparent 70%);
+  top: -10%; left: -10%;
+  animation: orbDrift1 25s ease-in-out infinite;
+}
+.orb-2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--purple), transparent 70%);
+  top: 30%; right: -15%;
+  animation: orbDrift2 30s ease-in-out infinite;
+}
+.orb-3 {
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, var(--pink), transparent 70%);
+  bottom: 10%; left: 10%;
+  animation: orbDrift3 22s ease-in-out infinite;
+}
+.orb-4 {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, var(--teal), transparent 70%);
+  top: 60%; left: 50%;
+  animation: orbDrift4 28s ease-in-out infinite;
+}
+.orb-5 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, var(--yellow), transparent 70%);
+  top: 10%; right: 20%;
+  opacity: 0.10;
+  animation: orbDrift5 35s ease-in-out infinite;
+}
+
+@keyframes orbDrift1 {
+  0%,100% { transform: translate(0,0); }
+  25% { transform: translate(80px, 120px); }
+  50% { transform: translate(40px, 60px); }
+  75% { transform: translate(-60px, 80px); }
+}
+@keyframes orbDrift2 {
+  0%,100% { transform: translate(0,0); }
+  33% { transform: translate(-100px, 80px); }
+  66% { transform: translate(-50px, -60px); }
+}
+@keyframes orbDrift3 {
+  0%,100% { transform: translate(0,0); }
+  25% { transform: translate(60px, -80px); }
+  50% { transform: translate(120px, -40px); }
+  75% { transform: translate(30px, -100px); }
+}
+@keyframes orbDrift4 {
+  0%,100% { transform: translate(0,0); }
+  50% { transform: translate(-80px, -100px); }
+}
+@keyframes orbDrift5 {
+  0%,100% { transform: translate(0,0); }
+  33% { transform: translate(70px, 50px); }
+  66% { transform: translate(-40px, 80px); }
+}
+
+/* ==================== GLASSMORPHISM NAV ==================== */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s, background 0.3s;
+}
+.nav.scrolled {
+  background: rgba(255,255,255,0.72);
+  box-shadow: 0 4px 30px rgba(91,111,241,0.10);
+}
+.nav-inner {
+  width: 100%; max-width: 1140px;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  font-size: 1.25rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--blue), var(--purple), var(--pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-links {
+  display: flex; gap: 6px; list-style: none;
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--text2);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 10px;
+  transition: all 0.25s;
+}
+.nav-links a:hover {
+  color: var(--blue);
+  background: rgba(91,111,241,0.08);
+}
+
+/* Hamburger */
+.nav-toggle {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  width: 28px; height: 22px;
+  position: relative;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.nav-toggle span {
+  display: block; width: 100%; height: 2.5px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.nav-toggle.active span:nth-child(1) { transform: translateY(9.5px) rotate(45deg); }
+.nav-toggle.active span:nth-child(2) { opacity: 0; }
+.nav-toggle.active span:nth-child(3) { transform: translateY(-9.5px) rotate(-45deg); }
+
+/* ==================== HERO ==================== */
+.hero {
+  margin-top: var(--nav-h);
+  padding: 100px 24px 80px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+  min-height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Animated aurora mesh background */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #5B6FF1 0%, #8B5CF6 35%, #EC4899 70%, #14b8a6 100%);
+  background-size: 400% 400%;
+  animation: auroraBG 12s ease-in-out infinite;
+}
+@keyframes auroraBG {
+  0%   { background-position: 0% 50%; }
+  25%  { background-position: 100% 25%; }
+  50%  { background-position: 100% 75%; }
+  75%  { background-position: 0% 100%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Aurora radial overlays */
+.hero-aurora {
+  position: absolute; inset: 0;
+  overflow: hidden;
+}
+.hero-aurora::before, .hero-aurora::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  mix-blend-mode: soft-light;
+}
+.hero-aurora::before {
+  width: 120%; height: 120%;
+  top: -30%; left: -20%;
+  background: radial-gradient(ellipse at 30% 50%, rgba(20,184,166,0.5) 0%, transparent 60%);
+  animation: auroraFloat1 8s ease-in-out infinite;
+}
+.hero-aurora::after {
+  width: 100%; height: 100%;
+  bottom: -20%; right: -10%;
+  background: radial-gradient(ellipse at 70% 60%, rgba(255,217,88,0.25) 0%, transparent 55%);
+  animation: auroraFloat2 10s ease-in-out infinite;
+}
+@keyframes auroraFloat1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(5%,3%) scale(1.05); }
+}
+@keyframes auroraFloat2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(-4%,-5%) scale(1.08); }
+}
+
+/* Light streak / comet */
+.hero-streak {
+  position: absolute;
+  top: 30%;
+  left: -20%;
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9) 40%, rgba(255,217,88,0.8) 60%, transparent);
+  opacity: 0;
+  animation: cometStreak 3s cubic-bezier(0.22,1,0.36,1) 0.5s forwards;
+  filter: blur(0.5px);
+  pointer-events: none;
+}
+.hero-streak::after {
+  content: '';
+  position: absolute;
+  top: -3px; right: 0;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 0 12px 4px rgba(255,255,255,0.5);
+}
+@keyframes cometStreak {
+  0%   { left: -20%; opacity: 0; }
+  10%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { left: 120%; opacity: 0; }
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 750px; margin: 0 auto;
+}
+.hero-name {
+  font-size: 3.6rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  margin-bottom: 14px;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.hero-title {
+  font-size: 1.3rem;
+  font-weight: 500;
+  opacity: 0.95;
+  margin-bottom: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  backdrop-filter: blur(4px);
+  background: rgba(255,255,255,0.1);
+  padding: 8px 24px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.hero-title .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--yellow);
+  display: inline-block;
+  box-shadow: 0 0 8px var(--yellow);
+}
+.hero-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 28px;
+  font-size: 0.95rem;
+  opacity: 0.92;
+}
+.hero-contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.hero-contact-item svg {
+  width: 16px; height: 16px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* ==================== WAVE SVG DIVIDER ==================== */
+.wave-divider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  margin-top: -2px;
+}
+.wave-divider svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.wave-divider.flip {
+  transform: scaleY(-1);
+  margin-top: 0;
+  margin-bottom: -2px;
+}
+
+/* Animate wave paths */
+.wave-path-1 { animation: waveShift1 6s ease-in-out infinite; }
+.wave-path-2 { animation: waveShift2 8s ease-in-out infinite; }
+@keyframes waveShift1 {
+  0%,100% { transform: translateX(0); }
+  50% { transform: translateX(-20px); }
+}
+@keyframes waveShift2 {
+  0%,100% { transform: translateX(0); }
+  50% { transform: translateX(15px); }
+}
+
+/* ==================== MAIN ==================== */
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.section { padding: 64px 0 24px; }
+
+.section-header {
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.section-header.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section-header h2 {
+  font-size: 1.7rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--blue), var(--purple), var(--pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+}
+.section-header::after {
+  content: '';
+  flex: 1; height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink), transparent);
+  opacity: 0.25;
+}
+
+/* ==================== GLASSMORPHISM CARDS ==================== */
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(91,111,241,0.07), 0 2px 8px rgba(0,0,0,0.04);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease;
+}
+.card:hover {
+  box-shadow: 0 16px 48px rgba(91,111,241,0.14), 0 4px 16px rgba(0,0,0,0.06);
+}
+
+/* ==================== SCROLL ANIMATIONS ==================== */
+.animate-up {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.animate-up.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.animate-up:nth-child(1) { transition-delay: 0ms; }
+.animate-up:nth-child(2) { transition-delay: 100ms; }
+.animate-up:nth-child(3) { transition-delay: 200ms; }
+.animate-up:nth-child(4) { transition-delay: 300ms; }
+.animate-up:nth-child(5) { transition-delay: 400ms; }
+.animate-up:nth-child(6) { transition-delay: 500ms; }
+.animate-up:nth-child(7) { transition-delay: 600ms; }
+
+/* ==================== ABOUT ==================== */
+.about-card {
+  padding: 36px 40px;
+  font-size: 1.04rem;
+  color: var(--text2);
+  line-height: 2;
+  border-left: 4px solid transparent;
+  border-image: linear-gradient(180deg, var(--blue), var(--purple), var(--pink)) 1;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.about-card .highlight {
+  color: var(--blue);
+  font-weight: 600;
+}
+.about-card .yellow-mark {
+  background: linear-gradient(180deg, transparent 55%, rgba(255,217,88,0.40) 55%);
+  padding: 0 3px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ==================== SKILLS GRID ==================== */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 24px;
+}
+.skill-card {
+  padding: 0; overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 800px;
+  position: relative;
+}
+.skill-card .card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 10;
+  background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(255,255,255,0.25) 0%, transparent 60%);
+}
+.skill-card:hover .card-glow { opacity: 1; }
+.skill-card-header {
+  height: 4px;
+  background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink));
+}
+.skill-card-body {
+  padding: 26px 28px 30px;
+}
+.skill-card-title {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.skill-card-title .icon {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #fff;
+  flex-shrink: 0;
+}
+.skill-card.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Skill items with bars */
+.skill-item { margin-bottom: 18px; }
+.skill-item:last-child { margin-bottom: 0; }
+.skill-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+.skill-name { font-weight: 600; font-size: 0.93rem; color: var(--text); }
+.skill-pct { font-size: 0.78rem; color: var(--text2); font-weight: 600; }
+.skill-desc { font-size: 0.82rem; color: var(--text2); margin-bottom: 7px; }
+
+/* Liquid wave skill bar */
+.skill-bar-track {
+  height: 10px;
+  background: rgba(91,111,241,0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+.skill-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+  width: 0;
+  transition: width 1.4s cubic-bezier(0.22,1,0.36,1);
+  position: relative;
+  overflow: hidden;
+}
+/* Wave surface on top of fill */
+.skill-bar-fill::before {
+  content: '';
+  position: absolute;
+  top: -4px; left: -10%;
+  width: 120%; height: 12px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 8px,
+    rgba(255,255,255,0.3) 8px,
+    rgba(255,255,255,0.3) 12px
+  );
+  border-radius: 50% 50% 0 0;
+  animation: barWave 2s linear infinite;
+}
+/* Shimmer */
+.skill-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+@keyframes barWave {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(12px); }
+}
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Skill tags (pill-shaped) */
+.skill-tags {
+  display: flex; flex-wrap: wrap; gap: 9px;
+}
+.skill-tag {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.83rem;
+  font-weight: 500;
+  background: rgba(91,111,241,0.06);
+  color: var(--blue);
+  border: 1px solid rgba(91,111,241,0.12);
+  transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+  cursor: default;
+}
+.skill-tag:hover {
+  background: linear-gradient(135deg, var(--blue), var(--purple), var(--pink));
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(91,111,241,0.25);
+}
+.skill-tag-sub {
+  font-size: 0.76rem;
+  color: var(--text2);
+  margin-top: 2px;
+  display: block;
+}
+
+/* ==================== EXPERIENCE ==================== */
+.exp-card {
+  padding: 36px 40px;
+  border-left: 4px solid transparent;
+  border-image: linear-gradient(180deg, var(--blue), var(--purple), var(--pink)) 1;
+}
+.exp-header {
+  display: flex; flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 16px;
+  margin-bottom: 8px;
+}
+.exp-company { font-size: 1.18rem; font-weight: 700; color: var(--text); }
+.exp-role { font-size: 0.95rem; color: var(--purple); font-weight: 600; }
+.exp-date { font-size: 0.88rem; color: var(--text2); margin-left: auto; white-space: nowrap; }
+.exp-list { list-style: none; margin-top: 16px; }
+.exp-list li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 12px;
+  color: var(--text2);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+.exp-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 11px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), var(--pink));
+}
+
+/* ==================== EDUCATION ==================== */
+.edu-card {
+  padding: 30px 40px;
+  display: flex; flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 22px;
+}
+.edu-school { font-size: 1.12rem; font-weight: 700; color: var(--text); }
+.edu-major { font-size: 0.95rem; color: var(--purple); font-weight: 600; }
+.edu-date { font-size: 0.88rem; color: var(--text2); margin-left: auto; }
+
+/* ==================== HONORS ==================== */
+.honors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 20px;
+}
+.honor-card {
+  padding: 28px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.honor-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--yellow), var(--purple), var(--pink));
+}
+.honor-card .honor-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255,217,88,0.2), rgba(139,92,246,0.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  font-size: 22px;
+}
+.honor-card h3 { font-size: 0.97rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.honor-card p { font-size: 0.84rem; color: var(--text2); }
+
+/* ==================== FOOTER ==================== */
+.footer {
+  margin-top: 60px;
+  padding: 36px 24px;
+  text-align: center;
+  border-top: 1px solid rgba(91,111,241,0.08);
+  color: var(--text2);
+  font-size: 0.85rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==================== BACK TO TOP ==================== */
+.back-to-top {
+  display: none;
+  position: fixed;
+  bottom: 32px; right: 32px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), var(--purple), var(--pink));
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 24px rgba(91,111,241,0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+  z-index: 999;
+}
+.back-to-top.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.back-to-top:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 32px rgba(91,111,241,0.4);
+}
+.back-to-top svg { width: 22px; height: 22px; fill: currentColor; }
+
+/* ==================== AURORA-TINTED SECTIONS ==================== */
+.section-tinted {
+  position: relative;
+}
+.section-tinted::before {
+  content: '';
+  position: absolute;
+  inset: -60px -200px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(91,111,241,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .nav-links {
+    position: fixed;
+    top: var(--nav-h); left: 0; right: 0;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    flex-direction: column;
+    padding: 16px 24px;
+    gap: 4px;
+    border-bottom: 1px solid rgba(91,111,241,0.08);
+    transform: translateY(-120%);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+    pointer-events: none;
+  }
+  .nav-links.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+  .nav-toggle { display: flex; }
+  .hero { padding: 60px 20px 50px; min-height: 360px; }
+  .hero-name { font-size: 2.4rem; }
+  .hero-title { font-size: 1.05rem; padding: 6px 18px; }
+  .hero-contact {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+  }
+  .skills-grid { grid-template-columns: 1fr; }
+  .skill-card.full-width { grid-column: auto; }
+  .section-header h2 { font-size: 1.35rem; }
+  .about-card, .exp-card { padding: 24px 22px; }
+  .edu-card {
+    padding: 22px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .edu-date { margin-left: 0; }
+  .exp-date { margin-left: 0; width: 100%; }
+  .honors-grid { grid-template-columns: 1fr; }
+  .skill-card-body { padding: 22px 22px 26px; }
+  .container { padding: 0 18px; }
+  .orb { opacity: 0.10; }
+}
+
+@media (max-width: 480px) {
+  .hero-name { font-size: 2rem; }
+  .section { padding: 48px 0 16px; }
+  .container { padding: 0 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating translucent orbs -->
+<div class="orb-container">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="orb orb-5"></div>
+</div>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">KasperLund</div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">首页</a></li>
+      <li><a href="#about">简介</a></li>
+      <li><a href="#skills">技能</a></li>
+      <li><a href="#experience">经历</a></li>
+      <li><a href="#education">教育</a></li>
+      <li><a href="#honors">荣誉</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-aurora"></div>
+  <div class="hero-streak"></div>
+  <div class="hero-content">
+    <h1 class="hero-name">KasperLund</h1>
+    <p class="hero-title">
+      <span class="dot"></span>
+      Python / Go 后端开发工程师
+      <span class="dot"></span>
+    </p>
+    <div class="hero-contact">
+      <span class="hero-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"/></svg>
+        178********
+      </span>
+      <span class="hero-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        ********@qq.com
+      </span>
+      <span class="hero-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1a2 2 0 002 2v1.93zm6.9-2.54A1.99 1.99 0 0016 16h-1v-3a1 1 0 00-1-1H8v-2h2a1 1 0 001-1V7h2a2 2 0 002-2v-.41A7.998 7.998 0 0120 12c0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        generalzy.blog.csdn.net
+      </span>
+      <span class="hero-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>
+        北京
+      </span>
+    </div>
+  </div>
+</header>
+
+<!-- Wave divider after hero -->
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="wg1" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#5B6FF1"/>
+        <stop offset="50%" style="stop-color:#8B5CF6"/>
+        <stop offset="100%" style="stop-color:#EC4899"/>
+      </linearGradient>
+    </defs>
+    <path class="wave-path-1" d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 L0,0 Z" fill="url(#wg1)" opacity="0.6"/>
+    <path class="wave-path-2" d="M0,40 C360,100 720,-20 1080,50 C1260,80 1380,30 1440,40 L1440,0 L0,0 Z" fill="url(#wg1)" opacity="0.3"/>
+  </svg>
+</div>
+
+<main class="container">
+
+  <!-- About -->
+  <section class="section section-tinted" id="about">
+    <div class="section-header">
+      <h2>个人简介</h2>
+    </div>
+    <div class="card about-card animate-up">
+      <span class="yellow-mark">2.5 年安全领域后端开发经验</span>，专注<span class="highlight">漏洞治理</span>、<span class="highlight">威胁狩猎</span>、<span class="highlight">AI 安全工程化</span>三大方向。独立设计并落地多个核心安全平台，包括高并发流式猎捕引擎、漏洞数据治理中台、AI 研判系统等。擅长 Go / Python 高性能后端开发，具备从架构设计到高可用上线的<span class="yellow-mark">全链路交付能力</span>，以及大规模安全日志实时处理与 LLM 工程化落地实战经验。    </div>
+  </section>
+
+  <!-- Wave between sections -->
+  <div class="wave-divider flip">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wg2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#5B6FF1;stop-opacity:0.06"/>
+          <stop offset="100%" style="stop-color:#EC4899;stop-opacity:0.06"/>
+        </linearGradient>
+      </defs>
+      <path class="wave-path-1" d="M0,40 C320,80 640,0 960,40 C1120,60 1320,20 1440,40 L1440,80 L0,80 Z" fill="url(#wg2)"/>
+    </svg>
+  </div>
+
+  <!-- Skills -->
+  <section class="section" id="skills">
+    <div class="section-header">
+      <h2>技术能力</h2>
+    </div>
+    <div class="skills-grid">
+
+      <!-- 编程语言 -->
+      <div class="card skill-card animate-up" data-tilt>
+        <div class="card-glow"></div>
+        <div class="skill-card-header"></div>
+        <div class="skill-card-body">
+          <div class="skill-card-title">
+            <span class="icon">&lt;/&gt;</span>
+            编程语言
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">Go</span>
+              <span class="skill-pct">90%</span>
+            </div>
+            <div class="skill-desc">主力语言，2.5年生产环境经验</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">Python</span>
+              <span class="skill-pct">90%</span>
+            </div>
+            <div class="skill-desc">主力语言，2.5年生产环境经验</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">Lua</span>
+              <span class="skill-pct">60%</span>
+            </div>
+            <div class="skill-desc">打游戏写脚本的启蒙语言</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="60"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 后端框架 -->
+      <div class="card skill-card animate-up" data-tilt>
+        <div class="card-glow"></div>
+        <div class="skill-card-header"></div>
+        <div class="skill-card-body">
+          <div class="skill-card-title">
+            <span class="icon">&#9881;</span>
+            后端框架
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">Gin (Go)</span>
+              <span class="skill-pct">85%</span>
+            </div>
+            <div class="skill-desc">高性能API服务开发</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">FastAPI</span>
+              <span class="skill-pct">85%</span>
+            </div>
+            <div class="skill-desc">异步API与AI服务</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">Flask</span>
+              <span class="skill-pct">80%</span>
+            </div>
+            <div class="skill-desc">上班摸鱼写小工具专用</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">Django</span>
+              <span class="skill-pct">70%</span>
+            </div>
+            <div class="skill-desc">只用过admin后台</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="70"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 数据存储 -->
+      <div class="card skill-card animate-up" data-tilt>
+        <div class="card-glow"></div>
+        <div class="skill-card-header"></div>
+        <div class="skill-card-body">
+          <div class="skill-card-title">
+            <span class="icon">&#128451;</span>
+            数据存储
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">MongoDB</span>
+              <span class="skill-pct">85%</span>
+            </div>
+            <div class="skill-desc">Schema设计、强校验、聚合管线</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">Elasticsearch</span>
+              <span class="skill-pct">85%</span>
+            </div>
+            <div class="skill-desc">索引优化、聚合查询、全文搜索</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">Redis</span>
+              <span class="skill-pct">75%</span>
+            </div>
+            <div class="skill-desc">主要用来抢红包</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="75"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 性能工程 -->
+      <div class="card skill-card animate-up" data-tilt>
+        <div class="card-glow"></div>
+        <div class="skill-card-header"></div>
+        <div class="skill-card-body">
+          <div class="skill-card-title">
+            <span class="icon">&#9889;</span>
+            性能工程
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Go高性能服务开发<span class="skill-tag-sub">zero-alloc、连接池化、多副本协同</span></span>
+            <span class="skill-tag">OOM排查与治理<span class="skill-tag-sub">内存炸了就重启，重启解决99%的问题</span></span>
+            <span class="skill-tag">ES查询优化<span class="skill-tag-sub">查询从3s优化到2.9s，已经很努力了</span></span>
+            <span class="skill-tag">K8s HPA自动扩缩容<span class="skill-tag-sub">基于资源使用率弹性伸缩</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI / LLM 工程化 -->
+      <div class="card skill-card animate-up" data-tilt>
+        <div class="card-glow"></div>
+        <div class="skill-card-header"></div>
+        <div class="skill-card-body">
+          <div class="skill-card-title">
+            <span class="icon">&#129302;</span>
+            AI / LLM 工程化
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">LangChain / LangGraph<span class="skill-tag-sub">Function Call工具链开发</span></span>
+            <span class="skill-tag">MCP协议服务<span class="skill-tag-sub">漏洞能力对外暴露</span></span>
+            <span class="skill-tag">训练数据工程<span class="skill-tag-sub">SFT/RLHF数据格式设计、自动化生产流水线</span></span>
+            <span class="skill-tag">模型评估<span class="skill-tag-sub">Benchmark设计与召回率验证(99%+)</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DevOps & 基础设施 -->
+      <div class="card skill-card animate-up" data-tilt>
+        <div class="card-glow"></div>
+        <div class="skill-card-header"></div>
+        <div class="skill-card-body">
+          <div class="skill-card-title">
+            <span class="icon">&#9729;</span>
+            DevOps &amp; 基础设施
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Docker / containerd<span class="skill-tag-sub">容器化与镜像管理</span></span>
+            <span class="skill-tag">K8s<span class="skill-tag-sub">Pod编排、HPA弹性伸缩</span></span>
+            <span class="skill-tag">EFK日志系统<span class="skill-tag-sub">搭建与运维</span></span>
+            <span class="skill-tag">Playwright<span class="skill-tag-sub">上班自动打卡签到</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 系统设计 (full width) -->
+      <div class="card skill-card full-width animate-up" data-tilt>
+        <div class="card-glow"></div>
+        <div class="skill-card-header"></div>
+        <div class="skill-card-body">
+          <div class="skill-card-title">
+            <span class="icon">&#127959;</span>
+            系统设计
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">多语言SDK设计<span class="skill-tag-sub">Go/Python/Lua跨语言SDK架构</span></span>
+            <span class="skill-tag">API网关与鉴权<span class="skill-tag-sub">接口限流、认证授权</span></span>
+            <span class="skill-tag">服务拆分与重构<span class="skill-tag-sub">4服务 -> 2服务，70%代码精简</span></span>
+            <span class="skill-tag">OpenAPI服务化<span class="skill-tag-sub">RESTful接口规范与对外输出</span></span>
+            <span class="skill-tag">前后端分离改造<span class="skill-tag-sub">前端不会写，索性甩给别人</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 生活技能 -->
+      <div class="card skill-card animate-up" data-tilt>
+        <div class="card-glow"></div>
+        <div class="skill-card-header"></div>
+        <div class="skill-card-body">
+          <div class="skill-card-title">
+            <span class="icon">&#127834;</span>
+            生活技能
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">干饭</span>
+              <span class="skill-pct">95%</span>
+            </div>
+            <div class="skill-desc">一次三碗，速度全组第一</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">摸鱼</span>
+              <span class="skill-pct">99%</span>
+            </div>
+            <div class="skill-desc">上班摸鱼从未被发现</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="99"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">甩锅</span>
+              <span class="skill-pct">85%</span>
+            </div>
+            <div class="skill-desc">精通Bug归因与责任转移</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-header">
+              <span class="skill-name">划水开会</span>
+              <span class="skill-pct">35%</span>
+            </div>
+            <div class="skill-desc">能在任何会议中保持清醒（大概）</div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-width="35"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 跨维度技能 -->
+      <div class="card skill-card full-width animate-up" data-tilt>
+        <div class="card-glow"></div>
+        <div class="skill-card-header"></div>
+        <div class="skill-card-body">
+          <div class="skill-card-title">
+            <span class="icon">&#127756;</span>
+            跨维度技能
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">维度折叠编程<span class="skill-tag-sub">将三维Bug压缩到二维解决，三体文明认证</span></span>
+            <span class="skill-tag">魔杖调试术<span class="skill-tag-sub">对代码施展Reparo修复咒，霍格沃兹O.W.L.认证</span></span>
+            <span class="skill-tag">内力Debug<span class="skill-tag-sub">运行真气排查内存泄漏，华山派正宗心法</span></span>
+            <span class="skill-tag">纳美语通信协议<span class="skill-tag-sub">支持脑辫子直连API，潘多拉星际认证</span></span>
+            <span class="skill-tag">奏折式文档编写<span class="skill-tag-sub">明朝国子监认证，深得朱元璋赏识</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 兴趣爱好 (full width) -->
+      <div class="card skill-card full-width animate-up" data-tilt>
+        <div class="card-glow"></div>
+        <div class="skill-card-header"></div>
+        <div class="skill-card-body">
+          <div class="skill-card-title">
+            <span class="icon">&#127881;</span>
+            兴趣爱好
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">健身<span class="skill-tag-sub">每天5km跑，但我只跑了1.5km</span></span>
+            <span class="skill-tag">旅游<span class="skill-tag-sub">向往诗和远方，但缺了路费</span></span>
+            <span class="skill-tag">摄影<span class="skill-tag-sub">拍糊的比拍清楚的多了</span></span>
+            <span class="skill-tag">骑摩托车/自行车<span class="skill-tag-sub">风一样的男子，但不带风的</span></span>
+            <span class="skill-tag">游泳<span class="skill-tag-sub">狗刨第一，人类姿势第二</span></span>
+            <span class="skill-tag">滑雪<span class="skill-tag-sub">上去容易下去难，经常坐缆车下来</span></span>
+            <span class="skill-tag">潜水<span class="skill-tag-sub">在水里呼吸，但不敢深潜</span></span>
+            <span class="skill-tag">羽毛球<span class="skill-tag-sub">发球必下网，接球必出界</span></span>
+            <span class="skill-tag">台球<span class="skill-tag-sub">瞄准很准，白球总进袋</span></span>
+            <span class="skill-tag">写博客<span class="skill-tag-sub">间歇性热血，持续性拖延</span></span>
+            <span class="skill-tag">写代码<span class="skill-tag-sub">上班写代码，下班写代码，做梦也在写代码</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wg3" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:0.06"/>
+          <stop offset="100%" style="stop-color:#5B6FF1;stop-opacity:0.06"/>
+        </linearGradient>
+      </defs>
+      <path class="wave-path-2" d="M0,0 C480,60 960,0 1440,40 L1440,80 L0,80 Z" fill="url(#wg3)"/>
+    </svg>
+  </div>
+
+  <!-- Experience -->
+  <section class="section section-tinted" id="experience">
+    <div class="section-header">
+      <h2>工作经历</h2>
+    </div>
+    <div class="card exp-card animate-up">
+      <div class="exp-header">
+        <span class="exp-company">家里蹲（北京）</span>
+        <span class="exp-role">后端开发工程师</span>
+        <span class="exp-date">2023.07 - 至今</span>
+      </div>
+      <ul class="exp-list">
+        <li>担任安全产品后端开发骨干，独立负责漏洞治理、威胁狩猎、AI安全三大业务线的后端架构设计与核心模块开发</li>
+
+        <li>曾一天修复42个Bug，后来发现其中39个是自己写的</li>
+        <li>被同事评为"Ctrl+Z之王"，单日撤销操作次数突破200次，至今无人打破纪录</li>
+      </ul>
+    </div>
+    <div class="card exp-card animate-up" style="margin-top:20px">
+      <div class="exp-header">
+        <span class="exp-company">银河系联合政府 · 面壁计划</span>
+        <span class="exp-role">面壁者技术顾问</span>
+        <span class="exp-date">危机纪年 205 - 208</span>
+      </div>
+      <ul class="exp-list">
+        <li>协助面壁者罗辑实现黑暗森林威慑系统的后端架构，广播延迟控制在0.01光秒以内</li>
+        <li>为执剑人开发引力波广播系统，成功对接三体舰队通信协议</li>
+        <li>与荒天帝并肩作战，在仙域最终之战中负责战场实时通信与后勤保障系统</li>
+        <li>出差至圆蛤镇（Quahog）期间结识Peter Griffin，合作开发了啤酒库存管理系统</li>
+      </ul>
+    </div>
+    <div class="card exp-card animate-up" style="margin-top:20px">
+      <div class="exp-header">
+        <span class="exp-company">明朝 · 国子监</span>
+        <span class="exp-role">国子监祭酒（兼IT总监）</span>
+        <span class="exp-date">洪武三年 - 洪武五年</span>
+      </div>
+      <ul class="exp-list">
+        <li>为朱元璋搭建大明王朝第一套OA办公系统，实现奏折电子化审批</li>
+        <li>用Python重写科举考试阅卷流程，批卷效率提升300%，朱元璋龙颜大悦</li>
+        <li>兼任锦衣卫数据分析组组长，开发舆情监控平台（明朝版大数据）</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section class="section" id="education">
+    <div class="section-header">
+      <h2>教育经历</h2>
+    </div>
+    <div class="card edu-card animate-up">
+      <span class="edu-school">北京大学(蓝翔校区)</span>
+      <span class="edu-major">信息管理与信息系统（本科）</span>
+      <span class="edu-date">2019.09 - 2023.07</span>
+    </div>
+    <div class="card edu-card animate-up" style="margin-top:12px">
+      <span class="edu-school">霍格沃兹魔法学校</span>
+      <span class="edu-major">黑魔法防御术与计算机科学（双学位） | 与哈利·波特并肩击败伏地魔</span>
+      <span class="edu-date">2015.09 - 2019.07</span>
+    </div>
+    <div class="card edu-card animate-up" style="margin-top:12px">
+      <span class="edu-school">三体星 · 智子研究院</span>
+      <span class="edu-major">维度折叠与质子计算（硕士） | 参与向地球发射智子的技术攻关</span>
+      <span class="edu-date">宇宙纪元 201 - 204</span>
+    </div>
+    <div class="card edu-card animate-up" style="margin-top:12px">
+      <span class="edu-school">半人马座α星 · 潘多拉理工大学</span>
+      <span class="edu-major">纳美语与生物网络工程（交换生） | 骑翼兽通勤上课，与Jake Sully同班</span>
+      <span class="edu-date">2154.03 - 2154.09</span>
+    </div>
+    <div class="card edu-card animate-up" style="margin-top:12px">
+      <span class="edu-school">中土世界 · 瑞文戴尔精灵学院</span>
+      <span class="edu-major">精灵语编程与魔法数据结构（进修） | 师从甘道夫学习分布式魔法系统</span>
+      <span class="edu-date">第三纪元 3018 - 3019</span>
+    </div>
+  </section>
+
+  <!-- Honors -->
+  <section class="section" id="honors">
+    <div class="section-header">
+      <h2>荣誉资质</h2>
+    </div>
+    <div class="honors-grid">
+      <div class="card honor-card animate-up">
+        <div class="honor-icon">&#128220;</div>
+        <h3>中级软件设计师</h3>
+        <p>国家职业资格</p>
+      </div>
+      <div class="card honor-card animate-up">
+        <div class="honor-icon">&#11088;</div>
+        <h3>2023-2024 银河系马拉松冠军（亚光速完赛）</h3>
+        <p>年度新人表彰</p>
+      </div>
+      <div class="card honor-card animate-up">
+        <div class="honor-icon">&#127942;</div>
+        <h3>2024-2025 干饭大王（一次三碗不带喘气）</h3>
+        <p>年度员工表彰</p>
+      </div>
+      <div class="card honor-card animate-up">
+        <div class="honor-icon">&#127758;</div>
+        <h3>面壁者认证（联合国面壁计划特别授予）</h3>
+        <p>银河系联合政府</p>
+      </div>
+      <div class="card honor-card animate-up">
+        <div class="honor-icon">&#128293;</div>
+        <h3>荒天帝亲授"不灭码神"称号</h3>
+        <p>仙域最高荣誉</p>
+      </div>
+      <div class="card honor-card animate-up">
+        <div class="honor-icon">&#9876;</div>
+        <h3>华山论剑 · 键盘侠组别冠军</h3>
+        <p>武林大会</p>
+      </div>
+      <div class="card honor-card animate-up">
+        <div class="honor-icon">&#128220;</div>
+        <h3>取经团队优秀技术志愿者（唐僧亲笔推荐信）</h3>
+        <p>西天取经项目组</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>&copy; 2025 KasperLund &middot; Built with pure HTML/CSS/JS</p>
+</footer>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</button>
+
+<script>
+(function() {
+  'use strict';
+
+  /* === Navigation scroll & shadow === */
+  var nav = document.getElementById('nav');
+  var backToTop = document.getElementById('backToTop');
+  var ticking = false;
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        var sy = window.scrollY || window.pageYOffset;
+        if (sy > 20) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+        if (sy > 400) backToTop.classList.add('show');
+        else backToTop.classList.remove('show');
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  backToTop.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* === Mobile hamburger toggle === */
+  var navToggle = document.getElementById('navToggle');
+  var navLinks = document.getElementById('navLinks');
+
+  navToggle.addEventListener('click', function() {
+    navLinks.classList.toggle('open');
+    navToggle.classList.toggle('active');
+  });
+
+  var links = navLinks.querySelectorAll('a');
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function() {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('active');
+    });
+  }
+
+  /* === IntersectionObserver: animate cards & headers on scroll === */
+  var animateEls = document.querySelectorAll('.animate-up, .section-header');
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06, rootMargin: '0px 0px -50px 0px' });
+
+    animateEls.forEach(function(el) { observer.observe(el); });
+  } else {
+    animateEls.forEach(function(el) { el.classList.add('visible'); });
+  }
+
+  /* === Animate skill bars on scroll === */
+  var skillBars = document.querySelectorAll('.skill-bar-fill');
+
+  if ('IntersectionObserver' in window) {
+    var barObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var w = entry.target.getAttribute('data-width');
+          entry.target.style.width = w + '%';
+          barObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    skillBars.forEach(function(bar) { barObserver.observe(bar); });
+  } else {
+    skillBars.forEach(function(bar) { bar.style.width = bar.getAttribute('data-width') + '%'; });
+  }
+
+  /* === 3D Perspective Tilt on Skill Cards === */
+  var tiltCards = document.querySelectorAll('[data-tilt]');
+  var isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  if (!isMobile) {
+    tiltCards.forEach(function(card) {
+      var glowEl = card.querySelector('.card-glow');
+
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var cx = rect.width / 2;
+        var cy = rect.height / 2;
+
+        // Rotation: max +/- 6 degrees
+        var rotateX = ((y - cy) / cy) * -6;
+        var rotateY = ((x - cx) / cx) * 6;
+
+        card.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(1.02)';
+        card.style.transition = 'transform 0.1s ease-out';
+
+        // Move glow
+        if (glowEl) {
+          var px = (x / rect.width * 100).toFixed(1);
+          var py = (y / rect.height * 100).toFixed(1);
+          glowEl.style.setProperty('--glow-x', px + '%');
+          glowEl.style.setProperty('--glow-y', py + '%');
+        }
+      });
+
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)';
+        card.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+      });
+    });
+  }
+
+})();
+</script>
+
+<!-- Theme Nav -->
+<div id="themeNav" style="position:fixed;bottom:24px;right:24px;z-index:9999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',sans-serif">
+<button onclick="document.getElementById('themePanel').style.display=document.getElementById('themePanel').style.display==='flex'?'none':'flex'" style="width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,255,255,.2);background:rgba(30,30,30,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font-size:20px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:all .3s;display:flex;align-items:center;justify-content:center" onmouseenter="this.style.transform='scale(1.1)';this.style.borderColor='rgba(255,255,255,.5)'" onmouseleave="this.style.transform='scale(1)';this.style.borderColor='rgba(255,255,255,.2)'">&#9776;</button>
+<div id="themePanel" style="display:none;position:absolute;bottom:60px;right:0;flex-direction:column;gap:6px;background:rgba(20,20,20,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 14px;min-width:120px;box-shadow:0 8px 32px rgba(0,0,0,.5)">
+<a href="../index.html" style="color:#00ff41;text-decoration:none;font-size:.85rem;padding:8px 12px;border-radius:6px;transition:background .2s;font-weight:600;white-space:nowrap" onmouseenter="this.style.background='rgba(0,255,65,.1)'" onmouseleave="this.style.background='transparent'">&#8592; 返回首页</a>
+<div style="height:1px;background:rgba(255,255,255,.08);margin:4px 0"></div>
+<a href="../pages/gallery.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap;font-weight:600" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#128247; Gallery</a>
+<div style="height:1px;background:rgba(255,255,255,.08);margin:4px 0"></div>
+<a href="./light.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#9728;&#65039; 明亮</a>
+<a href="./gradient.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#127752; 渐变</a>
+<a href="./pixel.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#127918; 像素</a>
+<a href="./scifi.html" style="color:#e2e8f0;text-decoration:none;font-size:.82rem;padding:6px 12px;border-radius:6px;transition:background .2s;white-space:nowrap" onmouseenter="this.style.background='rgba(255,255,255,.08)'" onmouseleave="this.style.background='transparent'">&#128640; 科幻</a>
+</div>
+</div>
+
+</body>
+</html>
